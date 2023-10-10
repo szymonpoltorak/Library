@@ -6,7 +6,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
-import pl.edu.pw.ee.library.entities.book.Book;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
 import pl.edu.pw.ee.library.utils.BookTestData;
@@ -20,16 +19,13 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class BookServiceTest {
+    private final BookTestData testData = TestDataBuilder.bookTestData();
     @InjectMocks
     private BookServiceImpl bookService;
-
     @Mock
     private BookRepository bookRepository;
-
     @Mock
     private BookMapper bookMapper;
-
-    private final BookTestData testData = TestDataBuilder.bookTestData();
 
     @Test
     final void test_getBookById_shouldReturnBook() {
