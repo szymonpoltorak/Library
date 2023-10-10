@@ -10,10 +10,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static pl.edu.pw.ee.library.entities.book.constants.BookConstants.BOOKS_TABLE_NAME;
+
 @Data
 @Builder
 @Entity
-@Table(name = "Books")
+@Table(name = BOOKS_TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
