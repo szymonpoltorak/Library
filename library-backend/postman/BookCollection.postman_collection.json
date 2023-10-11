@@ -7,22 +7,10 @@
 	},
 	"item": [
 		{
-			"name": "getBookById",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "searchByBookName",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:8080/api/v1/book/getBooksList?bookName=book",
 					"protocol": "http",
@@ -47,7 +35,7 @@
 			"response": []
 		},
 		{
-			"name": "searchByBookName",
+			"name": "getBookById",
 			"request": {
 				"method": "GET",
 				"header": [],
