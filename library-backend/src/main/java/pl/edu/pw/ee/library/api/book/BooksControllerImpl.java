@@ -1,5 +1,6 @@
 package pl.edu.pw.ee.library.api.book;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class BooksControllerImpl implements BooksController {
 
     @Override
     @PostMapping(value = ADD_NEW_BOOK_MAPPING)
-    public final BookResponse addNewBook(@RequestBody BookRequest bookRequest) {
+    public final BookResponse addNewBook(@RequestBody @Valid BookRequest bookRequest) {
         return bookService.addNewBook(bookRequest);
     }
 

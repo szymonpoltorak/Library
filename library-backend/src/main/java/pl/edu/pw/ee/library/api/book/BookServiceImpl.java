@@ -24,26 +24,15 @@ public class BookServiceImpl implements BookService {
     public final BookResponse addNewBook(BookRequest bookRequest) {
         log.info("Creating book of title {}", bookRequest.title());
 
-        if(bookRequest.author().isBlank()){
-            throw new IllegalArgumentException("Book author field cannot be blank");
-        }
+        Book newBook = Book
+                .builder()
+                .author(bookRequest.author())
+                .title(bookRequest.title())
+                .booksInStock(bookRequest.booksInStock())
+                .booksAvailable(bookRequest.booksInStock())
+                .build();
 
-        if(bookRequest.title().isBlank()){
-            throw new IllegalArgumentException("Book title field cannot be blank");
-        }
-
-        if(bookRequest.booksInStock()<=0){
-            throw new IllegalArgumentException("Amount of books in stock must be a positive integer");
-        }
-
-        Book newBook = new Book();
-        newBook.setTitle(bookRequest.title());
-        newBook.setAuthor(bookRequest.author());
-        newBook.setBooksInStock(bookRequest.booksInStock());
-        newBook.setBooksAvailable(bookRequest.booksInStock());
-
-        bookRepository.save(newBook);
-
+        newBook = bookRepository.save(newBook);
         log.info("Returning book response of : {}", newBook);
 
         return bookMapper.toBookResponse(newBook);
