@@ -8,7 +8,7 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
-import pl.edu.pw.ee.library.utils.BookTestData;
+import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
 import pl.edu.pw.ee.library.utils.TestDataBuilder;
 
 import java.util.Optional;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class BookServiceTest {
-    private final BookTestData testData = TestDataBuilder.bookTestData();
+    private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
     @InjectMocks
     private BookServiceImpl bookService;
     @Mock
@@ -41,7 +41,8 @@ class BookServiceTest {
         BookResponse actual = bookService.getBookById(bookId);
 
         // then
-        assertEquals(testData.bookResponse(), actual, "Should return book response of given book id : " + bookId);
+        assertEquals(testData.bookResponse(), actual,
+                String.format("Should return book response of given book id : %s", bookId));
     }
 
     @Test
@@ -53,6 +54,6 @@ class BookServiceTest {
 
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.getBookById(bookId),
-                "Should throw exception on not existing book id : " + bookId);
+                String.format("Should throw exception on not existing book id : %s", bookId));
     }
 }
