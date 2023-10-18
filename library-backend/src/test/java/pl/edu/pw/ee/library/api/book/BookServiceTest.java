@@ -129,7 +129,33 @@ class BookServiceTest {
 
         // then
         assertEquals(data.bookResponse(), actual,
-                String.format("Should return book response of given book id : %s", bookId));
+                String.format("Should borrow book response of given book id : %s", bookId));
     }
 
+    @Test
+    final void test_borrowBook_shouldThrowWhenNothingToBorrow() {
+        // given
+        BorrowBookData data = TestDataBuilder.getBorrowBookData_nothingToBorrow();
+        long bookId = data.bookId();
+
+        // when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(data.preBorrow()));
+
+        // then
+        assertThrows(IllegalStateException.class, () -> bookService.borrowBook(bookId),
+                String.format("Should throw exception when there are no books to borrow  : %s", bookId));
+    }
+
+    @Test
+    final void test_borrowBook_shouldThrowExceptionOnNotExistingBook() {
+        // given
+        long bookId = -1L;
+
+        // when
+
+        // then
+        assertThrows(BookNotFoundException.class, () -> bookService.borrowBook(bookId),
+                String.format("Should throw exception on not existing book id : %s", bookId));
+    }
 }

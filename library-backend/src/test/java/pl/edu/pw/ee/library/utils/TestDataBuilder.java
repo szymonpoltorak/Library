@@ -80,30 +80,43 @@ public class TestDataBuilder {
         long bookId = 1L;
         Book preBorrow = Book
                 .builder()
-                .author("JW")
-                .title("title")
+                .author("generic author")
+                .title("generic title")
                 .booksAvailable(5)
                 .booksInStock(5)
                 .bookId(bookId)
                 .build();
         Book postBorrow = Book
                 .builder()
-                .author("JW")
-                .title("title")
+                .author("generic author")
+                .title("generic title")
                 .booksAvailable(4)
                 .booksInStock(5)
                 .bookId(bookId)
                 .build();
         BookResponse bookResponse = BookResponse
                 .builder()
-                .author("JW")
-                .title("title")
+                .author("generic author")
+                .title("generic title")
                 .booksAvailable(4)
                 .booksInStock(5)
                 .bookId(bookId)
                 .build();
 
         return new BorrowBookData(bookId, preBorrow, postBorrow, bookResponse);
+    }
+
+    public static BorrowBookData getBorrowBookData_nothingToBorrow() {
+        long bookId = 1L;
+        Book preReturn = Book
+                .builder()
+                .author("generic author")
+                .title("generic title")
+                .booksAvailable(0)
+                .booksInStock(5)
+                .bookId(bookId)
+                .build();
+        return new BorrowBookData(bookId, preReturn, null, null);
     }
 
 }
