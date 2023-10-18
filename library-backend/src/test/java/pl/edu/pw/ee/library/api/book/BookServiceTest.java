@@ -22,8 +22,6 @@ import static org.mockito.Mockito.when;
 class BookServiceTest {
 
     private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
-    private final ReturnBookData returnBookData_correct = TestDataBuilder.getReturnBookData_correct();
-    private final ReturnBookData returnBookData_nothingToReturn = TestDataBuilder.getReturnBookData_nothingToReturn();
 
     @InjectMocks
     private BookServiceImpl bookService;
@@ -65,12 +63,14 @@ class BookServiceTest {
     @Test
     final void test_returnBook_shouldReturnBook() {
         // given
-        ReturnBookData data = returnBookData_correct;
+        ReturnBookData data = TestDataBuilder.getReturnBookData_correct();
         long bookId = data.bookId();
 
         // when
         when(bookRepository.findById(bookId))
                 .thenReturn(Optional.ofNullable(data.preReturn()));
+        when(bookRepository.save(data.postReturn()))
+                .thenReturn(data.postReturn());
         when(bookMapper.toBookResponse(data.postReturn()))
                 .thenReturn(data.bookResponse());
 
@@ -84,7 +84,7 @@ class BookServiceTest {
     @Test
     final void test_returnBook_shouldThrowWhenNothingToReturn() {
         // given
-        ReturnBookData data = returnBookData_nothingToReturn;
+        ReturnBookData data = TestDataBuilder.getReturnBookData_nothingToReturn();
         long bookId = data.bookId();
 
         // when

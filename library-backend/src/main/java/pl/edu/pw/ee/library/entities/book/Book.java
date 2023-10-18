@@ -30,4 +30,16 @@ public class Book {
     private int booksInStock;
 
     private int booksAvailable;
+
+    public boolean isBorrowed() {
+        return booksAvailable < booksInStock;
+    }
+
+    public void returnBook() {
+        if(!isBorrowed()) {
+            throw new IllegalStateException("All books were already returned");
+        }
+        booksAvailable++;
+    }
+
 }
