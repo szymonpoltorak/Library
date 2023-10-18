@@ -32,11 +32,10 @@ public class Book {
     private int booksAvailable;
 
     public void returnBook() {
-        if (booksAvailable < booksInStock) {
-            booksAvailable++;
-        } else {
+        if (booksAvailable >= booksInStock) {
             throw new IllegalStateException("All books were already returned");
         }
+        booksAvailable++;
     }
 
 }
