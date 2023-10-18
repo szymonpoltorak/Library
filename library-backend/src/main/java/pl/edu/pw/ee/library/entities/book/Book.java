@@ -38,4 +38,11 @@ public class Book {
         booksAvailable++;
     }
 
+    public void borrowBook() {
+        if (booksAvailable <= 0) {
+            throw new IllegalStateException("All books have been borrowed");
+        }
+        booksAvailable--;
+    }
+
 }

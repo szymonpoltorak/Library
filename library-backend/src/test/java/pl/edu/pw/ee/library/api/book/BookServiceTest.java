@@ -8,6 +8,7 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
+import pl.edu.pw.ee.library.utils.data.BorrowBookData;
 import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
 import pl.edu.pw.ee.library.utils.TestDataBuilder;
 import pl.edu.pw.ee.library.utils.data.ReturnBookData;
@@ -106,6 +107,29 @@ class BookServiceTest {
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.returnBook(bookId),
                 String.format("Should throw exception on not existing book id : %s", bookId));
+    }
+
+
+
+    @Test
+    final void test_borrowBook_shouldBorrowBook() {
+        // given
+        BorrowBookData data = TestDataBuilder.getBorrowBookData_correct();
+        long bookId = data.bookId();
+
+        // when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(data.preBorrow()));
+        when(bookRepository.save(data.postBorrow()))
+                .thenReturn(data.postBorrow());
+        when(bookMapper.toBookResponse(data.postBorrow()))
+                .thenReturn(data.bookResponse());
+
+        BookResponse actual = bookService.borrowBook(bookId);
+
+        // then
+        assertEquals(data.bookResponse(), actual,
+                String.format("Should return book response of given book id : %s", bookId));
     }
 
 }

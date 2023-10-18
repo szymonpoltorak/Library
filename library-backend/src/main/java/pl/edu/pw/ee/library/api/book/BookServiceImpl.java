@@ -44,7 +44,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public final BookResponse borrowBook(long bookId) {
-        return null;
+        log.info("Borrowing book of id : {}", bookId);
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
+
+        book.borrowBook();
+
+        Book borrowedBook = bookRepository.save(book);
+
+        log.info("Returning book response of : {}", book);
+
+        return bookMapper.toBookResponse(borrowedBook);
     }
 
     @Override
