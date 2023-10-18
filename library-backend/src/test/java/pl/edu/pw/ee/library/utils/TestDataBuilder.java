@@ -8,7 +8,7 @@ import pl.edu.pw.ee.library.utils.data.AddNewBookData;
 import pl.edu.pw.ee.library.utils.data.DeleteBookData;
 import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
 
-public class TestDataBuilder {
+public final class TestDataBuilder {
     private TestDataBuilder() {
     }
 

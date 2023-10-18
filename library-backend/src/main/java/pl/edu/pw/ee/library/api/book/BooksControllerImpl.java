@@ -33,7 +33,7 @@ public class BooksControllerImpl implements BooksController {
 
     @Override
     @PostMapping(value = ADD_NEW_BOOK_MAPPING)
-    public final BookResponse addNewBook(@RequestBody @Valid BookRequest bookRequest) {
+    public final BookResponse addNewBook(@RequestBody BookRequest bookRequest) {
         return bookService.addNewBook(bookRequest);
     }
 

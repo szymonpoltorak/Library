@@ -1,5 +1,6 @@
 package pl.edu.pw.ee.library.api.book;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public final BookResponse addNewBook(BookRequest bookRequest) {
+    public final BookResponse addNewBook(@Valid BookRequest bookRequest) {
         log.info("Creating book of title {}", bookRequest.title());
 
         Book newBook = Book
