@@ -30,4 +30,12 @@ public class Book {
     private int booksInStock;
 
     private int booksAvailable;
+
+    public void returnBook() {
+        if (booksAvailable >= booksInStock) {
+            throw new IllegalStateException("All books were already returned");
+        }
+        booksAvailable++;
+    }
+
 }
