@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record BookRequest(
-        @NotNull(message = "title cannot be null") @NotBlank(message = "title cannot be blank") String title
-        , @NotNull(message = "title cannot be null") @NotBlank(message = "title cannot be blank") String author
-        , @Min(value = 1, message = "Amount of books in stock must be at least 1") int booksInStock) {
+        @NotNull(message = "title cannot be null") @NotBlank(message = "title cannot be blank") String title,
+        @NotNull(message = "title cannot be null") @NotBlank(message = "title cannot be blank") String author,
+        @Min(value = 1, message = "Amount of books in stock must be at least 1") int booksInStock) {
 }

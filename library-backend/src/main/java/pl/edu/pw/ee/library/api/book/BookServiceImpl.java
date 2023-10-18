@@ -69,11 +69,13 @@ public class BookServiceImpl implements BookService {
     public final BookResponse deleteBook(long bookId) {
         log.info("Deleting book of id {}", bookId);
 
-        Book book =  bookRepository.findById(bookId)
+        Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
 
         bookRepository.deleteById(bookId);
+
         log.info("Returning book response of : {}", book);
+
         return bookMapper.toBookResponse(book);
     }
 }
