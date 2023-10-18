@@ -31,15 +31,12 @@ public class Book {
 
     private int booksAvailable;
 
-    public boolean isBorrowed() {
-        return booksAvailable < booksInStock;
-    }
-
     public void returnBook() {
-        if(!isBorrowed()) {
+        if (booksAvailable < booksInStock) {
+            booksAvailable++;
+        } else {
             throw new IllegalStateException("All books were already returned");
         }
-        booksAvailable++;
     }
 
 }
