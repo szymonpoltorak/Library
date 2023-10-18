@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = {BookMapper.class, BookRepository.class})
 class BookServiceTest {
     private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
     @InjectMocks
