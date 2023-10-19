@@ -4,6 +4,7 @@ package pl.edu.pw.ee.library.utils;
 import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.entities.book.Book;
+import pl.edu.pw.ee.library.utils.data.BorrowBookData;
 import pl.edu.pw.ee.library.utils.data.AddNewBookData;
 import pl.edu.pw.ee.library.utils.data.DeleteBookData;
 import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
@@ -137,6 +138,49 @@ public final class TestDataBuilder {
                 .bookId(bookId)
                 .build();
         return new ReturnBookData(bookId, preReturn, null, null);
+    }
+
+    public static BorrowBookData getBorrowBookData_correct() {
+        long bookId = 1L;
+        Book preBorrow = Book
+                .builder()
+                .author("generic author")
+                .title("generic title")
+                .booksAvailable(5)
+                .booksInStock(5)
+                .bookId(bookId)
+                .build();
+        Book postBorrow = Book
+                .builder()
+                .author("generic author")
+                .title("generic title")
+                .booksAvailable(4)
+                .booksInStock(5)
+                .bookId(bookId)
+                .build();
+        BookResponse bookResponse = BookResponse
+                .builder()
+                .author("generic author")
+                .title("generic title")
+                .booksAvailable(4)
+                .booksInStock(5)
+                .bookId(bookId)
+                .build();
+
+        return new BorrowBookData(bookId, preBorrow, postBorrow, bookResponse);
+    }
+
+    public static BorrowBookData getBorrowBookData_nothingToBorrow() {
+        long bookId = 1L;
+        Book preReturn = Book
+                .builder()
+                .author("generic author")
+                .title("generic title")
+                .booksAvailable(0)
+                .booksInStock(5)
+                .bookId(bookId)
+                .build();
+        return new BorrowBookData(bookId, preReturn, null, null);
     }
 
 }
