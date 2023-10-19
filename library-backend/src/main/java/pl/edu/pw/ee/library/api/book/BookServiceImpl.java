@@ -1,5 +1,6 @@
 package pl.edu.pw.ee.library.api.book;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,21 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public final BookResponse addNewBook(BookRequest bookRequest) {
-        return null;
+    public final BookResponse addNewBook(@Valid BookRequest bookRequest) {
+        log.info("Creating book of title {}", bookRequest.title());
+
+        Book newBook = Book
+                .builder()
+                .author(bookRequest.author())
+                .title(bookRequest.title())
+                .booksInStock(bookRequest.booksInStock())
+                .booksAvailable(bookRequest.booksInStock())
+                .build();
+
+        newBook = bookRepository.save(newBook);
+        log.info("Returning book response of : {}", newBook);
+
+        return bookMapper.toBookResponse(newBook);
     }
 
     @Override
@@ -76,6 +90,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public final BookResponse deleteBook(long bookId) {
-        return null;
+        log.info("Deleting book of id {}", bookId);
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
+
+        bookRepository.deleteById(bookId);
+
+        log.info("Returning book response of : {}", book);
+
+        return bookMapper.toBookResponse(book);
     }
 }
