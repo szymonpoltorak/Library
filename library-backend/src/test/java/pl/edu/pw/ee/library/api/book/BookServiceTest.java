@@ -8,22 +8,24 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
-import pl.edu.pw.ee.library.utils.BookTestData;
-import pl.edu.pw.ee.library.utils.SearchByBookNameTestData;
+import pl.edu.pw.ee.library.utils.data.*;
 import pl.edu.pw.ee.library.utils.TestDataBuilder;
+
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = {BookMapper.class, BookRepository.class})
 class BookServiceTest {
-    private final BookTestData testData = TestDataBuilder.bookTestData();
+    private final SearchByBookNameData searchByBookNameTestData = TestDataBuilder.searchByBookNameTestData();
 
-    private final SearchByBookNameTestData searchByBookNameTestData = TestDataBuilder.searchByBookNameTestData();
+    private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
+
     @InjectMocks
     private BookServiceImpl bookService;
     @Mock
@@ -45,7 +47,8 @@ class BookServiceTest {
         BookResponse actual = bookService.getBookById(bookId);
 
         // then
-        assertEquals(testData.bookResponse(), actual, "Should return book response of given book id : " + bookId);
+        assertEquals(testData.bookResponse(), actual,
+                String.format("Should return book response of given book id : %s", bookId));
     }
 
     @Test
@@ -55,9 +58,10 @@ class BookServiceTest {
 
         // when
 
+
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.getBookById(bookId),
-                "Should throw exception on not existing book id : " + bookId);
+                String.format("Should throw exception on not existing book id : %s", bookId));
     }
 
     @Test
@@ -103,5 +107,151 @@ class BookServiceTest {
         assertThrows(BookNotFoundException.class,
                 () -> bookService.searchByBookName(title),
                 "Should throw exception when there aren't any books with given name");
+    }
+
+    @Test
+    final void test_returnBook_shouldReturnBook() {
+        // given
+        ReturnBookData data = TestDataBuilder.getReturnBookData_correct();
+        long bookId = data.bookId();
+
+        // when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(data.preReturn()));
+        when(bookRepository.save(data.postReturn()))
+                .thenReturn(data.postReturn());
+        when(bookMapper.toBookResponse(data.postReturn()))
+                .thenReturn(data.bookResponse());
+
+        BookResponse actual = bookService.returnBook(bookId);
+
+        // then
+        assertEquals(data.bookResponse(), actual,
+                String.format("Should return book response of given book id : %s", bookId));
+    }
+
+    @Test
+    final void test_addNewBook_shouldReturnSavedBookResponse() {
+        //given
+        AddNewBookData addNewBookData = TestDataBuilder.addNewBookTestData();
+
+        //when
+        when(bookMapper.toBookResponse(addNewBookData.book()))
+                .thenReturn(addNewBookData.bookResponse());
+        when(bookRepository.save(addNewBookData.book()))
+                .thenReturn(addNewBookData.book());
+
+        BookResponse actual = bookService.addNewBook(addNewBookData.bookRequest());
+        //then
+        assertEquals(addNewBookData.bookResponse(), actual,
+                "Should return book response of title : " + actual.title());
+    }
+
+    @Test
+    final void test_deleteBook_shouldThrowExceptionOnNonExistingBook() {
+        //given
+        long bookId = -1;
+
+        //when
+
+        //then
+        assertThrows(BookNotFoundException.class, () -> bookService.deleteBook(bookId),
+                String.format("Should throw exception on not existing book id : %s", bookId));
+    }
+
+    @Test
+    final void test_deleteBook_shouldDeleteBookAndReturnIt() {
+        //given
+        DeleteBookData deleteBookData = TestDataBuilder.deleteBookTestData();
+        long bookId = deleteBookData.bookId();
+
+        //when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(deleteBookData.bookToDelete()));
+        when(bookMapper.toBookResponse(deleteBookData.bookToDelete()))
+                .thenReturn(deleteBookData.deletedBook());
+
+        BookResponse actual = bookService.deleteBook(bookId);
+
+        //then
+        assertEquals(deleteBookData.deletedBook(), actual,
+                String.format("Should return book response of given book id : %s", bookId));
+        verify(bookRepository).deleteById(bookId);
+    }
+
+    @Test
+    final void test_returnBook_shouldThrowWhenNothingToReturn() {
+        // given
+        ReturnBookData data = TestDataBuilder.getReturnBookData_nothingToReturn();
+        long bookId = data.bookId();
+
+        // when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(data.preReturn()));
+
+        // then
+        assertThrows(IllegalStateException.class, () -> bookService.returnBook(bookId),
+                String.format("Should throw exception when there are not any books to return : %s", bookId));
+    }
+
+    @Test
+    final void test_returnBook_shouldThrowExceptionOnNotExistingBook() {
+        // given
+        long bookId = -1L;
+
+        // when
+
+        // then
+        assertThrows(BookNotFoundException.class, () -> bookService.returnBook(bookId),
+                String.format("Should throw exception on not existing book id : %s", bookId));
+    }
+
+
+    @Test
+    final void test_borrowBook_shouldBorrowBook() {
+        // given
+        BorrowBookData data = TestDataBuilder.getBorrowBookData_correct();
+        long bookId = data.bookId();
+
+        // when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(data.preBorrow()));
+        when(bookRepository.save(data.postBorrow()))
+                .thenReturn(data.postBorrow());
+        when(bookMapper.toBookResponse(data.postBorrow()))
+                .thenReturn(data.bookResponse());
+
+        BookResponse actual = bookService.borrowBook(bookId);
+
+        // then
+        assertEquals(data.bookResponse(), actual,
+                String.format("Should borrow book response of given book id : %s", bookId));
+    }
+
+    @Test
+    final void test_borrowBook_shouldThrowWhenNothingToBorrow() {
+        // given
+        BorrowBookData data = TestDataBuilder.getBorrowBookData_nothingToBorrow();
+        long bookId = data.bookId();
+
+        // when
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.ofNullable(data.preBorrow()));
+
+        // then
+        assertThrows(IllegalStateException.class, () -> bookService.borrowBook(bookId),
+                String.format("Should throw exception when there are no books to borrow  : %s", bookId));
+    }
+
+    @Test
+    final void test_borrowBook_shouldThrowExceptionOnNotExistingBook() {
+        // given
+        long bookId = -1L;
+
+        // when
+
+        // then
+        assertThrows(BookNotFoundException.class, () -> bookService.borrowBook(bookId),
+                String.format("Should throw exception on not existing book id : %s", bookId));
     }
 }
