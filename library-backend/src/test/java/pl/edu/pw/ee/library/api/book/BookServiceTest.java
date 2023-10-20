@@ -58,7 +58,6 @@ class BookServiceTest {
 
         // when
 
-
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.getBookById(bookId),
                 String.format("Should throw exception on not existing book id : %s", bookId));
@@ -79,7 +78,7 @@ class BookServiceTest {
 
         // then
         assertEquals(searchByBookNameTestData.bookResponseList(), actual,
-                "Should return book response list for a given title: " + title);
+                String.format("Should return book response list for a given title: %s ", title));
     }
 
     @Test
@@ -106,7 +105,7 @@ class BookServiceTest {
         // then
         assertThrows(BookNotFoundException.class,
                 () -> bookService.searchByBookName(title),
-                "Should throw exception when there aren't any books with given name");
+                String.format("Should throw exception when there aren't any books with given title: %s", title));
     }
 
     @Test
