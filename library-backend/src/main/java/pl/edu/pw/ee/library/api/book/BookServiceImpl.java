@@ -39,7 +39,21 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public final List<BookResponse> searchByBookName(String bookName) {
-        return null;
+        if(bookName == null) {
+            throw new NullPointerException("bookName cannot be null");
+        }
+
+        log.info("Searching books with name : {}", bookName);
+
+        List<Book> bookList = bookRepository.findByTitle(bookName);
+
+        if(bookList.isEmpty()) {
+            throw new BookNotFoundException(String.format("There are no books matching title '%s'", bookName));
+        }
+
+        log.info("Returning bookResponseList of : {}", bookList);
+
+        return bookMapper.toBookResponseList(bookList);
     }
 
     @Override
