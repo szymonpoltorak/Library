@@ -13,6 +13,7 @@ import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -61,13 +62,13 @@ public class BookServiceImpl implements BookService {
 
         List<Book> bookList = bookRepository.findByTitle(bookName);
 
-        if(bookList.isEmpty()) {
-            throw new BookNotFoundException(String.format("There are no books matching title '%s'", bookName));
-        }
+        List<BookResponse> bookResponseList = bookList.stream()
+                        .map(bookMapper::toBookResponse)
+                        .toList();
 
         log.info("Returning bookResponseList of : {}", bookList);
 
-        return bookMapper.toBookResponseList(bookList);
+        return bookResponseList;
     }
 
     @Override

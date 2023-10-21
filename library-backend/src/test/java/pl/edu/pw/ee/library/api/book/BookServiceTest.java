@@ -72,14 +72,16 @@ class BookServiceTest {
         // when
         when(bookRepository.findByTitle(title))
                 .thenReturn(searchByBookNameTestData.bookList());
-        when(bookMapper.toBookResponseList(searchByBookNameTestData.bookList()))
-                .thenReturn(searchByBookNameTestData.bookResponseList());
+        when(bookMapper.toBookResponse(searchByBookNameTestData.bookList().get(0)))
+                .thenReturn(searchByBookNameTestData.bookResponseList().get(0));
+        when(bookMapper.toBookResponse(searchByBookNameTestData.bookList().get(1)))
+                .thenReturn(searchByBookNameTestData.bookResponseList().get(1));
 
         List<BookResponse> actual = bookService.searchByBookName(title);
 
         // then
         assertEquals(searchByBookNameTestData.bookResponseList(), actual,
-                "Should return book response list for a given title: " + title);
+                String.format("Should return book response list for a given title: %s", title));
     }
 
     @Test
@@ -94,19 +96,6 @@ class BookServiceTest {
         assertThrows(NullPointerException.class,
                 () -> bookService.searchByBookName(title),
                 "Should throw exception when given title is null");
-    }
-
-    @Test
-    final void test_SearchByBookName_shouldThrowExceptionWhenNoBooksOfThisTitle() {
-        // given
-        String title = "title";
-
-        // when
-
-        // then
-        assertThrows(BookNotFoundException.class,
-                () -> bookService.searchByBookName(title),
-                "Should throw exception when there aren't any books with given name");
     }
 
     @Test
