@@ -22,6 +22,6 @@ connected to testing.
 ```bash
 cd library-backend
 
-docker compsoe up -d
+docker compose up -d
 ```
 

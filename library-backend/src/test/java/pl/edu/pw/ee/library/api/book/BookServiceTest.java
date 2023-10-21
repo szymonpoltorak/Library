@@ -8,14 +8,11 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
-import pl.edu.pw.ee.library.utils.data.BorrowBookData;
-import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
+import pl.edu.pw.ee.library.utils.data.*;
 import pl.edu.pw.ee.library.utils.TestDataBuilder;
-import pl.edu.pw.ee.library.utils.data.AddNewBookData;
-import pl.edu.pw.ee.library.utils.data.DeleteBookData;
-import pl.edu.pw.ee.library.utils.data.ReturnBookData;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,9 +22,9 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {BookMapper.class, BookRepository.class})
 class BookServiceTest {
+    private final SearchByBookNameData searchByBookNameTestData = TestDataBuilder.searchByBookNameTestData();
 
     private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
-
 
     @InjectMocks
     private BookServiceImpl bookService;
@@ -68,6 +65,40 @@ class BookServiceTest {
     }
 
     @Test
+    final void test_searchByBookName_shouldReturnBookList() {
+        // given
+        String title = "title";
+
+        // when
+        when(bookRepository.findByTitle(title))
+                .thenReturn(searchByBookNameTestData.bookList());
+        when(bookMapper.toBookResponse(searchByBookNameTestData.bookList().get(0)))
+                .thenReturn(searchByBookNameTestData.bookResponseList().get(0));
+        when(bookMapper.toBookResponse(searchByBookNameTestData.bookList().get(1)))
+                .thenReturn(searchByBookNameTestData.bookResponseList().get(1));
+
+        List<BookResponse> actual = bookService.searchByBookName(title);
+
+        // then
+        assertEquals(searchByBookNameTestData.bookResponseList(), actual,
+                String.format("Should return book response list for a given title: %s", title));
+    }
+
+    @Test
+    final void test_SearchByBookName_shouldThrowExceptionWhenGivenTitleIsNull() {
+        // given
+        String title = null;
+
+        // when
+
+
+        // then
+        assertThrows(NullPointerException.class,
+                () -> bookService.searchByBookName(title),
+                "Should throw exception when given title is null");
+    }
+
+    @Test
     final void test_returnBook_shouldReturnBook() {
         // given
         ReturnBookData data = TestDataBuilder.getReturnBookData_correct();
@@ -89,7 +120,6 @@ class BookServiceTest {
     }
 
     @Test
-
     final void test_addNewBook_shouldReturnSavedBookResponse() {
         //given
         AddNewBookData addNewBookData = TestDataBuilder.addNewBookTestData();
@@ -138,6 +168,7 @@ class BookServiceTest {
         verify(bookRepository).deleteById(bookId);
     }
 
+    @Test
     final void test_returnBook_shouldThrowWhenNothingToReturn() {
         // given
         ReturnBookData data = TestDataBuilder.getReturnBookData_nothingToReturn();
@@ -212,5 +243,4 @@ class BookServiceTest {
         assertThrows(BookNotFoundException.class, () -> bookService.borrowBook(bookId),
                 String.format("Should throw exception on not existing book id : %s", bookId));
     }
-
 }
