@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
+    private static final String RETURN_BOOK_RESPONSE = "Returning book response of : {}";
+    private static final String BOOK_DOES_NOT_EXIST = "Book of id '%s' does not exist!";
+
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -35,7 +38,7 @@ public class BookServiceImpl implements BookService {
                 .build();
 
         newBook = bookRepository.save(newBook);
-        log.info("Returning book response of : {}", newBook);
+        log.info(RETURN_BOOK_RESPONSE, newBook);
 
         return bookMapper.toBookResponse(newBook);
     }
@@ -45,9 +48,9 @@ public class BookServiceImpl implements BookService {
         log.info("Getting book of id : {}", bookId);
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
+                .orElseThrow(() -> new BookNotFoundException(String.format(BOOK_DOES_NOT_EXIST, bookId)));
 
-        log.info("Returning book response of : {}", book);
+        log.info(RETURN_BOOK_RESPONSE, book);
 
         return bookMapper.toBookResponse(book);
     }
@@ -62,13 +65,11 @@ public class BookServiceImpl implements BookService {
 
         List<Book> bookList = bookRepository.findByTitle(bookName);
 
-        List<BookResponse> bookResponseList = bookList.stream()
-                        .map(bookMapper::toBookResponse)
-                        .toList();
+        log.info("Returning bookResponseList of {} books", bookList.size());
 
-        log.info("Returning bookResponseList of : {}", bookList);
-
-        return bookResponseList;
+        return bookList.stream()
+                .map(bookMapper::toBookResponse)
+                .toList();
     }
 
     @Override
@@ -76,13 +77,13 @@ public class BookServiceImpl implements BookService {
         log.info("Borrowing book of id : {}", bookId);
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
+                .orElseThrow(() -> new BookNotFoundException(String.format(BOOK_DOES_NOT_EXIST, bookId)));
 
         book.borrowBook();
 
         Book borrowedBook = bookRepository.save(book);
 
-        log.info("Returning book response of : {}", book);
+        log.info(RETURN_BOOK_RESPONSE, book);
 
         return bookMapper.toBookResponse(borrowedBook);
     }
@@ -92,13 +93,13 @@ public class BookServiceImpl implements BookService {
         log.info("Returning book of id : {}", bookId);
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
+                .orElseThrow(() -> new BookNotFoundException(String.format(BOOK_DOES_NOT_EXIST, bookId)));
 
         book.returnBook();
 
         Book returnedBook = bookRepository.save(book);
 
-        log.info("Returning book response of : {}", book);
+        log.info(RETURN_BOOK_RESPONSE, book);
 
         return bookMapper.toBookResponse(returnedBook);
     }
@@ -108,11 +109,11 @@ public class BookServiceImpl implements BookService {
         log.info("Deleting book of id {}", bookId);
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(String.format("Book of id '%s' does not exist!", bookId)));
+                .orElseThrow(() -> new BookNotFoundException(String.format(BOOK_DOES_NOT_EXIST, bookId)));
 
         bookRepository.deleteById(bookId);
 
-        log.info("Returning book response of : {}", book);
+        log.info(RETURN_BOOK_RESPONSE, book);
 
         return bookMapper.toBookResponse(book);
     }
