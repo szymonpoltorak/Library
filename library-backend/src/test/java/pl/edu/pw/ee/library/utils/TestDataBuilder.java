@@ -6,11 +6,15 @@ import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.Book;
-import pl.edu.pw.ee.library.utils.data.*;
+import pl.edu.pw.ee.library.utils.data.AddNewBookData;
+import pl.edu.pw.ee.library.utils.data.BorrowBookData;
+import pl.edu.pw.ee.library.utils.data.DeleteBookData;
+import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
+import pl.edu.pw.ee.library.utils.data.ReturnBookData;
+import pl.edu.pw.ee.library.utils.data.SearchByBookNameData;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public final class TestDataBuilder {
@@ -69,7 +73,7 @@ public final class TestDataBuilder {
         return new DeleteBookData(bookId, bookToDelete, deletedBook);
     }
 
-    public static AddNewBookData addNewBookTestData(){
+    public static AddNewBookData addNewBookTestData() {
         long bookId = 0L;
         BookRequest bookRequest = BookRequest
                 .builder()

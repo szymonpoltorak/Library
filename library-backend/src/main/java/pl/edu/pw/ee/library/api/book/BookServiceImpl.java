@@ -13,7 +13,6 @@ import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -57,7 +56,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public final List<BookResponse> searchByBookName(String bookName) {
-        if(bookName == null) {
+        if (bookName == null) {
             throw new NullPointerException("bookName cannot be null");
         }
 
