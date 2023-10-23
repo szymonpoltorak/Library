@@ -8,9 +8,13 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
-import pl.edu.pw.ee.library.utils.data.*;
 import pl.edu.pw.ee.library.utils.TestDataBuilder;
-
+import pl.edu.pw.ee.library.utils.data.AddNewBookData;
+import pl.edu.pw.ee.library.utils.data.BorrowBookData;
+import pl.edu.pw.ee.library.utils.data.DeleteBookData;
+import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
+import pl.edu.pw.ee.library.utils.data.ReturnBookData;
+import pl.edu.pw.ee.library.utils.data.SearchByBookNameData;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +26,8 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {BookMapper.class, BookRepository.class})
 class BookServiceTest {
+    private static final String SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S = "Should return book response of given book id : %s";
+    private static final String SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S = "Should throw exception on not existing book id : %s";
     private final SearchByBookNameData searchByBookNameTestData = TestDataBuilder.searchByBookNameTestData();
 
     private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
@@ -48,7 +54,7 @@ class BookServiceTest {
 
         // then
         assertEquals(testData.bookResponse(), actual,
-                String.format("Should return book response of given book id : %s", bookId));
+                String.format(SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S, bookId));
     }
 
     @Test
@@ -61,7 +67,7 @@ class BookServiceTest {
 
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.getBookById(bookId),
-                String.format("Should throw exception on not existing book id : %s", bookId));
+                String.format(SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S, bookId));
     }
 
     @Test
@@ -116,7 +122,7 @@ class BookServiceTest {
 
         // then
         assertEquals(data.bookResponse(), actual,
-                String.format("Should return book response of given book id : %s", bookId));
+                String.format(SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S, bookId));
     }
 
     @Test
@@ -133,19 +139,19 @@ class BookServiceTest {
         BookResponse actual = bookService.addNewBook(addNewBookData.bookRequest());
         //then
         assertEquals(addNewBookData.bookResponse(), actual,
-                "Should return book response of title : " + actual.title());
+                String.format("Should return book response of title : %s", actual.title()));
     }
 
     @Test
     final void test_deleteBook_shouldThrowExceptionOnNonExistingBook() {
         //given
-        long bookId = -1;
+        long bookId = -1L;
 
         //when
 
         //then
         assertThrows(BookNotFoundException.class, () -> bookService.deleteBook(bookId),
-                String.format("Should throw exception on not existing book id : %s", bookId));
+                String.format(SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S, bookId));
     }
 
     @Test
@@ -164,7 +170,7 @@ class BookServiceTest {
 
         //then
         assertEquals(deleteBookData.deletedBook(), actual,
-                String.format("Should return book response of given book id : %s", bookId));
+                String.format(SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S, bookId));
         verify(bookRepository).deleteById(bookId);
     }
 
@@ -192,7 +198,7 @@ class BookServiceTest {
 
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.returnBook(bookId),
-                String.format("Should throw exception on not existing book id : %s", bookId));
+                String.format(SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S, bookId));
     }
 
 
@@ -241,6 +247,6 @@ class BookServiceTest {
 
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.borrowBook(bookId),
-                String.format("Should throw exception on not existing book id : %s", bookId));
+                String.format(SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S, bookId));
     }
 }
