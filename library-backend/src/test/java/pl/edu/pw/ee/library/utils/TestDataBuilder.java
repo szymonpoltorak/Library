@@ -251,7 +251,7 @@ public final class TestDataBuilder {
                 .booksInStock(45)
                 .build();
 
-        return  new CorrectBookRequestData(Stream.of(bookRequest1,
+        return new CorrectBookRequestData(Stream.of(bookRequest1,
                  bookRequest2,
                  bookRequest3));
     }
@@ -342,5 +342,27 @@ public final class TestDataBuilder {
                 bookRequest10,
                 bookRequest11,
                 bookRequest12));
+    }
+
+    public static ExpectedBookData getExpectedBookData(BookRequest bookRequest){
+        BookResponse expected = BookResponse
+                .builder()
+                .booksAvailable(bookRequest.booksInStock())
+                .booksInStock(bookRequest.booksInStock())
+                .title(bookRequest.title())
+                .author(bookRequest.author())
+                .bookId(0L)
+                .build();
+
+        Book book = Book
+                .builder()
+                .booksAvailable(bookRequest.booksInStock())
+                .booksInStock(bookRequest.booksInStock())
+                .title(bookRequest.title())
+                .author(bookRequest.author())
+                .bookId(0L)
+                .build();
+
+        return new ExpectedBookData(book, expected);
     }
 }

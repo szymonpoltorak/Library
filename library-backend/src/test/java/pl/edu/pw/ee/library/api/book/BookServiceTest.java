@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
-import pl.edu.pw.ee.library.entities.book.Book;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
 import pl.edu.pw.ee.library.utils.data.*;
@@ -144,7 +143,7 @@ class BookServiceTest {
     @Test
     final void test_deleteBook_shouldThrowExceptionOnNonExistingBook() {
         //given
-        long bookId = -1;
+        long bookId = -1L;
 
         //when
 
@@ -251,58 +250,44 @@ class BookServiceTest {
 
     @ParameterizedTest
     @MethodSource("provideWorkingRequests")
-    final void test_addBook_shouldAddToDatabase(BookRequest bookRequest){
+    final void test_addBook_shouldAddToDatabase(BookRequest bookRequest) {
         //given
-        BookResponse expected = BookResponse
-                .builder()
-                .booksAvailable(bookRequest.booksInStock())
-                .booksInStock(bookRequest.booksInStock())
-                .title(bookRequest.title())
-                .author(bookRequest.author())
-                .bookId(0)
-                .build();
-
-        Book book = Book
-                .builder()
-                .booksAvailable(bookRequest.booksInStock())
-                .booksInStock(bookRequest.booksInStock())
-                .title(bookRequest.title())
-                .author(bookRequest.author())
-                .bookId(0)
-                .build();
+        ExpectedBookData expectedBookData = TestDataBuilder.getExpectedBookData(bookRequest);
 
         //when
-        when(bookRepository.save(book))
-                .thenReturn(book);
-        when(bookMapper.toBookResponse(book))
-                .thenReturn(expected);
+        when(bookRepository.save(expectedBookData.book()))
+                .thenReturn(expectedBookData.book());
+        when(bookMapper.toBookResponse(expectedBookData.book()))
+                .thenReturn(expectedBookData.bookResponse());
 
 
         BookResponse actual = bookService.addNewBook(bookRequest);
 
         //then
-        assertEquals(expected, actual,
-                "Should return book response of title : " + actual.title());
+        assertEquals(expectedBookData.bookResponse(), actual,
+                String.format("Should return book response with title : %s", actual.title()));
     }
 
     @ParameterizedTest
     @MethodSource("provideNotWorkingRequests")
-    final void test_addBook_shouldThrowException(BookRequest bookRequest){
+    final void test_addBook_shouldThrowException(BookRequest bookRequest) {
         //given
 
         //when
 
         //then
-        assertThrows(IllegalArgumentException.class, ()-> bookService.addNewBook(bookRequest));
+        assertThrows(IllegalArgumentException.class, () -> bookService.addNewBook(bookRequest));
     }
 
-    private static Stream<BookRequest> provideWorkingRequests(){
-        CorrectBookRequestData correctBookRequestData = TestDataBuilder.getCorrectBookRequestData();
-        return correctBookRequestData.correctBookRequestData();
+    private static Stream<BookRequest> provideWorkingRequests() {
+        return TestDataBuilder
+                .getCorrectBookRequestData()
+                .correctBookRequestData();
     }
 
-    private static Stream<BookRequest> provideNotWorkingRequests(){
-        IncorrectBookRequestData incorrectBookRequestData = TestDataBuilder.getIncorrectBookRequestData();
-        return incorrectBookRequestData.incorrectBookRequestData();
+    private static Stream<BookRequest> provideNotWorkingRequests() {
+        return TestDataBuilder
+                .getIncorrectBookRequestData()
+                .incorrectBookRequestData();
     }
 }
