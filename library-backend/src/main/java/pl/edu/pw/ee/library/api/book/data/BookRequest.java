@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
+
 import static pl.edu.pw.ee.library.api.book.data.constants.RecordConstants.*;
 
 @Builder

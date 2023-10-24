@@ -1,5 +1,4 @@
 package pl.edu.pw.ee.library.api.book;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

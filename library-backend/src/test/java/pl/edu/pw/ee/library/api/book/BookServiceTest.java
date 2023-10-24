@@ -1,11 +1,15 @@
 package pl.edu.pw.ee.library.api.book;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
+import pl.edu.pw.ee.library.entities.book.Book;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
 import pl.edu.pw.ee.library.utils.data.*;
@@ -14,6 +18,7 @@ import pl.edu.pw.ee.library.utils.TestDataBuilder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -242,5 +247,62 @@ class BookServiceTest {
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.borrowBook(bookId),
                 String.format("Should throw exception on not existing book id : %s", bookId));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideWorkingRequests")
+    final void test_addBook_shouldAddToDatabase(BookRequest bookRequest){
+        //given
+        BookResponse expected = BookResponse
+                .builder()
+                .booksAvailable(bookRequest.booksInStock())
+                .booksInStock(bookRequest.booksInStock())
+                .title(bookRequest.title())
+                .author(bookRequest.author())
+                .bookId(0)
+                .build();
+
+        Book book = Book
+                .builder()
+                .booksAvailable(bookRequest.booksInStock())
+                .booksInStock(bookRequest.booksInStock())
+                .title(bookRequest.title())
+                .author(bookRequest.author())
+                .bookId(0)
+                .build();
+
+        //when
+        when(bookRepository.save(book))
+                .thenReturn(book);
+        when(bookMapper.toBookResponse(book))
+                .thenReturn(expected);
+
+
+        BookResponse actual = bookService.addNewBook(bookRequest);
+
+        //then
+        assertEquals(expected, actual,
+                "Should return book response of title : " + actual.title());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideNotWorkingRequests")
+    final void test_addBook_shouldThrowException(BookRequest bookRequest){
+        //given
+
+        //when
+
+        //then
+        assertThrows(IllegalArgumentException.class, ()-> bookService.addNewBook(bookRequest));
+    }
+
+    private static Stream<BookRequest> provideWorkingRequests(){
+        CorrectBookRequestData correctBookRequestData = TestDataBuilder.getCorrectBookRequestData();
+        return correctBookRequestData.correctBookRequestData();
+    }
+
+    private static Stream<BookRequest> provideNotWorkingRequests(){
+        IncorrectBookRequestData incorrectBookRequestData = TestDataBuilder.getIncorrectBookRequestData();
+        return incorrectBookRequestData.incorrectBookRequestData();
     }
 }
