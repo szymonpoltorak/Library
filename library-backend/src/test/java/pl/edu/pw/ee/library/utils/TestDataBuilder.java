@@ -341,7 +341,8 @@ public final class TestDataBuilder {
                 bookRequest9,
                 bookRequest10,
                 bookRequest11,
-                bookRequest12));
+                bookRequest12,
+                null));
     }
 
     public static ExpectedBookData getExpectedBookData(BookRequest bookRequest){
