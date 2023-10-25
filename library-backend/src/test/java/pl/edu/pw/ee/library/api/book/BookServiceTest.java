@@ -123,6 +123,7 @@ class BookServiceTest {
         // then
         assertEquals(data.bookResponse(), actual,
                 String.format(SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S, bookId));
+        verify(bookRepository).save(data.postReturn());
     }
 
     @Test
@@ -140,6 +141,7 @@ class BookServiceTest {
         //then
         assertEquals(addNewBookData.bookResponse(), actual,
                 String.format("Should return book response of title : %s", actual.title()));
+        verify(bookRepository).save(addNewBookData.book());
     }
 
     @Test
@@ -221,6 +223,7 @@ class BookServiceTest {
         // then
         assertEquals(data.bookResponse(), actual,
                 String.format("Should borrow book response of given book id : %s", bookId));
+        verify(bookRepository).save(data.postBorrow());
     }
 
     @Test
