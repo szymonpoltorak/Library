@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query(value = "SELECT b FROM Books WHERE b.title LIKE %:title%", nativeQuery = true)
     List<Book> findByTitle(String title);
 }
