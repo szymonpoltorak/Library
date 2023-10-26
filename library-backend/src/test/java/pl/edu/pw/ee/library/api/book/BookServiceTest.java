@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
@@ -28,6 +29,8 @@ import static org.mockito.Mockito.when;
 class BookServiceTest {
     private static final String SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S = "Should return book response of given book id : %s";
     private static final String SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S = "Should throw exception on not existing book id : %s";
+    private static final String SHOULD_THROW_EXCEPTION_WHEN_ADDING_BOOK_WITH_NULL_REQUEST =
+            "Should throw exception on supplying null BookRequest when adding a new book";
     private final SearchByBookNameData searchByBookNameTestData = TestDataBuilder.searchByBookNameTestData();
 
     private final GetBookByIdData testData = TestDataBuilder.getBookByIdTestData();
@@ -142,6 +145,18 @@ class BookServiceTest {
         assertEquals(addNewBookData.bookResponse(), actual,
                 String.format("Should return book response of title : %s", actual.title()));
         verify(bookRepository).save(addNewBookData.book());
+    }
+
+    @Test
+    final void test_addNewBook_shouldThrowOnNullBookRequest() {
+        //given
+        BookRequest request = null;
+
+        //when
+
+        //then
+        assertThrows(IllegalArgumentException.class, () -> bookService.addNewBook(request),
+                String.format(SHOULD_THROW_EXCEPTION_WHEN_ADDING_BOOK_WITH_NULL_REQUEST));
     }
 
     @Test

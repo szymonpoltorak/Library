@@ -26,6 +26,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public final BookResponse addNewBook(@Valid BookRequest bookRequest) {
+        if (bookRequest == null) {
+            throw new IllegalArgumentException("bookRequest cannot be null");
+        }
+
         log.info("Creating book of title {}", bookRequest.title());
 
         Book newBook = Book
