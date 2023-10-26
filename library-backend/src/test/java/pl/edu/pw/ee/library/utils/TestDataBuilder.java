@@ -2,16 +2,14 @@ package pl.edu.pw.ee.library.utils;
 
 
 import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
+import pl.edu.pw.ee.library.api.exceptions.ExceptionResponse;
 import pl.edu.pw.ee.library.entities.book.Book;
-import pl.edu.pw.ee.library.utils.data.AddNewBookData;
-import pl.edu.pw.ee.library.utils.data.BorrowBookData;
-import pl.edu.pw.ee.library.utils.data.DeleteBookData;
-import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
-import pl.edu.pw.ee.library.utils.data.ReturnBookData;
-import pl.edu.pw.ee.library.utils.data.SearchByBookNameData;
+import pl.edu.pw.ee.library.utils.data.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,4 +226,13 @@ public final class TestDataBuilder {
                 .build();
         return new BorrowBookData(bookId, preReturn, null, null);
     }
+
+    public static HandleRuntimeExceptionData<IllegalArgumentException> getHandleRuntimeExceptionData_IllegalArgumentException() {
+        String message = "Niepoprawny argument funkcji";
+        IllegalArgumentException instance = new IllegalArgumentException(message);
+        String className = instance.getClass().getSimpleName();
+        ResponseEntity<ExceptionResponse> response = new ResponseEntity<>(new ExceptionResponse(message, className), HttpStatus.BAD_REQUEST);
+        return new HandleRuntimeExceptionData<>(instance, response);
+    }
+
 }
