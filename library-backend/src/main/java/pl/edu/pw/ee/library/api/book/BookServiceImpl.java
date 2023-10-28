@@ -1,6 +1,5 @@
 package pl.edu.pw.ee.library.api.book;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -8,6 +7,7 @@ import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.api.book.interfaces.BookService;
+import pl.edu.pw.ee.library.api.book.validators.BookRequestValidator;
 import pl.edu.pw.ee.library.entities.book.Book;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
@@ -25,7 +25,8 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public final BookResponse addNewBook(@Valid BookRequest bookRequest) {
+    public final BookResponse addNewBook(BookRequest bookRequest) {
+        BookRequestValidator.validateBookRequest(bookRequest);
         log.info("Creating book of title {}", bookRequest.title());
 
         Book newBook = Book

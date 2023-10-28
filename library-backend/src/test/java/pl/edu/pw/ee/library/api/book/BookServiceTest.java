@@ -1,9 +1,12 @@
 package pl.edu.pw.ee.library.api.book;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
@@ -18,6 +21,7 @@ import pl.edu.pw.ee.library.utils.data.SearchByBookNameData;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -251,5 +255,48 @@ class BookServiceTest {
         // then
         assertThrows(BookNotFoundException.class, () -> bookService.borrowBook(bookId),
                 String.format(SHOULD_THROW_EXCEPTION_ON_NOT_EXISTING_BOOK_ID_S, bookId));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideWorkingRequests")
+    final void test_addBook_shouldAddToDatabase(BookRequest bookRequest) {
+        //given
+        ExpectedBookData expectedBookData = TestDataBuilder.getExpectedBookData(bookRequest);
+
+        //when
+        when(bookRepository.save(expectedBookData.book()))
+                .thenReturn(expectedBookData.book());
+        when(bookMapper.toBookResponse(expectedBookData.book()))
+                .thenReturn(expectedBookData.bookResponse());
+
+
+        BookResponse actual = bookService.addNewBook(bookRequest);
+
+        //then
+        assertEquals(expectedBookData.bookResponse(), actual,
+                String.format("Should return book response with title : %s", actual.title()));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideNotWorkingRequests")
+    final void test_addBook_shouldThrowException(BookRequest bookRequest) {
+        //given
+
+        //when
+
+        //then
+        assertThrows(IllegalArgumentException.class, () -> bookService.addNewBook(bookRequest));
+    }
+
+    private static Stream<BookRequest> provideWorkingRequests() {
+        return TestDataBuilder
+                .getCorrectBookRequestData()
+                .correctBookRequestData();
+    }
+
+    private static Stream<BookRequest> provideNotWorkingRequests() {
+        return TestDataBuilder
+                .getIncorrectBookRequestData()
+                .incorrectBookRequestData();
     }
 }

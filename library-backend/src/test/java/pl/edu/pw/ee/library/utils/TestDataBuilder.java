@@ -13,7 +13,7 @@ import pl.edu.pw.ee.library.utils.data.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Stream;
 
 public final class TestDataBuilder {
     private static final BookMapper MAPPER = Mappers.getMapper(BookMapper.class);
@@ -235,4 +235,146 @@ public final class TestDataBuilder {
         return new HandleRuntimeExceptionData<>(instance, response);
     }
 
+
+    public static CorrectBookRequestData getCorrectBookRequestData(){
+        BookRequest bookRequest1 = BookRequest
+                .builder()
+                .author("Autor 1")
+                .title("Tytuł 1")
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest2 = BookRequest
+                .builder()
+                .author("1")
+                .title("1")
+                .booksInStock(1)
+                .build();
+        BookRequest bookRequest3 = BookRequest
+                .builder()
+                .author("a")
+                .title("b")
+                .booksInStock(100)
+                .build();
+        BookRequest bookRequest4 = BookRequest
+                .builder()
+                .author("%$aa")
+                .title("fds%$#")
+                .booksInStock(45)
+                .build();
+
+        return new CorrectBookRequestData(Stream.of(bookRequest1,
+                 bookRequest2,
+                 bookRequest3));
+    }
+
+    public static IncorrectBookRequestData getIncorrectBookRequestData(){
+        BookRequest bookRequest1 = BookRequest
+                .builder()
+                .author("")
+                .title("Tytuł 1")
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest2 = BookRequest
+                .builder()
+                .author("   ")
+                .title("Tytuł 1")
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest3 = BookRequest
+                .builder()
+                .author(null)
+                .title("Tytuł 1")
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest4 = BookRequest
+                .builder()
+                .author("autor 1")
+                .title("")
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest5 = BookRequest
+                .builder()
+                .author("autor 1")
+                .title("    ")
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest6 = BookRequest
+                .builder()
+                .author("autor 1")
+                .title(null)
+                .booksInStock(5)
+                .build();
+        BookRequest bookRequest7 = BookRequest
+                .builder()
+                .author("autor 1")
+                .title("Tytuł 1")
+                .booksInStock(0)
+                .build();
+        BookRequest bookRequest8 = BookRequest
+                .builder()
+                .author("autor 1")
+                .title("Tytuł 1")
+                .booksInStock(-1)
+                .build();
+        BookRequest bookRequest9 = BookRequest
+                .builder()
+                .author(null)
+                .title(null)
+                .booksInStock(0)
+                .build();
+        BookRequest bookRequest10 = BookRequest
+                .builder()
+                .author("")
+                .title("")
+                .booksInStock(2)
+                .build();
+        BookRequest bookRequest11 = BookRequest
+                .builder()
+                .author("  ")
+                .title("  ")
+                .booksInStock(2)
+                .build();
+        BookRequest bookRequest12 = BookRequest
+                .builder()
+                .author("autor 1")
+                .title("Tytuł 1")
+                .booksInStock(101)
+                .build();
+
+        return new IncorrectBookRequestData(Stream.of(bookRequest1,
+                bookRequest2,
+                bookRequest3,
+                bookRequest4,
+                bookRequest5,
+                bookRequest6,
+                bookRequest7,
+                bookRequest8,
+                bookRequest9,
+                bookRequest10,
+                bookRequest11,
+                bookRequest12,
+                null));
+    }
+
+    public static ExpectedBookData getExpectedBookData(BookRequest bookRequest){
+        BookResponse expected = BookResponse
+                .builder()
+                .booksAvailable(bookRequest.booksInStock())
+                .booksInStock(bookRequest.booksInStock())
+                .title(bookRequest.title())
+                .author(bookRequest.author())
+                .bookId(0L)
+                .build();
+
+        Book book = Book
+                .builder()
+                .booksAvailable(bookRequest.booksInStock())
+                .booksInStock(bookRequest.booksInStock())
+                .title(bookRequest.title())
+                .author(bookRequest.author())
+                .bookId(0L)
+                .build();
+
+        return new ExpectedBookData(book, expected);
+    }
 }
