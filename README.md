@@ -1,6 +1,6 @@
 # Library
 
-Application with frontend and backend created to learn testing software practices nad new technologies
+Application with frontend and backend created to learn testing software practices and new technologies
 connected to testing.
 
 ## Technology stack
