@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pw.ee.library.api.book.data.BookRequest;
 import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookService;
-import pl.edu.pw.ee.library.api.book.interfaces.BooksController;
+import pl.edu.pw.ee.library.api.book.interfaces.BookController;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import static pl.edu.pw.ee.library.api.book.constants.BookMappings.RETURN_BOOK_M
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = BOOKS_API_MAPPING)
-public class BooksControllerImpl implements BooksController {
+public class BookControllerImpl implements BookController {
     private final BookService bookService;
 
     @Override
