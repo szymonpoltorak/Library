@@ -11,6 +11,7 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 import pl.edu.pw.ee.library.api.book.interfaces.BookMapper;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
+import pl.edu.pw.ee.library.exceptions.book.NullRequestException;
 import pl.edu.pw.ee.library.utils.TestDataBuilder;
 import pl.edu.pw.ee.library.utils.data.AddNewBookData;
 import pl.edu.pw.ee.library.utils.data.BorrowBookData;
@@ -104,7 +105,7 @@ class BookServiceTest {
 
 
         // then
-        assertThrows(NullPointerException.class,
+        assertThrows(NullRequestException.class,
                 () -> bookService.searchByBookName(title),
                 "Should throw exception when given title is null");
     }
