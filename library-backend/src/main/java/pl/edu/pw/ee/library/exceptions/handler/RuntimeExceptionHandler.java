@@ -3,11 +3,11 @@ package pl.edu.pw.ee.library.exceptions.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.edu.pw.ee.library.api.exceptions.ExceptionResponse;
 
-@ControllerAdvice
+@RestControllerAdvice
 @Slf4j
 public class RuntimeExceptionHandler {
 
@@ -21,5 +21,4 @@ public class RuntimeExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
 }

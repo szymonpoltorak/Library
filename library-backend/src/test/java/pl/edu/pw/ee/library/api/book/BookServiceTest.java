@@ -15,6 +15,7 @@ import pl.edu.pw.ee.library.utils.TestDataBuilder;
 import pl.edu.pw.ee.library.utils.data.AddNewBookData;
 import pl.edu.pw.ee.library.utils.data.BorrowBookData;
 import pl.edu.pw.ee.library.utils.data.DeleteBookData;
+import pl.edu.pw.ee.library.utils.data.ExpectedBookData;
 import pl.edu.pw.ee.library.utils.data.GetBookByIdData;
 import pl.edu.pw.ee.library.utils.data.ReturnBookData;
 import pl.edu.pw.ee.library.utils.data.SearchByBookNameData;
@@ -226,7 +227,7 @@ class BookServiceTest {
 
         // then
         assertEquals(data.bookResponse(), actual,
-                String.format("Should borrow book response of given book id : %s", bookId));
+                String.format(SHOULD_RETURN_BOOK_RESPONSE_OF_GIVEN_BOOK_ID_S, bookId));
         verify(bookRepository).save(data.postBorrow());
     }
 

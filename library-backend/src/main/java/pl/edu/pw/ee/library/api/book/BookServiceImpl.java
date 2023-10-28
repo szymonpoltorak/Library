@@ -11,6 +11,7 @@ import pl.edu.pw.ee.library.api.book.validators.BookRequestValidator;
 import pl.edu.pw.ee.library.entities.book.Book;
 import pl.edu.pw.ee.library.entities.book.interfaces.BookRepository;
 import pl.edu.pw.ee.library.exceptions.book.BookNotFoundException;
+import pl.edu.pw.ee.library.exceptions.book.NullRequestException;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public final BookResponse addNewBook(BookRequest bookRequest) {
         BookRequestValidator.validateBookRequest(bookRequest);
+
         log.info("Creating book of title {}", bookRequest.title());
 
         Book newBook = Book
@@ -36,11 +38,11 @@ public class BookServiceImpl implements BookService {
                 .booksInStock(bookRequest.booksInStock())
                 .booksAvailable(bookRequest.booksInStock())
                 .build();
+        Book repoBook = bookRepository.save(newBook);
 
-        newBook = bookRepository.save(newBook);
-        log.info(RETURN_BOOK_RESPONSE, newBook);
+        log.info(RETURN_BOOK_RESPONSE, repoBook);
 
-        return bookMapper.toBookResponse(newBook);
+        return bookMapper.toBookResponse(repoBook);
     }
 
     @Override
@@ -58,9 +60,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public final List<BookResponse> searchByBookName(String bookName) {
         if (bookName == null) {
-            throw new NullPointerException("bookName cannot be null");
+            throw new NullRequestException("bookName cannot be null");
         }
-
         log.info("Searching books with name : {}", bookName);
 
         List<Book> bookList = bookRepository.findByTitle(bookName);
