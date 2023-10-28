@@ -5,7 +5,7 @@ import pl.edu.pw.ee.library.api.book.data.BookResponse;
 
 import java.util.List;
 
-public interface BooksController {
+public interface BookController {
     BookResponse addNewBook(BookRequest bookRequest);
 
     BookResponse getBookById(long bookId);
