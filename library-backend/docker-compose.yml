@@ -3,7 +3,7 @@ version: "3.1"
 services:
     library-backend:
         depends_on:
-        - library-postgres
+            - library-postgres
         build:
             context: .
             dockerfile: Dockerfile
