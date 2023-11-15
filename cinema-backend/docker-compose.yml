@@ -1,0 +1,26 @@
+version: "3.1"
+
+services:
+    cinema-backend:
+        depends_on:
+            - cinema-postgres
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: library-backend
+        image: cinema-backend
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://cinema-postgres:5432/cinema
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        ports:
+            - "8080:8080"
+    cinema-postgres:
+        image: postgres:alpine
+        container_name: cinema-postgres
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=cinema
+        ports:
+            - "5000:5432"

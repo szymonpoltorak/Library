@@ -1,27 +1,10 @@
-# Library
+# Testing Course Projects
 
-Application with frontend and backend created to learn testing software practices and new technologies
-connected to testing.
+Repository containing projects that were made for Software testing classes on Warsaw University Of Technology.
 
-## Technology stack
+## Projects
 
-* Java 17,
-* Spring Boot 3.14,
-* Mapstruct,
-* Hibernate,
-* Docker,
-* Gradle,
-* Postgres,
-* Postman,
-* Lombok.
+Repository contains three projects:
 
-## How to use it?
-
-* To start backend api just use command below:
-
-```bash
-cd library-backend
-
-docker compose up -d
-```
-
+* Library - it is a crud backend api that was meant to train unit testing,
+* Cinema - application that was created using BDD methodology
