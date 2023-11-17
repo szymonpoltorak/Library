@@ -7,7 +7,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: library-backend
+        container_name: cinema-backend
         image: cinema-backend
         environment:
             - SPRING_DATASOURCE_URL=jdbc:postgresql://cinema-postgres:5432/cinema
