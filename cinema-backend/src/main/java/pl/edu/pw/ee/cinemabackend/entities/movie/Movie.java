@@ -11,7 +11,7 @@ import lombok.Data;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long moveId;
+    private long movieId;
 
     private String title;
 

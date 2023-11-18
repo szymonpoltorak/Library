@@ -10,6 +10,7 @@ version = '0.0.1-SNAPSHOT'
 def mapstructVer = '1.5.5.Final'
 def cucumberVer = '6.10.4'
 def jwtVer = '0.11.5'
+def vintageVer = '5.9.3'
 
 java {
     sourceCompatibility = '17'
@@ -48,9 +49,16 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVer}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVer}"
 
+    implementation "io.cucumber:cucumber-java:${cucumberVer}"
+    implementation "io.cucumber:cucumber-spring:${cucumberVer}"
+    implementation "io.cucumber:cucumber-junit:${cucumberVer}"
+
+    testImplementation "io.cucumber:cucumber-java:${cucumberVer}"
+    testImplementation "io.cucumber:cucumber-spring:${cucumberVer}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVer}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation "io.cucumber:cucumber-java:${cucumberVer}"
 }
 
 tasks.named('bootBuildImage') {

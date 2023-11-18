@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MoveServiceImpl implements MovieService {
+public class MovieServiceImpl implements MovieService {
     private static final int PAGE_SIZE = 20;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
@@ -30,7 +30,7 @@ public class MoveServiceImpl implements MovieService {
 
         log.info("Finding movies on page: {} with size: {}", numOfPage, PAGE_SIZE);
 
-        Page<Movie> movies = movieRepository.findAllByMoveId(pageable);
+        Page<Movie> movies = movieRepository.findAllBy(pageable);
 
         log.info("Number of movies on page: {}", movies.getTotalElements());
 
