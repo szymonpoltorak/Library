@@ -32,7 +32,7 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
                                        @NonNull HttpServletResponse response,
                                        @NonNull FilterChain filterChain) throws ServletException, IOException {
         Optional<String> token = jwtService.getJwtToken(request);
-        
+
         token.ifPresent(authToken -> {
             Optional<String> usernameOptional = jwtService.getUsernameFromToken(authToken);
 
