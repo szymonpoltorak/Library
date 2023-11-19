@@ -1,6 +1,5 @@
-Feature: User can register to the system
-
-    Scenario: Registering user to system
+Feature: the version can be retrieved
+    Scenario: client makes call to GET version
         Given The user provides valid registration details
         When The user submits the registration form
-        Then The user should be successfully registered.
+        Then The user should be successfully registered
