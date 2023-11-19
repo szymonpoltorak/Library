@@ -1,4 +1,4 @@
-package pl.edu.pw.ee.cinemabackend;
+package pl.edu.pw.ee.cinemabackend.runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -6,4 +6,5 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/features")
-public class CucumberIntegrationTest {}
+public class CucumberIntegrationTest {
+}

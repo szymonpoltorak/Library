@@ -1,5 +1,8 @@
 package pl.edu.pw.ee.cinemabackend.config;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +56,14 @@ public class AppConfigurationImpl implements AppConfiguration {
         source.registerCorsConfiguration(API_PATTERN, configuration);
 
         return source;
+    }
+
+    @Bean
+    @Override
+    public Validator validator() {
+        try (ValidatorFactory validator = Validation.buildDefaultValidatorFactory()) {
+            return validator.getValidator();
+        }
     }
 
     @Bean
