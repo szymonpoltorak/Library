@@ -1,5 +1,6 @@
 package pl.edu.pw.ee.cinemabackend.config.interfaces;
 
+import jakarta.validation.Validator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -17,4 +18,6 @@ public interface AppConfiguration {
     AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception;
 
     CorsConfigurationSource corsConfigurationSource();
+
+    Validator validator();
 }

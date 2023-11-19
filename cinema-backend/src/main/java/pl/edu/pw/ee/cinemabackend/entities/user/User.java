@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -72,7 +73,7 @@ public class User implements ServiceUser {
     private String username;
 
     @JsonIgnore
-    @NotNull(message = PASSWORD_NULL_MESSAGE)
+    @NotBlank(message = PASSWORD_NULL_MESSAGE)
     private String password;
 
     @Id

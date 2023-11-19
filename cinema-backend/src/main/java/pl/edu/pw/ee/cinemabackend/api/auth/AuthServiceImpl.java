@@ -1,6 +1,10 @@
 package pl.edu.pw.ee.cinemabackend.api.auth;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +28,7 @@ import pl.edu.pw.ee.cinemabackend.exceptions.auth.TokensUserNotFoundException;
 import pl.edu.pw.ee.cinemabackend.exceptions.auth.UserAlreadyExistsException;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -34,13 +39,19 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final Validator validator;
     private final TokenManagerService tokenManager;
     private final JwtService jwtService;
 
     @Override
-    public final AuthResponse register(@Valid RegisterRequest registerRequest) {
+    public final AuthResponse register(RegisterRequest registerRequest) {
+        Set<ConstraintViolation<RegisterRequest>> passwordViolations = validator.validate(registerRequest);
+
         log.info("Registering user with data: \n{}", registerRequest);
 
+        if (!passwordViolations.isEmpty()) {
+            throw new ConstraintViolationException(passwordViolations);
+        }
         String password = validateUserRegisterData(registerRequest);
 
         User user = User
@@ -50,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
                 .surname(registerRequest.surname())
                 .password(passwordEncoder.encode(password))
                 .build();
-        createUserWithEncodedPassword(user);
+        userRepository.save(user);
 
         log.info(BUILDING_TOKEN_RESPONSE_MESSAGE, user);
 
@@ -105,10 +116,6 @@ public class AuthServiceImpl implements AuthService {
                 .builder()
                 .isAuthTokenValid(isAuthTokenValid)
                 .build();
-    }
-
-    private void createUserWithEncodedPassword(@Valid User user) {
-        userRepository.save(user);
     }
 
     private String validateUserRegisterData(RegisterRequest registerRequest) {
