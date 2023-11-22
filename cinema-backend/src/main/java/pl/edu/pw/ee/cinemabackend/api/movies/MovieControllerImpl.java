@@ -1,6 +1,7 @@
 package pl.edu.pw.ee.cinemabackend.api.movies;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +10,7 @@ import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieResponse;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieController;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
+import pl.edu.pw.ee.cinemabackend.entities.user.User;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class MovieControllerImpl implements MovieController {
 
     @Override
     @GetMapping(value = CREATE_MOVIE_MAPPING)
-    public MovieResponse createMovie(MovieRequest movieRequest) {
-        return movieService.createMovie(movieRequest);
+    public MovieResponse createMovie(MovieRequest movieRequest, @AuthenticationPrincipal User user) {
+        return movieService.createMovie(movieRequest, user);
     }
 }

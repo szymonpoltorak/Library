@@ -2,23 +2,20 @@ package pl.edu.pw.ee.cinemabackend.api.movies;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieResponse;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
+import pl.edu.pw.ee.cinemabackend.api.util.DataValidator;
 import pl.edu.pw.ee.cinemabackend.api.util.LoggedInValidator;
 import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
 import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieMapper;
 import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
-import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.exceptions.movies.MovieNotFoundException;
 
 import java.util.List;
@@ -31,6 +28,7 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
     private final LoggedInValidator loggedInValidator;
+    private final DataValidator dataValidator;
 
     @Override
     public final List<MovieResponse> getListOfMoviesOnPage(int numOfPage) {
@@ -65,8 +63,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieResponse createMovie(MovieRequest movieRequest) {
-        loggedInValidator.checkIfUserIsLoggedIn();
+    public MovieResponse createMovie(MovieRequest movieRequest, User user) {
+        loggedInValidator.checkIfUserIsLoggedIn(user);
+        dataValidator.validateMovieRequest(movieRequest);
         log.info("Creating a movie: {}", movieRequest);
 
         Movie movie = Movie.builder()

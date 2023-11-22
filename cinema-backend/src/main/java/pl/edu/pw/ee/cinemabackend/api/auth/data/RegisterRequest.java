@@ -5,5 +5,6 @@ import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.Password;
 
 @Builder
-public record RegisterRequest(String name, String surname, String username, @Password String password, UserRole userRole) {
+public record RegisterRequest(String name, String surname, String username, @Password String password,
+                              UserRole userRole) {
 }

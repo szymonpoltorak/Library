@@ -2,11 +2,7 @@ package pl.edu.pw.ee.cinemabackend.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,11 +21,7 @@ import java.util.Collections;
 
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.Constants.USERS_TABLE_NAME;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.Constants.USER_PACKAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.EMAIL_MAX_LENGTH;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.EMAIL_MIN_LENGTH;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_MAX_LENGTH;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_MIN_LENGTH;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_PATTERN;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.*;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.*;
 
 

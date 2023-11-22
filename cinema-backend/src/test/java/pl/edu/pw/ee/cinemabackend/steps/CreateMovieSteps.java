@@ -23,45 +23,81 @@ public class CreateMovieSteps extends SpringIntegrationTest {
     @Autowired
     private MovieService movieService;
     private MovieResponse movieResponse;
+    private MovieRequest movieRequest;
+    private User user;
 
     @Given("^User is (.+) logged in with role (.+)$")
-    public final void userIsLoggedIn(String logged, String role){
-        if (logged.equals("not")){
+    public final void userIsLoggedIn(String logged, String role) {
+        if (logged.equals("not")) {
             SecurityContextHolder.getContext().setAuthentication(null);
             return;
         }
         UserRole userRole = UserRole.valueOf(role);
-        User user = User.builder()
+        user = User.builder()
                 .username("kicia2@mail.com")
                 .name("John")
                 .surname("Doe")
                 .password("kicia.?312312312As")
                 .userRole(userRole)
                 .build();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
 
-    @When("^Submits form with valid movie request$")
-    public final void submitsFormWithValidMovie(){
-        MovieRequest movieRequest = MovieRequest.builder()
+        movieRequest = MovieRequest.builder()
                 .title("title")
                 .description("description")
                 .timeDuration("15")
                 .minimalAge(15)
                 .build();
 
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    @Given("^User is logged in with role ADMIN and submits title (.+), description (.+), duration (.+) and minimal age (.+)$")
+    public final void userIsLoggedIn(String title, String description, String duration, int age) {
+        if (title.equals("null")) {
+            title = null;
+        }
+        if (description.equals("null")) {
+            description = null;
+        }
+        if (duration.equals("null")) {
+            duration = null;
+        }
+        user = User.builder()
+                .username("kicia2@mail.com")
+                .name("John")
+                .surname("Doe")
+                .password("kicia.?312312312As")
+                .userRole(UserRole.ADMIN)
+                .build();
+
+        movieRequest = MovieRequest.builder()
+                .title(title)
+                .description(description)
+                .timeDuration(duration)
+                .minimalAge(age)
+                .build();
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(authentication);
+    }
+
+    @When("^Submits form with valid movie request$")
+    public final void submitsFormWithValidMovie() {
         try {
-            movieResponse= movieService.createMovie(movieRequest);
-        }catch (AccessDeniedException e){
+            movieResponse = movieService.createMovie(movieRequest, user);
+        } catch (AccessDeniedException | IllegalArgumentException e) {
             movieResponse = null;
         }
     }
+
     @Then("^Movie should be created (.+)$")
-    public final void movieShouldBeCreated(String status){
-        if (status.equals("successfully")){
+    public final void movieShouldBeCreated(String status) {
+        if (status.equals("successfully")) {
             assertNotNull(movieResponse, "Movie response should not be null");
-        }else{
+        } else {
             assertNull(movieResponse, "Movie response is not null");
         }
 

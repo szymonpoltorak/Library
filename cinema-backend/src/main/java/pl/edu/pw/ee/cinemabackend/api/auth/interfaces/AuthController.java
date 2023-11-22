@@ -1,11 +1,7 @@
 package pl.edu.pw.ee.cinemabackend.api.auth.interfaces;
 
 
-import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenResponse;
+import pl.edu.pw.ee.cinemabackend.api.auth.data.*;
 
 public interface AuthController {
     AuthResponse registerUser(RegisterRequest registerRequest);

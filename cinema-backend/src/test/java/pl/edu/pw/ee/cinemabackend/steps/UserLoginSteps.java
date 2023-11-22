@@ -1,6 +1,7 @@
 package pl.edu.pw.ee.cinemabackend.steps;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,9 +15,7 @@ import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserLoginSteps extends SpringIntegrationTest {
     private static final String MAIL = "username@mail.com";
@@ -66,7 +65,7 @@ public class UserLoginSteps extends SpringIntegrationTest {
         }
     }
 
-    @Given("^User should (.+) be logged in$")
+    @Then("^User should (.+) be logged in$")
     public final void userHasAlreadyBeRegistered(String loggedIn) {
         if (loggedIn.equals("not")) {
             assertNull(authResponse);
