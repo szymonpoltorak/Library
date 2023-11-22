@@ -5,15 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieResponse;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieController;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
 
 import java.util.List;
 
-import static pl.edu.pw.ee.cinemabackend.api.movies.constants.MovieMappings.API_MOVIES_MAPPING;
-import static pl.edu.pw.ee.cinemabackend.api.movies.constants.MovieMappings.GET_MOVIES_ON_PAGE_MAPPING;
-import static pl.edu.pw.ee.cinemabackend.api.movies.constants.MovieMappings.GET_MOVIE_DETAILS_MAPPING;
+import static pl.edu.pw.ee.cinemabackend.api.movies.constants.MovieMappings.*;
 
 @RestController
 @RequestMapping(API_MOVIES_MAPPING)
@@ -31,5 +30,11 @@ public class MovieControllerImpl implements MovieController {
     @GetMapping(value = GET_MOVIE_DETAILS_MAPPING)
     public final MovieResponse getMovieDetails(@RequestParam long movieId) {
         return movieService.getMovieDetails(movieId);
+    }
+
+    @Override
+    @GetMapping(value = CREATE_MOVIE_MAPPING)
+    public MovieResponse createMovie(MovieRequest movieRequest) {
+        return movieService.createMovie(movieRequest);
     }
 }

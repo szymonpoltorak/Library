@@ -10,6 +10,7 @@ import pl.edu.pw.ee.cinemabackend.api.auth.AuthServiceImpl;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.RegisterRequest;
 import pl.edu.pw.ee.cinemabackend.entities.token.interfaces.TokenRepository;
+import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 
@@ -38,6 +39,7 @@ public class UserRegistrationSteps extends SpringIntegrationTest {
                 .name("John")
                 .surname("Doe")
                 .password(password)
+                .userRole(UserRole.USER)
                 .build();
     }
 

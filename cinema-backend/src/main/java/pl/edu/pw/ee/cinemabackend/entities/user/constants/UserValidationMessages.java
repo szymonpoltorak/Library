@@ -10,7 +10,7 @@ public final class UserValidationMessages {
 
     public static final String SURNAME_PATTERN_MESSAGE = "Surname must contain only alphabetic characters";
 
-    public static final String DATE_NULL_MESSAGE = "Date of birth is mandatory";
+    public static final String USER_ROLE_NULL_MESSAGE = "User role is mandatory";
 
     public static final String EMAIL_MESSAGE = "Email must be a valid username address";
 

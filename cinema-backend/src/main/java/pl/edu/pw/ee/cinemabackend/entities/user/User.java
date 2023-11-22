@@ -1,12 +1,7 @@
 package pl.edu.pw.ee.cinemabackend.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.ServiceUser;
 
 import java.io.NotSerializableException;
@@ -34,15 +30,7 @@ import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_MAX_LENGTH;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_MIN_LENGTH;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_PATTERN;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.EMAIL_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.EMAIL_NULL_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.NAME_NULL_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.NAME_PATTERN_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.NAME_SIZE_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.PASSWORD_NULL_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_NULL_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_PATTERN_MESSAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_SIZE_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.*;
 
 
 @Slf4j
@@ -72,6 +60,10 @@ public class User implements ServiceUser {
     @Email(message = EMAIL_MESSAGE)
     private String username;
 
+    @NotNull(message = USER_ROLE_NULL_MESSAGE)
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     @JsonIgnore
     @NotBlank(message = PASSWORD_NULL_MESSAGE)
     private String password;
@@ -87,7 +79,7 @@ public class User implements ServiceUser {
 
     @Override
     public final Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Collections.singleton(new SimpleGrantedAuthority(userRole.name()));
     }
 
     @Override
