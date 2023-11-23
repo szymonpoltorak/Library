@@ -1,8 +1,19 @@
 package pl.edu.pw.ee.cinemabackend.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +32,21 @@ import java.util.Collections;
 
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.Constants.USERS_TABLE_NAME;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.Constants.USER_PACKAGE;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.*;
-import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.*;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.EMAIL_MAX_LENGTH;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.EMAIL_MIN_LENGTH;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_MAX_LENGTH;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_MIN_LENGTH;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidation.NAME_PATTERN;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.EMAIL_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.EMAIL_NULL_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.NAME_NULL_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.NAME_PATTERN_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.NAME_SIZE_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.PASSWORD_NULL_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_NULL_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_PATTERN_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_SIZE_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.USER_ROLE_NULL_MESSAGE;
 
 
 @Slf4j

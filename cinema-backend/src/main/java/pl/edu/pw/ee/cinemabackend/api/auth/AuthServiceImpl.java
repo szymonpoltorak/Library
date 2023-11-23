@@ -10,7 +10,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.*;
+import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
+import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
+import pl.edu.pw.ee.cinemabackend.api.auth.data.RegisterRequest;
+import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenRequest;
+import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenResponse;
 import pl.edu.pw.ee.cinemabackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.TokenManagerService;

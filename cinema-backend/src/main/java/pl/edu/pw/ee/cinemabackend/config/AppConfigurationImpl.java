@@ -23,7 +23,10 @@ import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.UserRepository;
 import java.security.SecureRandom;
 import java.util.List;
 
-import static pl.edu.pw.ee.cinemabackend.config.constants.CorsConfig.*;
+import static pl.edu.pw.ee.cinemabackend.config.constants.CorsConfig.ALLOWED_REQUESTS;
+import static pl.edu.pw.ee.cinemabackend.config.constants.CorsConfig.API_PATTERN;
+import static pl.edu.pw.ee.cinemabackend.config.constants.CorsConfig.CONTENT_TYPE_HEADER;
+import static pl.edu.pw.ee.cinemabackend.config.constants.CorsConfig.CORS_ADDRESSES;
 import static pl.edu.pw.ee.cinemabackend.config.constants.Headers.AUTH_HEADER;
 
 

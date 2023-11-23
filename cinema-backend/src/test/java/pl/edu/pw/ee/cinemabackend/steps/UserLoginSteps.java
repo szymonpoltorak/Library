@@ -15,7 +15,9 @@ import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UserLoginSteps extends SpringIntegrationTest {
     private static final String MAIL = "username@mail.com";

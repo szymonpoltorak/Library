@@ -12,7 +12,9 @@ import pl.edu.pw.ee.cinemabackend.entities.token.JwtToken;
 import pl.edu.pw.ee.cinemabackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.cinemabackend.exceptions.auth.TokenDoesNotExistException;
 
-import static pl.edu.pw.ee.cinemabackend.config.constants.Headers.*;
+import static pl.edu.pw.ee.cinemabackend.config.constants.Headers.AUTH_HEADER;
+import static pl.edu.pw.ee.cinemabackend.config.constants.Headers.TOKEN_HEADER;
+import static pl.edu.pw.ee.cinemabackend.config.constants.Headers.TOKEN_START_INDEX;
 
 
 @Slf4j
