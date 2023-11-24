@@ -1,4 +1,5 @@
 Feature: User can register to the system
+
     Scenario: Successful registration with a valid password
         Given The user provides password kicia.?312312312As and username kicia2@mail.com
         When The user submits the registration form

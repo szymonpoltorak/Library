@@ -2,8 +2,6 @@ package pl.edu.pw.ee.cinemabackend.api.auth;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Valid;
-import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +58,7 @@ public class AuthServiceImpl implements AuthService {
                 .username(registerRequest.username())
                 .surname(registerRequest.surname())
                 .password(passwordEncoder.encode(password))
+                .userRole(registerRequest.userRole())
                 .build();
         userRepository.save(user);
 

@@ -3,6 +3,8 @@ package pl.edu.pw.ee.cinemabackend.entities.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.ServiceUser;
 
 import java.io.NotSerializableException;
@@ -43,6 +46,7 @@ import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationM
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_NULL_MESSAGE;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_PATTERN_MESSAGE;
 import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.SURNAME_SIZE_MESSAGE;
+import static pl.edu.pw.ee.cinemabackend.entities.user.constants.UserValidationMessages.USER_ROLE_NULL_MESSAGE;
 
 
 @Slf4j
@@ -72,6 +76,10 @@ public class User implements ServiceUser {
     @Email(message = EMAIL_MESSAGE)
     private String username;
 
+    @NotNull(message = USER_ROLE_NULL_MESSAGE)
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     @JsonIgnore
     @NotBlank(message = PASSWORD_NULL_MESSAGE)
     private String password;
@@ -87,7 +95,7 @@ public class User implements ServiceUser {
 
     @Override
     public final Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Collections.singleton(new SimpleGrantedAuthority(userRole.name()));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package pl.edu.pw.ee.cinemabackend.steps;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,6 +11,7 @@ import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.cinemabackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.cinemabackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
+import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 
@@ -41,12 +43,12 @@ public class UserLoginSteps extends SpringIntegrationTest {
         if (registered.equals("not")) {
             return;
         }
-        user = User
-                .builder()
+        user = User.builder()
                 .username(MAIL)
                 .name("Name")
                 .surname("Surname")
                 .password(passwordEncoder.encode(PASSWORD))
+                .userRole(UserRole.USER)
                 .build();
         userRepository.save(user);
     }
@@ -65,7 +67,7 @@ public class UserLoginSteps extends SpringIntegrationTest {
         }
     }
 
-    @Given("^User should (.+) be logged in$")
+    @Then("^User should (.+) be logged in$")
     public final void userHasAlreadyBeRegistered(String loggedIn) {
         if (loggedIn.equals("not")) {
             assertNull(authResponse);

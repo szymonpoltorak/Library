@@ -1,4 +1,5 @@
 Feature: User can login with email and password
+
     Scenario: User can login with email and password
         Given User has already been registered
         When Submits form with valid credentials
