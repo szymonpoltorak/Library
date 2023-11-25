@@ -66,7 +66,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieResponse createMovie(MovieRequest movieRequest, User user) {
+    public final MovieResponse createMovie(MovieRequest movieRequest, User user) {
         checkIfUserIsAnAdmin(user);
         validateMovieRequest(movieRequest);
         log.info("Creating a movie: {}", movieRequest);
@@ -81,6 +81,30 @@ public class MovieServiceImpl implements MovieService {
         movie = movieRepository.saveAndFlush(movie);
         return movieMapper.mapToMovieResponse(movie);
     }
+
+    @Override
+    public final MovieResponse  updateMovie(MovieRequest movieRequest,long movieId, User user) {
+        checkIfUserIsAnAdmin(user);
+        validateMovieRequest(movieRequest);
+        log.info("Updating a movie: {}", movieRequest);
+
+        Movie movieFromRepository = movieRepository.findById(movieId)
+                .orElseThrow(
+                        () -> new MovieNotFoundException(
+                                String.format("Movie with id: %d not found", movieId),
+                                HttpStatus.NOT_FOUND
+                        )
+                );
+
+        movieFromRepository.setDescription(movieRequest.description());
+        movieFromRepository.setTitle(movieRequest.title());
+        movieFromRepository.setMinimalAge(movieRequest.minimalAge());
+        movieFromRepository.setTimeDuration(movieRequest.timeDuration());
+
+        movieFromRepository = movieRepository.saveAndFlush(movieFromRepository);
+        return movieMapper.mapToMovieResponse(movieFromRepository);
+    }
+
 
     private void validateMovieRequest(MovieRequest movieRequest) {
         if (movieRequest.title() == null || movieRequest.title().isBlank()) {
