@@ -1,12 +1,12 @@
 Feature: Admin can update a movie
 
   Scenario: Admin can successfully update a movie
-    Given User is logged in with role ADMIN
+    Given User is already signed in with role ADMIN
     When Submits form with valid movie update request
     Then Movie should be updated successfully
 
   Scenario: User cannot successfully create a movie because he is not an admin
-    Given User is logged in with role USER
+    Given User is already signed in with role USER
     When Submits form with valid movie update request
     Then Movie should be updated unsuccessfully
 

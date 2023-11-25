@@ -16,6 +16,7 @@ import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
+import pl.edu.pw.ee.cinemabackend.utils.TestDataBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -29,9 +30,10 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
     private MovieResponse movieResponse;
     private MovieRequest movieRequest;
     private User user;
-    private long Id;
+    private long id;
 
-    @Given("^User is logged in with role (.+)$")
+
+    @Given("^User is already signed in with role (.+)$")
     public final void userIsSignedIn(String role) {
 
         UserRole userRole = UserRole.valueOf(role);
@@ -50,7 +52,7 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
                 .minimalAge(12)
                 .build();
         movie = movieRepository.saveAndFlush(movie);
-        Id = movie.getMovieId();
+        id = movie.getMovieId();
 
         movieRequest = MovieRequest.builder()
                 .title("title")
@@ -76,19 +78,7 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
                 .userRole(UserRole.ADMIN)
                 .build();
 
-        if (id.equals("good")) {
-
-            Movie movie = Movie.builder()
-                    .title("title")
-                    .description("description")
-                    .timeDuration("duration")
-                    .minimalAge(12)
-                    .build();
-            movie = movieRepository.saveAndFlush(movie);
-            Id = movie.getMovieId();
-        } else {
-            Id = -2;
-        }
+        this.id = TestDataBuilder.addMovieToDataBase(id, movieRepository);
 
         movieRequest = MovieRequest.builder()
                 .title(title)
@@ -106,7 +96,7 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
     @When("^Submits form with valid movie update request$")
     public final void submitsFormWithValidMovie() {
         try {
-            movieResponse = movieService.updateMovie(movieRequest, Id, user);
+            movieResponse = movieService.updateMovie(movieRequest, id, user);
         } catch (AccessDeniedException | IllegalArgumentException e) {
             movieResponse = null;
         }
