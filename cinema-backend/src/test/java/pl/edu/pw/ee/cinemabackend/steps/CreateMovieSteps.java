@@ -26,7 +26,7 @@ public class CreateMovieSteps extends SpringIntegrationTest {
     private MovieRequest movieRequest;
     private User user;
 
-    @Given("^User is (.+) logged in with role (.+)$")
+    @Given("^User is (.+) logged in with role (.+) and created a valid movie request$")
     public final void userIsLoggedIn(String logged, String role) {
         if (logged.equals("not")) {
             SecurityContextHolder.getContext().setAuthentication(null);

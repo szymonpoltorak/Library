@@ -1,12 +1,12 @@
 Feature: Admin can create a movie
 
     Scenario: Admin can successfully create a movie
-        Given User is already logged in with role ADMIN
+        Given User is already logged in with role ADMIN and created a valid movie request
         When Submits form with valid movie request
         Then Movie should be created successfully
 
     Scenario: User cannot successfully create a movie because he is not an admin
-        Given User is already logged in with role USER
+        Given User is already logged in with role USER and created a valid movie request
         When Submits form with valid movie request
         Then Movie should be created unsuccessfully
 
