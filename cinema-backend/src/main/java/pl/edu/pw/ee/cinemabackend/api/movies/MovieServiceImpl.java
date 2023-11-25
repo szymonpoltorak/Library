@@ -88,15 +88,7 @@ public class MovieServiceImpl implements MovieService {
         validateMovieRequest(movieRequest);
         log.info("Updating a movie: {}", movieRequest);
 
-        Movie movie = Movie.builder()
-                .movieId(movieId)
-                .title(movieRequest.title())
-                .description(movieRequest.description())
-                .minimalAge(movieRequest.minimalAge())
-                .timeDuration(movieRequest.timeDuration())
-                .build();
-
-        Movie movie1 = movieRepository.findById(movieId)
+        Movie movieFromRepository = movieRepository.findById(movieId)
                 .orElseThrow(
                         () -> new MovieNotFoundException(
                                 String.format("Movie with id: %d not found", movieId),
@@ -104,12 +96,13 @@ public class MovieServiceImpl implements MovieService {
                         )
                 );
 
-        movie1.setDescription(movieRequest.description());
-        movie1.setTitle(movieRequest.title());
-        movie1.setMinimalAge(movieRequest.minimalAge());
-        movie1.setTimeDuration(movie.getTimeDuration());
-        movie = movieRepository.saveAndFlush(movie);
-        return movieMapper.mapToMovieResponse(movie);
+        movieFromRepository.setDescription(movieRequest.description());
+        movieFromRepository.setTitle(movieRequest.title());
+        movieFromRepository.setMinimalAge(movieRequest.minimalAge());
+        movieFromRepository.setTimeDuration(movieRequest.timeDuration());
+
+        movieFromRepository = movieRepository.saveAndFlush(movieFromRepository);
+        return movieMapper.mapToMovieResponse(movieFromRepository);
     }
 
 

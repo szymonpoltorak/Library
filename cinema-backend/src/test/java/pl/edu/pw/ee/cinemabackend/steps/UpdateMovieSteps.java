@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieResponse;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
+import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
+import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
@@ -22,14 +24,15 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
 
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private MovieRepository movieRepository;
     private MovieResponse movieResponse;
     private MovieRequest movieRequest;
     private User user;
+    private long Id;
 
-    private long _id;
-
-    @Given("^User is already logged in with role (.+)$")
-    public final void userIsLoggedIn1( String role) {
+    @Given("^User is logged in with role (.+)$")
+    public final void userIsSignedIn(String role) {
 
         UserRole userRole = UserRole.valueOf(role);
         user = User.builder()
@@ -39,6 +42,15 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
                 .password("kicia.?312312312As")
                 .userRole(userRole)
                 .build();
+
+        Movie movie = Movie.builder()
+                .title("title")
+                .description("description")
+                .timeDuration("duration")
+                .minimalAge(12)
+                .build();
+        movie = movieRepository.saveAndFlush(movie);
+        Id = movie.getMovieId();
 
         movieRequest = MovieRequest.builder()
                 .title("title")
@@ -51,11 +63,11 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    @Given("^User is logged in with role ADMIN and submits Id (.+) title (.+), description (.+), duration (.+) and minimal age (.+)$")
-    public final void userIsLoggedIn1(long id, String title, String description, String duration, int age) {
-        title = checkIfStringIsNull1(title);
-        description = checkIfStringIsNull1(description);
-        duration = checkIfStringIsNull1(duration);
+    @Given("^User is signed in with role ADMIN, submits (.+) Id title (.+), description (.+), duration (.+) and minimal age (.+)$")
+    public final void userIsSignedIn(String id, String title, String description, String duration, int age) {
+        title = checkIfStringIsNull(title);
+        description = checkIfStringIsNull(description);
+        duration = checkIfStringIsNull(duration);
         user = User.builder()
                 .username("kicia2@mail.com")
                 .name("John")
@@ -64,7 +76,19 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
                 .userRole(UserRole.ADMIN)
                 .build();
 
-        _id = id;
+        if (id.equals("good")) {
+
+            Movie movie = Movie.builder()
+                    .title("title")
+                    .description("description")
+                    .timeDuration("duration")
+                    .minimalAge(12)
+                    .build();
+            movie = movieRepository.saveAndFlush(movie);
+            Id = movie.getMovieId();
+        } else {
+            Id = -2;
+        }
 
         movieRequest = MovieRequest.builder()
                 .title(title)
@@ -79,25 +103,26 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
                 .setAuthentication(authentication);
     }
 
-    @When("^Submits form with valid movie request$")
-    public final void submitsFormWithValidMovie1() {
+    @When("^Submits form with valid movie update request$")
+    public final void submitsFormWithValidMovie() {
         try {
-            movieResponse = movieService.updateMovie(movieRequest, _id, user);
+            movieResponse = movieService.updateMovie(movieRequest, Id, user);
         } catch (AccessDeniedException | IllegalArgumentException e) {
             movieResponse = null;
         }
     }
 
     @Then("^Movie should be updated (.+)$")
-    public final void movieShouldBeCreated1(String status) {
+    public final void movieShouldBeUpdated(String status) {
         if (status.equals("successfully")) {
             assertNotNull(movieResponse, "Movie response should not be null");
         } else {
             assertNull(movieResponse, "Movie response is not null");
         }
+        movieRepository.deleteAll();
     }
 
-    private String checkIfStringIsNull1(String word) {
+    private String checkIfStringIsNull(String word) {
         if (word.equals("null")) {
             return null;
         }
