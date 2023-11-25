@@ -18,16 +18,18 @@ import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+public class UpdateMovieSteps extends SpringIntegrationTest {
 
-public class CreateMovieSteps extends SpringIntegrationTest {
     @Autowired
     private MovieService movieService;
     private MovieResponse movieResponse;
     private MovieRequest movieRequest;
     private User user;
 
+    private long _id;
+
     @Given("^User is already logged in with role (.+)$")
-    public final void userIsLoggedIn( String role) {
+    public final void userIsLoggedIn1( String role) {
 
         UserRole userRole = UserRole.valueOf(role);
         user = User.builder()
@@ -49,11 +51,11 @@ public class CreateMovieSteps extends SpringIntegrationTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    @Given("^User is logged in with role ADMIN and submits title (.+), description (.+), duration (.+) and minimal age (.+)$")
-    public final void userIsLoggedIn(String title, String description, String duration, int age) {
-        title = checkIfStringIsNull(title);
-        description = checkIfStringIsNull(description);
-        duration = checkIfStringIsNull(duration);
+    @Given("^User is logged in with role ADMIN and submits Id (.+) title (.+), description (.+), duration (.+) and minimal age (.+)$")
+    public final void userIsLoggedIn1(long id, String title, String description, String duration, int age) {
+        title = checkIfStringIsNull1(title);
+        description = checkIfStringIsNull1(description);
+        duration = checkIfStringIsNull1(duration);
         user = User.builder()
                 .username("kicia2@mail.com")
                 .name("John")
@@ -61,6 +63,8 @@ public class CreateMovieSteps extends SpringIntegrationTest {
                 .password("kicia.?312312312As")
                 .userRole(UserRole.ADMIN)
                 .build();
+
+        _id = id;
 
         movieRequest = MovieRequest.builder()
                 .title(title)
@@ -76,16 +80,16 @@ public class CreateMovieSteps extends SpringIntegrationTest {
     }
 
     @When("^Submits form with valid movie request$")
-    public final void submitsFormWithValidMovie() {
+    public final void submitsFormWithValidMovie1() {
         try {
-            movieResponse = movieService.createMovie(movieRequest, user);
+            movieResponse = movieService.updateMovie(movieRequest, _id, user);
         } catch (AccessDeniedException | IllegalArgumentException e) {
             movieResponse = null;
         }
     }
 
-    @Then("^Movie should be created (.+)$")
-    public final void movieShouldBeCreated(String status) {
+    @Then("^Movie should be updated (.+)$")
+    public final void movieShouldBeCreated1(String status) {
         if (status.equals("successfully")) {
             assertNotNull(movieResponse, "Movie response should not be null");
         } else {
@@ -93,10 +97,11 @@ public class CreateMovieSteps extends SpringIntegrationTest {
         }
     }
 
-    private String checkIfStringIsNull(String word) {
+    private String checkIfStringIsNull1(String word) {
         if (word.equals("null")) {
             return null;
         }
         return word;
     }
 }
+
