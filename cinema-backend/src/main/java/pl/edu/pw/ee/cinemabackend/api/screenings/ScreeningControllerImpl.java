@@ -19,7 +19,11 @@ import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import java.time.LocalDate;
 import java.util.List;
 
-import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.*;
+import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.API_SCREENINGS_MAPPING;
+import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.CREATE_SCREENING_MAPPING;
+import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.GET_SCREENINGS_FOR_DAY_MAPPING;
+import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.GET_SCREENING_DETAILS_MAPPING;
+
 
 @RestController
 @RequestMapping(API_SCREENINGS_MAPPING)

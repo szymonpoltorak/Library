@@ -1,6 +1,5 @@
 package pl.edu.pw.ee.cinemabackend.steps;
 
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,7 +20,6 @@ import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.exceptions.movies.MovieNotFoundException;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -37,9 +35,6 @@ public class CreateScreeningSteps extends SpringIntegrationTest {
 
     @Autowired
     private MovieRepository movieRepository;
-
-    @Autowired
-    private ScreeningRepository screeningRepository;
 
     private ScreeningResponse screeningResponse;
     private ScreeningRequest screeningRequest;
@@ -86,13 +81,9 @@ public class CreateScreeningSteps extends SpringIntegrationTest {
 
     @Given("^User is logged in with role ADMIN and creates a screening request with (.+) movieId, (.+)" +
             " day of screening and (.+) hour of screening")
-    public final void userIsLoggedInWrongMovieId(String correct, String stringDayOfScreening, String stringHourOfScreening) {
+    public final void userIsLoggedInMovieId(String correct, String stringDayOfScreening, String stringHourOfScreening) {
         long id;
-        if(correct.equals("incorrect")) {
-            id = -1L;
-        } else {
-            id = 1L;
-        }
+        id = correct.equals("incorrect") ? -1L : 1L;
 
         LocalDate dayOfScreening = checkIfValidDate(stringDayOfScreening);
         LocalTime hourOfScreening = checkIfValidTime(stringHourOfScreening);
@@ -118,7 +109,6 @@ public class CreateScreeningSteps extends SpringIntegrationTest {
         try {
             screeningResponse = screeningService.createScreening(screeningRequest, user);
         } catch (AccessDeniedException | IllegalArgumentException | MovieNotFoundException e) {
-            System.out.println(e.getMessage());
             screeningResponse = null;
         }
     }
