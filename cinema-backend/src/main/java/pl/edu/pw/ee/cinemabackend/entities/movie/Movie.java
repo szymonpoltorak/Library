@@ -4,10 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import pl.edu.pw.ee.cinemabackend.entities.screening.Screening;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -26,4 +31,8 @@ public class Movie {
     private String timeDuration;
 
     private int minimalAge;
+
+    @OneToMany
+    @ToString.Exclude
+    private List<Screening> screenings;
 }

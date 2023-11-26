@@ -26,9 +26,8 @@ public class CreateMovieSteps extends SpringIntegrationTest {
     private MovieRequest movieRequest;
     private User user;
 
-    @Given("^User is already logged in with role (.+)$")
-    public final void userIsLoggedIn( String role) {
-
+    @Given("^User is already logged in with role (.+) and created a valid movie request$")
+    public final void userIsLoggedIn(String role) {
         UserRole userRole = UserRole.valueOf(role);
         user = User.builder()
                 .username("kicia2@mail.com")
