@@ -25,7 +25,7 @@ public class Screening {
     @GeneratedValue
     private long screeningId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Movie movie;
 
     private LocalDate dayOfScreening;

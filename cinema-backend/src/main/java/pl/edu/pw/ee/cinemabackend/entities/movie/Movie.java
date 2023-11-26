@@ -1,6 +1,7 @@
 package pl.edu.pw.ee.cinemabackend.entities.movie;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +33,7 @@ public class Movie {
 
     private int minimalAge;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Screening> screenings;
 }
