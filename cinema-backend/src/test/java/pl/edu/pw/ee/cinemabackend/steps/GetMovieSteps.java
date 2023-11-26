@@ -8,6 +8,7 @@ import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieResponse;
 import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
 import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
 import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
+import pl.edu.pw.ee.cinemabackend.entities.screening.interfaces.ScreeningRepository;
 import pl.edu.pw.ee.cinemabackend.exceptions.movies.MovieNotFoundException;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 import pl.edu.pw.ee.cinemabackend.utils.TestDataBuilder;
@@ -21,6 +22,8 @@ public class GetMovieSteps extends SpringIntegrationTest {
     private MovieService movieService;
     @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private ScreeningRepository screeningRepository;
     private MovieResponse movieResponse;
     private long id;
 
@@ -47,6 +50,7 @@ public class GetMovieSteps extends SpringIntegrationTest {
         } else {
             assertNull(movieResponse, "Movie response is not null");
         }
+        screeningRepository.deleteAll();
         movieRepository.deleteAll();
     }
 
