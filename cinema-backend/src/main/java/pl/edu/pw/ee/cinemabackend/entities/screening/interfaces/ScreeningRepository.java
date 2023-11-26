@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface ScreeningRepository extends JpaRepository<Screening, Long> {
 
-    @Query("select s from Screening as s where s.dayOfScreening = :date")
+    @Query("select s from Screening as s where DATE(s.dayOfScreening) = ?1")
     List<Screening> getScreeningsForGivenDay(LocalDate date);
 }

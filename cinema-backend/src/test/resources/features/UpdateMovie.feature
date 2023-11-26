@@ -5,6 +5,11 @@ Feature: Admin can update a movie
     When Submits form with valid movie update request
     Then Movie should be updated successfully
 
+  Scenario: Admin cannot update a movie that does not exist
+    Given User is already signed in with role ADMIN
+    When Submits form with movie update request for movie with invalid id
+    Then Movie should be updated unsuccessfully
+
   Scenario: User cannot successfully create a movie because he is not an admin
     Given User is already signed in with role USER
     When Submits form with valid movie update request

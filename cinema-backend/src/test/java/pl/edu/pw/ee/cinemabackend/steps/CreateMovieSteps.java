@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieResponse;
-import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
+import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieController;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
@@ -18,10 +18,9 @@ import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-
 public class CreateMovieSteps extends SpringIntegrationTest {
     @Autowired
-    private MovieService movieService;
+    private MovieController movieController;
     private MovieResponse movieResponse;
     private MovieRequest movieRequest;
     private User user;
@@ -77,7 +76,7 @@ public class CreateMovieSteps extends SpringIntegrationTest {
     @When("^Submits form with valid movie request$")
     public final void submitsFormWithValidMovie() {
         try {
-            movieResponse = movieService.createMovie(movieRequest, user);
+            movieResponse = movieController.createMovie(movieRequest, user);
         } catch (AccessDeniedException | IllegalArgumentException e) {
             movieResponse = null;
         }

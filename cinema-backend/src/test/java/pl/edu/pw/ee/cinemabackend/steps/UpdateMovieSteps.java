@@ -15,6 +15,7 @@ import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
 import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
+import pl.edu.pw.ee.cinemabackend.exceptions.movies.MovieNotFoundException;
 import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 import pl.edu.pw.ee.cinemabackend.utils.TestDataBuilder;
 
@@ -98,6 +99,16 @@ public class UpdateMovieSteps extends SpringIntegrationTest {
         try {
             movieResponse = movieService.updateMovie(movieRequest, id, user);
         } catch (AccessDeniedException | IllegalArgumentException e) {
+            movieResponse = null;
+        }
+    }
+
+    @When("^Submits form with movie update request for movie with invalid id$")
+    public final void submitsFormWithMisstypedMovieTitle() {
+        try {
+            int invalidId = 234567;
+            movieResponse = movieService.updateMovie(movieRequest, invalidId, user);
+        } catch (MovieNotFoundException e) {
             movieResponse = null;
         }
     }
