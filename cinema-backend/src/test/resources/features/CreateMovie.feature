@@ -34,3 +34,8 @@ Feature: Admin can create a movie
         Given User is logged in with role ADMIN and submits title Title, description Description, duration null and minimal age -5
         When Submits form with valid movie request
         Then Movie should be created unsuccessfully
+
+    Scenario: User creates a movie with invalid age
+        Given User is logged in with role ADMIN and submits title Title, description Description, duration hour and minimal age -5
+        When Submits form with valid movie request
+        Then Movie should be created unsuccessfully

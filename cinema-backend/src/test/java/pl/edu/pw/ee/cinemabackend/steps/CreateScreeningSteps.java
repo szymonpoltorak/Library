@@ -11,10 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pl.edu.pw.ee.cinemabackend.api.screenings.data.ScreeningRequest;
 import pl.edu.pw.ee.cinemabackend.api.screenings.data.ScreeningResponse;
-import pl.edu.pw.ee.cinemabackend.api.screenings.interfaces.ScreeningService;
+import pl.edu.pw.ee.cinemabackend.api.screenings.interfaces.ScreeningController;
 import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
 import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
-import pl.edu.pw.ee.cinemabackend.entities.screening.interfaces.ScreeningRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.exceptions.movies.MovieNotFoundException;
@@ -22,16 +21,17 @@ import pl.edu.pw.ee.cinemabackend.runners.SpringIntegrationTest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static pl.edu.pw.ee.cinemabackend.utils.ScreeningUtil.checkIfValidDate;
+import static pl.edu.pw.ee.cinemabackend.utils.ScreeningUtil.checkIfValidTime;
+import static pl.edu.pw.ee.cinemabackend.utils.ScreeningUtil.createAdminUser;
 
 public class CreateScreeningSteps extends SpringIntegrationTest {
 
     @Autowired
-    private ScreeningService screeningService;
+    private ScreeningController screeningController;
 
     @Autowired
     private MovieRepository movieRepository;
@@ -107,7 +107,7 @@ public class CreateScreeningSteps extends SpringIntegrationTest {
     @When("Submits form with screening request")
     public void submitsFormWithRequest() {
         try {
-            screeningResponse = screeningService.createScreening(screeningRequest, user);
+            screeningResponse = screeningController.createScreening(screeningRequest, user);
         } catch (AccessDeniedException | IllegalArgumentException | MovieNotFoundException e) {
             screeningResponse = null;
         }
@@ -120,42 +120,6 @@ public class CreateScreeningSteps extends SpringIntegrationTest {
         } else {
             assertNull(screeningResponse, "Screening response should be null");
         }
-    }
-
-    private LocalDate checkIfValidDate(CharSequence stringDate) {
-        LocalDate date;
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE;
-
-        try {
-            date = LocalDate.parse(stringDate, dateFormatter);
-        } catch (DateTimeParseException e) {
-            date = null;
-        }
-
-        return date;
-    }
-
-    private LocalTime checkIfValidTime(CharSequence stringTime) {
-        LocalTime time;
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_TIME;
-
-        try {
-            time = LocalTime.parse(stringTime, timeFormatter);
-        } catch (DateTimeParseException e) {
-            time = null;
-        }
-
-        return time;
-    }
-
-    private User createAdminUser() {
-        return User.builder()
-                .username("kicia2@mail.com")
-                .name("John")
-                .surname("Doe")
-                .password("kicia.?312312312As")
-                .userRole(UserRole.ADMIN)
-                .build();
     }
 
 }
