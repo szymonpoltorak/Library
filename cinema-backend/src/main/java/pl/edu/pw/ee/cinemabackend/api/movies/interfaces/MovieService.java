@@ -13,4 +13,6 @@ public interface MovieService {
 
     MovieResponse createMovie(MovieRequest movieRequest, User user);
 
+    MovieResponse updateMovie(MovieRequest movieRequest, long movieId, User user);
+
 }
