@@ -2,6 +2,7 @@ package pl.edu.pw.ee.cinemabackend.entities.screening;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -24,7 +25,7 @@ public class Screening {
     @GeneratedValue
     private long screeningId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Movie movie;
 
     private LocalDate dayOfScreening;
