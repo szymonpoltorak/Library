@@ -30,55 +30,52 @@
                             "src/assets"
                         ],
                         "styles": [
-                          "@angular/material/prebuilt-themes/purple-green.css",
-                          "src/styles.scss"
+                            "@angular/material/prebuilt-themes/purple-green.css",
+                            "src/styles.scss"
                         ],
                         "scripts": []
                     },
                     "configurations": {
                         "production": {
-                            "production": {
-                                "budgets": [
-                                    {
-                                        "type": "initial",
-                                        "maximumWarning": "500kb",
-                                        "maximumError": "1mb"
-                                    },
-                                    {
-                                        "type": "anyComponentStyle",
-                                        "maximumWarning": "2kb",
-                                        "maximumError": "4kb"
-                                    }
-                                ],
-                                "fileReplacements": [
-                                    {
-                                        "replace": "src/environments/environment.ts",
-                                        "with": "src/environments/environment.prod.ts"
-                                    }
-                                ],
-                                "outputHashing": "all"
-                            },
-                            "docker": {
-                                "budgets": [
-                                    {
-                                        "type": "initial",
-                                        "maximumWarning": "500kb",
-                                        "maximumError": "1mb"
-                                    },
-                                    {
-                                        "type": "anyComponentStyle",
-                                        "maximumWarning": "2kb",
-                                        "maximumError": "4kb"
-                                    }
-                                ],
-                                "fileReplacements": [
-                                    {
-                                        "replace": "src/environments/environment.ts",
-                                        "with": "src/environments/environment.docker.ts"
-                                    }
-                                ],
-                                "outputHashing": "all"
-                            },
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "1mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "docker": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "1mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.docker.ts"
+                                }
+                            ],
                             "outputHashing": "all"
                         },
                         "development": {
@@ -124,8 +121,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                          "@angular/material/prebuilt-themes/purple-green.css",
-                          "src/styles.scss"
+                            "@angular/material/prebuilt-themes/purple-green.css",
+                            "src/styles.scss"
                         ],
                         "scripts": []
                     }
