@@ -51,6 +51,12 @@
             "@data/*": [
                 "./src/app/core/data/*"
             ],
+            "@utils/*": [
+                "./src/app/core/utils/*"
+            ],
+            "@validators/*": [
+                "./src/app/core/validators/*"
+            ],
         }
     },
     "angularCompilerOptions": {
