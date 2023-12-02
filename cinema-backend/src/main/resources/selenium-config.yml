@@ -1,0 +1,3 @@
+browser: edge
+baseUrl: http://localhost:4200
+timeoutSeconds: 30
