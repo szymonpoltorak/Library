@@ -68,6 +68,8 @@ export class RegisterComponent implements OnInit {
 
         registerRequest.password = passwordGroup.get(FormFieldNames.PASSWORD_FIELD)!.value;
 
+        registerRequest.userRole = "USER";
+
         return registerRequest;
     }
 }
