@@ -70,11 +70,8 @@ class RegisterPageSeleniumTests {
 
     @Test
     void shouldDisplayErrorMessages_whenGivenIncorrectInputs() {
-        registerPage.getTxtEmail().click();
         registerPage.getTxtEmail().sendKeys("abc");
-        registerPage.getTxtPassword().click();
         registerPage.getTxtPassword().sendKeys("abc");
-        registerPage.getTxtRepeatPassword().click();
         registerPage.getTxtRepeatPassword().sendKeys("abc");
         registerPage.getTxtName().click();
 
@@ -89,7 +86,6 @@ class RegisterPageSeleniumTests {
 
     @Test
     void shouldStayOnSite_whenGivenIncorrectInputAndClickedRegister() {
-        registerPage.getTxtEmail().click();
         registerPage.getTxtEmail().sendKeys("abc");
         registerPage.clickRegister();
 
@@ -99,16 +95,10 @@ class RegisterPageSeleniumTests {
 
     @Test
     void shouldRedirect_whenGivenCorrectInputAndClickedRegister() {
-        //Ten test przechodzi tylko jeżeli backend jest włączony
-        registerPage.getTxtName().click();
         registerPage.getTxtName().sendKeys("Jakub");
-        registerPage.getTxtSurname().click();
         registerPage.getTxtSurname().sendKeys("Wadzi");
-        registerPage.getTxtEmail().click();
         registerPage.getTxtEmail().sendKeys("016963@gmail.com");
-        registerPage.getTxtPassword().click();
         registerPage.getTxtPassword().sendKeys("#Silnehaslo123");
-        registerPage.getTxtRepeatPassword().click();
         registerPage.getTxtRepeatPassword().sendKeys("#Silnehaslo123");
         registerPage.clickRegister();
 

@@ -66,9 +66,7 @@ class LoginPageSeleniumTests {
 
     @Test
     void shouldDisplayErrorMessages_whenGivenIncorrectInputs() {
-        loginPage.getTxtEmail().click();
         loginPage.getTxtEmail().sendKeys("abc");
-        loginPage.getTxtPassword().click();
         loginPage.getTxtPassword().sendKeys("abc");
         loginPage.getTxtEmail().click();
 
@@ -81,13 +79,11 @@ class LoginPageSeleniumTests {
 
     @Test
     void shouldLogin_whenGivenCorrectCredentials() {
-        loginPage.getTxtEmail().click();
         loginPage.getTxtEmail().sendKeys("01231234@gmail.com");
-        loginPage.getTxtPassword().click();
         loginPage.getTxtPassword().sendKeys("#Silnehaslo123");
         loginPage.clickLogin();
 
-        //TODO assert home url
+        //TODO assert cinema home page url
         assert true;
     }
 
