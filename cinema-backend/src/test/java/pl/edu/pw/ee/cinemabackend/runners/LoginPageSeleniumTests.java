@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +13,11 @@ import org.springframework.test.context.TestPropertySource;
 import pl.edu.pw.ee.cinemabackend.config.selenium.WebDriverConfig;
 import pl.edu.pw.ee.cinemabackend.pages.LoginPage;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.LOGIN_URL;
-import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.REGISTER_URL;
+import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.*;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:selenium-config.yml")
@@ -83,8 +86,11 @@ class LoginPageSeleniumTests {
         loginPage.getTxtPassword().sendKeys("#Silnehaslo123");
         loginPage.clickLogin();
 
-        //TODO assert cinema home page url
-        assert true;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlToBe(HOME_URL));
+
+        assertEquals(HOME_URL, driver.getCurrentUrl(),
+                String.format("Expected value: %s", HOME_URL));
     }
 
     @AfterEach
