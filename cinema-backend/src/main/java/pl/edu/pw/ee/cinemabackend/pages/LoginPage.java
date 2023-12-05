@@ -33,11 +33,11 @@ public class LoginPage {
     @FindBy(xpath = "/html/body/app-root/app-login/div/form/app-password-field/mat-form-field/div[2]/div/mat-error")
     private WebElement passwordErrorMsg;
 
-    public void clickRegister(){
+    public final void clickRegister(){
         lnkRegister.click();
     }
 
-    public void clickLogin(){
+    public final void clickLogin(){
         lnkLogin.click();
     }
 

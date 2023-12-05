@@ -27,19 +27,19 @@ class RegisterPageSeleniumTests {
     @Value("${browser}")
     private String browser;
     @Autowired
-    private WebDriverConfig webDriverConfig;
+    private  WebDriverConfig webDriverConfig;
     private RegisterPage registerPage;
     private WebDriver driver;
 
     @BeforeEach
-    void setup() {
+    final void setup() {
         driver = webDriverConfig.setUpWebDriver(browser);
         driver.get(REGISTER_URL);
         registerPage = new RegisterPage(driver);
     }
 
     @Test
-    void checkIfReturnRedirectsToLoginPage() {
+    final void checkIfReturnRedirectsToLoginPage() {
         registerPage.clickReturn();
 
         assertEquals(LOGIN_URL, driver.getCurrentUrl(),
@@ -47,7 +47,7 @@ class RegisterPageSeleniumTests {
     }
 
     @Test
-    void shouldDisplayErrorMessages_whenClickedOnFields() {
+    final void shouldDisplayErrorMessages_whenClickedOnFields() {
         registerPage.getTxtName().click();
         registerPage.getTxtSurname().click();
         registerPage.getTxtEmail().click();
@@ -69,7 +69,7 @@ class RegisterPageSeleniumTests {
     }
 
     @Test
-    void shouldDisplayErrorMessages_whenGivenIncorrectInputs() {
+    final void shouldDisplayErrorMessages_whenGivenIncorrectInputs() {
         registerPage.getTxtEmail().sendKeys("abc");
         registerPage.getTxtPassword().sendKeys("abc");
         registerPage.getTxtRepeatPassword().sendKeys("abc");
@@ -85,7 +85,7 @@ class RegisterPageSeleniumTests {
     }
 
     @Test
-    void shouldStayOnSite_whenGivenIncorrectInputAndClickedRegister() {
+    final void shouldStayOnSite_whenGivenIncorrectInputAndClickedRegister() {
         registerPage.getTxtEmail().sendKeys("abc");
         registerPage.clickRegister();
 
@@ -94,7 +94,7 @@ class RegisterPageSeleniumTests {
     }
 
     @Test
-    void shouldRedirect_whenGivenCorrectInputAndClickedRegister() {
+    final void shouldRedirect_whenGivenCorrectInputAndClickedRegister() {
         registerPage.getTxtName().sendKeys("Jakub");
         registerPage.getTxtSurname().sendKeys("Wadzi");
         registerPage.getTxtEmail().sendKeys("016963@gmail.com");
@@ -110,7 +110,7 @@ class RegisterPageSeleniumTests {
     }
 
     @AfterEach
-    void tearDown() {
+    final void tearDown() {
         if (driver != null) {
             driver.quit();
         }

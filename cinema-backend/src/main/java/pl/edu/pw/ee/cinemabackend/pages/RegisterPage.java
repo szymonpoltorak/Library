@@ -44,11 +44,11 @@ public class RegisterPage {
     @FindBy(xpath = "/html/body/app-root/app-register/div/form/div[2]/app-password-field[2]/mat-form-field/div[2]/div/mat-error")
     private WebElement repeatPasswordErrorMsg;
 
-    public void clickReturn(){
+    public final void clickReturn(){
         lnkReturn.click();
     }
 
-    public void clickRegister(){
+    public final void clickRegister(){
         lnkRegister.click();
     }
 }

@@ -28,14 +28,14 @@ class LoginPageSeleniumTests {
     private WebDriver driver;
 
     @BeforeEach
-    void setup() {
+    final void setup() {
         driver = webDriverConfig.setUpWebDriver(browser);
         driver.get(LOGIN_URL);
         loginPage = new LoginPage(driver);
     }
 
     @Test
-    void whenOnMainPage_CheckIfTitleIsCorrect() {
+    final void whenOnMainPage_CheckIfTitleIsCorrect() {
         String pageTitle = driver.getTitle();
         String expected = "CinemaFrontend";
 
@@ -44,7 +44,7 @@ class LoginPageSeleniumTests {
     }
 
     @Test
-    void checkIfRedirectsToRegisterPage() {
+    final void checkIfRedirectsToRegisterPage() {
         loginPage.clickRegister();
 
         assertEquals(REGISTER_URL, driver.getCurrentUrl(),
@@ -52,7 +52,7 @@ class LoginPageSeleniumTests {
     }
 
     @Test
-    void shouldDisplayErrorMessages_whenClickedOnFields() {
+    final void shouldDisplayErrorMessages_whenClickedOnFields() {
         loginPage.getTxtEmail().click();
         loginPage.getTxtPassword().click();
         loginPage.getTxtEmail().click();
@@ -65,7 +65,7 @@ class LoginPageSeleniumTests {
     }
 
     @Test
-    void shouldDisplayErrorMessages_whenGivenIncorrectInputs() {
+    final void shouldDisplayErrorMessages_whenGivenIncorrectInputs() {
         loginPage.getTxtEmail().sendKeys("abc");
         loginPage.getTxtPassword().sendKeys("abc");
         loginPage.getTxtEmail().click();
@@ -78,7 +78,7 @@ class LoginPageSeleniumTests {
     }
 
     @Test
-    void shouldLogin_whenGivenCorrectCredentials() {
+    final void shouldLogin_whenGivenCorrectCredentials() {
         loginPage.getTxtEmail().sendKeys("01231234@gmail.com");
         loginPage.getTxtPassword().sendKeys("#Silnehaslo123");
         loginPage.clickLogin();
@@ -88,7 +88,7 @@ class LoginPageSeleniumTests {
     }
 
     @AfterEach
-    void tearDown() {
+    final void tearDown() {
         if (driver != null) {
             driver.quit();
         }
