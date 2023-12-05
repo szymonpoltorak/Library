@@ -21,10 +21,10 @@ public class LoginPage {
     @FindBy(xpath = "/html/body/app-root/app-login/div/form/app-password-field/mat-form-field/div[1]/div[2]/div/input")
     private WebElement txtPassword;
 
-    @FindBy(xpath = "/html/body/app-root/app-login/div/form/div/button[1]/span[2]")
+    @FindBy(xpath = "/html/body/app-root/app-login/div/form/div/button[1]")
     private WebElement lnkRegister;
 
-    @FindBy(xpath = "/html/body/app-root/app-login/div/form/div/button[2]/span[4]")
+    @FindBy(xpath = "/html/body/app-root/app-login/div/form/div/button[2]")
     private WebElement lnkLogin;
 
     @FindBy(xpath = "/html/body/app-root/app-login/div/form/app-email-field/mat-form-field/div[2]/div/mat-error")
