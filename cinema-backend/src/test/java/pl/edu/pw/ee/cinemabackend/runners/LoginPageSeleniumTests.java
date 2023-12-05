@@ -17,7 +17,9 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.*;
+import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.HOME_URL;
+import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.LOGIN_URL;
+import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.REGISTER_URL;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:selenium-config.yml")
