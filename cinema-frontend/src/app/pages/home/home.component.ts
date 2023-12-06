@@ -1,19 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  private breakpointObserver = inject(BreakpointObserver);
+export class HomeComponent{
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-      .pipe(
-          map(result => result.matches),
-          shareReplay()
-      );
+
+
+
+
 }

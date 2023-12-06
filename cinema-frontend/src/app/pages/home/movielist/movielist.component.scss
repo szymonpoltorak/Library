@@ -1,0 +1,32 @@
+.table {
+  width: auto;
+}
+
+.demo-inline-calendar-card {
+  width: 300px;
+  margin-left: 100px;
+}
+
+.movies-container {
+  display: flex;
+  flex-direction: row;
+  width: min-content;
+}
+
+.mat-column-id {
+  width: 1cm;
+}
+
+.mat-column-title {
+  word-wrap: break-word !important;
+  width: 10%;
+}
+
+.mat-column-description {
+  word-wrap: break-word !important;
+  width: 20%;
+}
+
+.mat-column-duration {
+  width: 1cm;
+}
