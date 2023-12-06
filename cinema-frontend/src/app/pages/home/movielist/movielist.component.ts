@@ -6,6 +6,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {map} from "rxjs";
 import {MatNativeDateModule} from "@angular/material/core";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-movielist',
@@ -19,6 +20,8 @@ export class MovielistComponent implements OnInit {
   screeningService = inject(ScreeningService);
 
   selected : Date = new Date();
+  
+  constructor(private router: Router) { }
 
   movies: Movie[] = [];
   displayedColumns: string[] = ['id', 'title', 'duration', 'minimalAge'];
@@ -37,5 +40,9 @@ export class MovielistComponent implements OnInit {
     this.screeningService.getScreeningsForGivenDate(this.selected).pipe(
         map(screenings => screenings.map(screening => screening.movie))
     ).subscribe(movies => this.movies = movies);
+  }
+
+  showMovieDetails(movieId: number) {
+    this.router.navigate(['/home/movie_details'], { queryParams: { id: movieId } });
   }
 }

@@ -3,16 +3,20 @@ import { Movie } from '@core/data/home/movie';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { MovieDetailsService } from '@core/services/movie_details/movie-details.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Screening } from '@core/data/home/screening';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
     selector: 'app-movie-details',
     templateUrl: './movie-details.component.html',
     styleUrls: ['./movie-details.component.scss'],
     standalone: true,
-    imports: [MatProgressSpinnerModule, CommonModule, MatButtonModule]
+    imports: [MatProgressSpinnerModule, CommonModule, MatButtonModule, MatCardModule,MatTableModule, MatCardModule, MatDatepickerModule, MatNativeDateModule]
 })
 export class MovieDetailsComponent {
 
@@ -24,6 +28,7 @@ export class MovieDetailsComponent {
     constructor(
         protected readonly movieDetailsService: MovieDetailsService,
         protected readonly route: ActivatedRoute,
+        protected readonly router: Router,
     ) { }
 
     ngOnInit() {
@@ -66,6 +71,7 @@ export class MovieDetailsComponent {
     }
   
     protected return() {
+        this.router.navigate(['/home/movies']);
     }
 
 }
