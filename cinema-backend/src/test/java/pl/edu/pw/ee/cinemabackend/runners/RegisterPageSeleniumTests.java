@@ -27,7 +27,7 @@ class RegisterPageSeleniumTests {
     @Value("${browser}")
     private String browser;
     @Autowired
-    private  WebDriverConfig webDriverConfig;
+    private WebDriverConfig webDriverConfig;
     private RegisterPage registerPage;
     private WebDriver driver;
 
