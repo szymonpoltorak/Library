@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
 
                 this.utilService.addValueToStorage(StorageKeys.USERNAME, username);
                 this.utilService.navigate(RouterPaths.HOME_LOGIN_PATH);
+                this.loginForm.reset();
             });
     }
 
