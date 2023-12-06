@@ -32,9 +32,6 @@ export class LoginComponent implements OnInit {
     }
 
     submitForm(): void {
-        if (this.loginForm.invalid) {
-            return;
-        }
         const request: LoginRequest = this.buildLoginRequest();
 
         this.authService.loginUser(request)
