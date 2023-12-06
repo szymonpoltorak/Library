@@ -1,4 +1,4 @@
-package pl.edu.pw.ee.cinemabackend.runners;
+package pl.edu.pw.ee.cinemabackend.selenium;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

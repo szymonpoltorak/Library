@@ -9,8 +9,6 @@ import org.openqa.selenium.support.PageFactory;
 @Getter
 public class RegisterPage {
 
-    public static final String URL = "http://localhost:4200/auth/register:4200/";
-
     private WebDriver webDriver;
 
     public RegisterPage(WebDriver webDriver){
