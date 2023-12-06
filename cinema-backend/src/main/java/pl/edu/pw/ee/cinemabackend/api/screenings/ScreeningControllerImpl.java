@@ -19,10 +19,7 @@ import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import java.time.LocalDate;
 import java.util.List;
 
-import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.API_SCREENINGS_MAPPING;
-import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.CREATE_SCREENING_MAPPING;
-import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.GET_SCREENINGS_FOR_DAY_MAPPING;
-import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.GET_SCREENING_DETAILS_MAPPING;
+import static pl.edu.pw.ee.cinemabackend.api.screenings.costants.ScreeningMappings.*;
 
 
 @RestController
@@ -42,6 +39,12 @@ public class ScreeningControllerImpl implements ScreeningController {
     @GetMapping(value = GET_SCREENING_DETAILS_MAPPING)
     public final ScreeningResponse getScreeningDetails(@RequestParam long screeningId) {
         return screeningService.getScreeningDetails(screeningId);
+    }
+
+    @Override
+    @GetMapping(value = GET_SCREENINGS_FOR_MOVIE)
+    public final List<ScreeningResponse> getScreeningsForMovie(@RequestParam long movieId) {
+        return screeningService.getScreeningsForMovie(movieId);
     }
 
     @Override

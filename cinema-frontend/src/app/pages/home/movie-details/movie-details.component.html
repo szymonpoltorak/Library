@@ -1,0 +1,46 @@
+<div class="grid-container">
+
+    <div class="full-width-column">
+
+        <div class="movie-container">
+            <div *ngIf="movie != undefined; then MOVIE; else MOVIE_LOADING_SPINNER"></div>
+
+            <ng-template #MOVIE>
+                <h1 class="movie-title">{{ movie!.title }}</h1>
+                <div class="movie-details">
+                    <span class="movie-info">Od {{ movie!.minimalAge }} lat</span>
+                    <span class="movie-info">Długość: {{ movie!.timeDuration }}</span>
+                </div>
+                <span class="movie-info">Opis</span>
+                <p class="movie-description">{{ movie!.description }}</p>
+            </ng-template>
+
+            <ng-template #MOVIE_LOADING_SPINNER>
+                <mat-spinner class="center-spinner"></mat-spinner>
+            </ng-template>
+
+            <button mat-raised-button color="basic" (click)="return()">Return</button>
+        </div>
+    </div>
+
+    <div class="fixed-width-column">
+
+        <div *ngIf="screenings != undefined; then SCREENINGS; else SCREENINGS_LOADING_SPINNER"></div>
+
+        <ng-template #SCREENINGS>
+            <div *ngFor="let screening of screenings">
+                <div class="screening-card">
+                    <h1 class="screening-title">{{ screening.movie.title }}</h1>
+                    <p class="screening-info">{{ screening.dayOfScreening | date: 'mediumDate' }}</p>
+                    <p class="screening-info">{{ formatTime(screening.hourOfScreening)}}</p>
+                </div>
+            </div>
+
+        </ng-template>
+
+        <ng-template #SCREENINGS_LOADING_SPINNER>
+            <mat-spinner class="center-spinner"></mat-spinner>
+        </ng-template>
+    </div>
+
+</div>
