@@ -1,41 +1,77 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
 import {ScreeningService} from "@services/home/screening.service";
 import {Movie} from "@data/home/movie";
-import {MatTableModule} from "@angular/material/table";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatCardModule} from "@angular/material/card";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {map} from "rxjs";
 import {MatNativeDateModule} from "@angular/material/core";
+import {NgIf} from "@angular/common";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import {BehaviorSubject, map} from "rxjs";
 
 @Component({
   selector: 'app-movielist',
   templateUrl: './movielist.component.html',
   styleUrls: ['./movielist.component.scss'],
   standalone: true,
-  imports: [MatTableModule, MatCardModule, MatDatepickerModule, MatNativeDateModule],
+    imports: [
+        MatTableModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        NgIf,
+        MatPaginatorModule],
 })
-export class MovielistComponent implements OnInit {
+export class MovielistComponent implements OnInit, AfterViewInit{
 
   screeningService = inject(ScreeningService);
 
   selected : Date = new Date();
 
   movies: Movie[] = [];
-  displayedColumns: string[] = ['id', 'title', 'duration', 'minimalAge'];
+  dataSource = new MatTableDataSource<Movie>();
+
+  displayedColumns: string[] = ['id', 'title', 'duration', 'description', 'minimalAge'];
+  moviesSubject = new BehaviorSubject<Movie[]>([]);
+
+  @ViewChild(MatPaginator) paginator !: MatPaginator;
 
 
   ngOnInit(): void {
-    console.log("Current date: " + this.selected);
-    this.screeningService.getScreeningsForGivenDate(this.selected).pipe(
-        map(screenings => screenings.map(screening => screening.movie))
-    ).subscribe(movies => this.movies = movies);
+      this.getMovies();
+      this.moviesSubject.subscribe(movies => {
+         this.movies = movies;
+         this.dataSource.data = movies;
+      });
   }
 
-  dateChanged() {
+  ngAfterViewInit() {
+      this.moviesSubject.subscribe(movies => {
+          this.dataSource.paginator = this.paginator;
+      })
+  }
+
+    dateChanged() {
     this.selected.setHours(10, 0);
-    console.log("Date changed: " + this.selected);
-    this.screeningService.getScreeningsForGivenDate(this.selected).pipe(
-        map(screenings => screenings.map(screening => screening.movie))
-    ).subscribe(movies => this.movies = movies);
+    this.getMovies();
+  }
+
+  private getMovies() {
+      this.screeningService.getScreeningsForGivenDate(this.selected).pipe(
+          map(screenings => screenings.map(screening => screening.movie)),
+          map(movies => {
+              const uniques = new Set<number>;
+              return movies.filter(movie => {
+                      if (uniques.has(movie.movieId)) {
+                          return false;
+                      }
+                      uniques.add(movie.movieId);
+                      return true;
+                  }
+              )
+          })
+        ).subscribe(movies => {
+            this.moviesSubject.next(movies);
+      });
   }
 }
