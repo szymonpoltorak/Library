@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+#JMH trash:
+src/test/generated_tests/
+jmh_wyniki.json

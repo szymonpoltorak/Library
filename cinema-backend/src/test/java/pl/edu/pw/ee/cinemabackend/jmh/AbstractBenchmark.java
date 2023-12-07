@@ -26,7 +26,7 @@ abstract public class AbstractBenchmark {
                 .shouldDoGC(true)
                 .shouldFailOnError(true)
                 .resultFormat(ResultFormatType.JSON)
-                .result("winiki.txt") // set this to a valid filename if you want reports
+                .result("jmh_wyniki.json") // set this to a valid filename if you want reports
                 .shouldFailOnError(true)
                 .jvmArgs("-server")
                 .build();
