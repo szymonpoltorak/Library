@@ -9,8 +9,13 @@
 .movie-table {
   max-width: 60%;
   min-width: 60%;
-  margin-top: 5%;
+  min-height: 100%;
   align-items: center;
+}
+
+.guwno {
+  min-height: 50em;
+  max-height: 50em;
 }
 
 .no-movies {
@@ -21,10 +26,10 @@
 .container {
   display: flex;
   flex-direction: row;
-  width: 80%;
   max-height: 80%;
   min-height: 80%;
-  margin-left: 5%;
+  justify-content: center;
+  align-items: center;
 }
 
 .calendar {
@@ -33,7 +38,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
 }
 
 
