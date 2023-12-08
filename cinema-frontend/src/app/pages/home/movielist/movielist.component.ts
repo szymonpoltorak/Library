@@ -1,13 +1,14 @@
 import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
 import {ScreeningService} from "@services/home/screening.service";
 import {Movie} from "@data/home/movie";
-import {MatTableDataSource, MatTableModule} from "@angular/material/table";
+import {MatRow, MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatCardModule} from "@angular/material/card";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {BehaviorSubject, map} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-movielist',
@@ -27,6 +28,8 @@ export class MovielistComponent implements OnInit, AfterViewInit{
   screeningService = inject(ScreeningService);
 
   selected : Date = new Date();
+
+  router = inject(Router);
 
   movies: Movie[] = [];
   dataSource = new MatTableDataSource<Movie>();
@@ -48,6 +51,7 @@ export class MovielistComponent implements OnInit, AfterViewInit{
   ngAfterViewInit() {
       this.moviesSubject.subscribe(movies => {
           this.dataSource.paginator = this.paginator;
+          this.paginator.showFirstLastButtons=true;
       })
   }
 
@@ -73,5 +77,9 @@ export class MovielistComponent implements OnInit, AfterViewInit{
         ).subscribe(movies => {
             this.moviesSubject.next(movies);
       });
+  }
+
+    rowClicked(row: Movie) {
+      this.router.navigate(['/home/movie-details', {id: row.movieId}]);
   }
 }
