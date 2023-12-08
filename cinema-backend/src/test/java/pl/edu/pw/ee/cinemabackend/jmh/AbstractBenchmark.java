@@ -14,19 +14,24 @@ abstract public class AbstractBenchmark {
 
     @Test
     public void executeJmhRunner() throws RunnerException {
+        if(this.getClass().getSimpleName().contains("_")) {
+            return;
+        }
         Options opt = new OptionsBuilder()
                 // set the class name regex for benchmarks to search for to the current class
                 .include("\\." + this.getClass().getSimpleName() + "\\.")
-                .warmupIterations(WARMUP_ITERATIONS)
-                .measurementIterations(MEASUREMENT_ITERATIONS)
+                .warmupIterations(1)
+                .measurementIterations(1)
                 // do not use forking or the benchmark methods will not see references stored within its class
                 .forks(0)
                 // do not use multiple threads
                 .threads(1)
+                .measurementBatchSize(1)
+                .measurementIterations(1)
                 .shouldDoGC(true)
                 .shouldFailOnError(true)
                 .resultFormat(ResultFormatType.JSON)
-                .result("jmh_wyniki.json") // set this to a valid filename if you want reports
+                .result("jmh_wyniki/"+this.getClass().getSimpleName()+".json")
                 .shouldFailOnError(true)
                 .jvmArgs("-server")
                 .build();

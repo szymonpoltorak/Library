@@ -39,3 +39,4 @@ out/
 #JMH trash:
 src/test/generated_tests/
 jmh_wyniki.json
+jmh_wyniki/
