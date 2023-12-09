@@ -29,7 +29,7 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark{
     private static MovieRepository movieRepository;
 
     @Autowired
-    void setDslContext(ScreeningRepository screeningRepository,ScreeningService screeningService,MovieRepository movieRepository) {
+    void setContext(ScreeningRepository screeningRepository,ScreeningService screeningService,MovieRepository movieRepository) {
         BenchmarkScreeningRunner.screeningService = screeningService;
         BenchmarkScreeningRunner.screeningRepository = screeningRepository;
         BenchmarkScreeningRunner.movieRepository = movieRepository;
@@ -42,7 +42,7 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark{
 
 
     @Setup(Level.Trial)
-    public void setupScreeningBenchmark() {
+    public void setupBenchmark() {
 
         admin = User.builder()
                 .name("Jakub")

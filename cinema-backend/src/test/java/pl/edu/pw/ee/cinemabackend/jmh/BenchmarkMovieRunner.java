@@ -22,7 +22,7 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
     private static MovieRepository movieRepository;
 
     @Autowired
-    void setDslContext(MovieService movieService,MovieRepository movieRepository) {
+    void setContext(MovieService movieService,MovieRepository movieRepository) {
         BenchmarkMovieRunner.movieService = movieService;
         BenchmarkMovieRunner.movieRepository = movieRepository;
     }
@@ -34,7 +34,7 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
 
 
     @Setup(Level.Trial)
-    public void setupMovieBenchmark() {
+    public void setupBenchmark() {
         movieRequest = MovieRequest.builder()
                 .title("title")
                 .description("bench")
@@ -64,6 +64,7 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
         this.id = 1L;
 
     }
+
 
     @Benchmark
     public void createMovieBenchmark() {
