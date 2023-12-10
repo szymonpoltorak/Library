@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {HomeModule} from "@pages/home/home.module";
 import {AuthInterceptor} from "@core/interceptors/auth.interceptor";
+import { MovieDetailsComponent } from './pages/home/movie-details/movie-details.component';
 
 @NgModule({
     declarations: [

@@ -80,6 +80,10 @@ export class MovielistComponent implements OnInit, AfterViewInit{
   }
 
     rowClicked(row: Movie) {
-      this.router.navigate(['/home/movie-details', {id: row.movieId}]);
+        this.showMovieDetails(row.movieId);
+  }
+
+  showMovieDetails(movieId: number) {
+    this.router.navigate(['/home/movie_details'], { queryParams: { id: movieId } });
   }
 }

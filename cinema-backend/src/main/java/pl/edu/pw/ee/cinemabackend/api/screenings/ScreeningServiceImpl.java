@@ -48,6 +48,14 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
+    public List<ScreeningResponse> getScreeningsForMovie(long movieId) {
+        return screeningRepository.findAll().stream()
+                .filter(s -> s.getMovie().getMovieId() == movieId)
+                .map(screeningMapper::mapToScreeningResponse)
+                .toList();
+    }
+
+    @Override
     public final ScreeningResponse getScreeningDetails(long screeningId) {
         log.info("Finding screening with id: {}", screeningId);
 
