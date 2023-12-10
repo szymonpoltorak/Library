@@ -35,7 +35,7 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark {
     private User user;
 
     @Autowired
-    final void setContext(AuthService authService, JwtService jwtService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+    public final void setContext(AuthService authService, JwtService jwtService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkJwtServiceRunner.authService = authService;
         BenchmarkJwtServiceRunner.userRepository = userRepository;
         BenchmarkJwtServiceRunner.tokenRepository = tokenRepository;
@@ -44,7 +44,7 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Trial)
-    final public void setBenchmarkTrial() {
+    public final void setBenchmarkTrial() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -69,7 +69,7 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Invocation)
-    final public void setupBenchmark() {
+    public final void setupBenchmark() {
         userRepository.saveAndFlush(admin);
 
         authResponse = authService.login(loginRequest);
@@ -80,28 +80,28 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark {
     }
 
     @TearDown(Level.Invocation)
-    final public void clear() {
+    public final void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Benchmark
-    final public void generateTokenBenchmark() {
+    public final void generateTokenBenchmark() {
         jwtService.generateToken(user);
     }
 
     @Benchmark
-    final public void generateRefreshTokenBenchmark() {
+    public final void generateRefreshTokenBenchmark() {
         jwtService.generateRefreshToken(user);
     }
 
     @Benchmark
-    final public void getUsernameFromTokenBenchmark() {
+    public final void getUsernameFromTokenBenchmark() {
         jwtService.getUsernameFromToken(tokenRequest.authToken());
     }
 
     @Benchmark
-    final public void isTokenValidBenchmark() {
+    public final void isTokenValidBenchmark() {
         jwtService.isTokenValid(tokenRequest.authToken(), admin);
     }
 

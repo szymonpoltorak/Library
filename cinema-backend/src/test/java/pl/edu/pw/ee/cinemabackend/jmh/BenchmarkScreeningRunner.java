@@ -31,14 +31,14 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark {
     private long id;
 
     @Autowired
-    final public void setContext(ScreeningRepository screeningRepository, ScreeningService screeningService, MovieRepository movieRepository) {
+    public final void setContext(ScreeningRepository screeningRepository, ScreeningService screeningService, MovieRepository movieRepository) {
         BenchmarkScreeningRunner.screeningService = screeningService;
         BenchmarkScreeningRunner.screeningRepository = screeningRepository;
         BenchmarkScreeningRunner.movieRepository = movieRepository;
     }
 
     @Setup(Level.Trial)
-    final public void setupBenchmark() {
+    public final void setupBenchmark() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -77,17 +77,17 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark {
     }
 
     @Benchmark
-    final public void createScreeningBenchmark() {
+    public final void createScreeningBenchmark() {
         screeningService.createScreening(screeningRequest, admin);
     }
 
     @Benchmark
-    final public void getScreeningDetailsBenchmark() {
+    public final void getScreeningDetailsBenchmark() {
         screeningService.getScreeningDetails(this.id);
     }
 
     @Benchmark
-    final public void getScreeningsForGivenDayBenchmark() {
+    public final void getScreeningsForGivenDayBenchmark() {
         screeningService.getScreeningsForGivenDay(LocalDate.now());
     }
 

@@ -32,7 +32,7 @@ public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark {
     private User admin;
 
     @Autowired
-    final public void setContext(AuthService authService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+    public final void setContext(AuthService authService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkAuthValidateTokenRunner.authService = authService;
         BenchmarkAuthValidateTokenRunner.userRepository = userRepository;
         BenchmarkAuthValidateTokenRunner.tokenRepository = tokenRepository;
@@ -40,7 +40,7 @@ public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Trial)
-    final public void setBenchmarkTrial() {
+    public final void setBenchmarkTrial() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -58,7 +58,7 @@ public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Invocation)
-    final public void setupBenchmark() {
+    public final void setupBenchmark() {
         userRepository.saveAndFlush(admin);
 
         authResponse = authService.login(loginRequest);
@@ -69,14 +69,13 @@ public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark {
     }
 
     @TearDown(Level.Invocation)
-    final public void clear() {
+    public final void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Benchmark
-    final public void validateUsersTokensBenchmark() {
-
+    public final void validateUsersTokensBenchmark() {
         authService.validateUsersTokens(tokenRequest);
     }
 

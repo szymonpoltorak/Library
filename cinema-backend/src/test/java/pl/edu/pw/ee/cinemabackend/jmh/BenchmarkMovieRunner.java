@@ -24,13 +24,13 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
     private long id;
 
     @Autowired
-    final public void setContext(MovieService movieService, MovieRepository movieRepository) {
+    public final void setContext(MovieService movieService, MovieRepository movieRepository) {
         BenchmarkMovieRunner.movieService = movieService;
         BenchmarkMovieRunner.movieRepository = movieRepository;
     }
 
     @Setup(Level.Trial)
-    final public void setupBenchmark() {
+    public final void setupBenchmark() {
         movieRequest = MovieRequest.builder()
                 .title("title")
                 .description("bench")
@@ -62,22 +62,22 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
     }
 
     @Benchmark
-    final public void createMovieBenchmark() {
+    public final void createMovieBenchmark() {
         movieService.createMovie(movieRequest, admin);
     }
 
     @Benchmark
-    final public void getListOfMoviesOnPageBenchmark() {
+    public final void getListOfMoviesOnPageBenchmark() {
         movieService.getListOfMoviesOnPage(1);
     }
 
     @Benchmark
-    final public void getMovieDetailsBenchmark() {
+    public final void getMovieDetailsBenchmark() {
         movieService.getMovieDetails(id);
     }
 
     @Benchmark
-    final public void updateMovieBenchmark() {
+    public final void updateMovieBenchmark() {
         movieService.updateMovie(movieRequest, id, admin);
     }
 

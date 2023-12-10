@@ -30,7 +30,7 @@ public class BenchmarkTokenRunner extends AbstractBenchmark {
     private String generatedToken;
 
     @Autowired
-    final void setContext(JwtService jwtService, TokenManagerService tokenManagerService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+    public final void setContext(JwtService jwtService, TokenManagerService tokenManagerService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkTokenRunner.userRepository = userRepository;
         BenchmarkTokenRunner.tokenRepository = tokenRepository;
         BenchmarkTokenRunner.passwordEncoder = passwordEncoder;
@@ -39,7 +39,7 @@ public class BenchmarkTokenRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Trial)
-    final public void setBenchmark() {
+    public final void setBenchmark() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -56,23 +56,23 @@ public class BenchmarkTokenRunner extends AbstractBenchmark {
     }
 
     @TearDown(Level.Invocation)
-    final public void clear() {
+    public final void clear() {
         tokenRepository.deleteAll();
     }
 
     @TearDown(Level.Trial)
-    final public void clearusers() {
+    public final void clearusers() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Benchmark
-    final public void saveUsersTokenBenchmark() {
+    public final void saveUsersTokenBenchmark() {
         tokenManagerService.saveUsersToken(generatedToken, LOGMAIL);
     }
 
     @Benchmark
-    final public void saveUsersTokenUserBenchmark() {
+    public final void saveUsersTokenUserBenchmark() {
         tokenManagerService.saveUsersToken(generatedToken, user);
     }
 

@@ -33,7 +33,7 @@ public class BenchmarkTokenManagerRunner extends AbstractBenchmark {
     private User user;
 
     @Autowired
-    final void setContext(AuthService authService, TokenManagerService tokenManagerService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+    public final void setContext(AuthService authService, TokenManagerService tokenManagerService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkTokenManagerRunner.authService = authService;
         BenchmarkTokenManagerRunner.userRepository = userRepository;
         BenchmarkTokenManagerRunner.tokenRepository = tokenRepository;
@@ -42,7 +42,7 @@ public class BenchmarkTokenManagerRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Trial)
-    final public void setBenchmark() {
+    public final void setBenchmark() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -69,23 +69,23 @@ public class BenchmarkTokenManagerRunner extends AbstractBenchmark {
     }
 
     @TearDown(Level.Trial)
-    final public void clear() {
+    public final void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Benchmark
-    final public void revokeUserTokensUserBenchmark() {
+    public final void revokeUserTokensUserBenchmark() {
         tokenManagerService.revokeUserTokens(user);
     }
 
     @Benchmark
-    final public void revokeUserTokensUserNameBenchmark() {
+    public final void revokeUserTokensUserNameBenchmark() {
         tokenManagerService.revokeUserTokens(LOGMAIL);
     }
 
     @Benchmark
-    final public void buildTokensIntoResponseenchmark() {
+    public final void buildTokensIntoResponseenchmark() {
         tokenManagerService.buildTokensIntoResponse(authResponse.authToken(), authResponse.refreshToken());
     }
 
