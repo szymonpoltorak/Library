@@ -19,31 +19,28 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark{
+public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark {
     private static AuthService authService;
     private static UserRepository userRepository;
     private static TokenRepository tokenRepository;
     private static final String LOGMAIL = "logusername@mail.com";
     private static final String PASSWORD = "kicia.?312312312As";
     private static PasswordEncoder passwordEncoder;
+    private LoginRequest loginRequest;
+    private AuthResponse authResponse;
+    private TokenRequest tokenRequest;
+    private User admin;
 
     @Autowired
-    void setContext(AuthService authService,UserRepository userRepository,TokenRepository tokenRepository,PasswordEncoder passwordEncoder) {
+    final public void setContext(AuthService authService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkAuthValidateTokenRunner.authService = authService;
         BenchmarkAuthValidateTokenRunner.userRepository = userRepository;
         BenchmarkAuthValidateTokenRunner.tokenRepository = tokenRepository;
         BenchmarkAuthValidateTokenRunner.passwordEncoder = passwordEncoder;
     }
 
-    private LoginRequest loginRequest;
-    private AuthResponse authResponse;
-    private TokenRequest tokenRequest;
-    private User admin;
-
-
-
     @Setup(Level.Trial)
-    public void setBenchmarkTrial(){
+    final public void setBenchmarkTrial() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -61,7 +58,7 @@ public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark{
     }
 
     @Setup(Level.Invocation)
-    public void setupBenchmark() {
+    final public void setupBenchmark() {
         userRepository.saveAndFlush(admin);
 
         authResponse = authService.login(loginRequest);
@@ -70,17 +67,17 @@ public class BenchmarkAuthValidateTokenRunner extends AbstractBenchmark{
                 .authToken(authResponse.authToken())
                 .build();
     }
+
     @TearDown(Level.Invocation)
-    public void clear(){
+    final public void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
-
-
     @Benchmark
-    public void validateUsersTokensBenchmark() {
+    final public void validateUsersTokensBenchmark() {
 
         authService.validateUsersTokens(tokenRequest);
     }
+
 }

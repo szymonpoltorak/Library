@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
-import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
 import pl.edu.pw.ee.cinemabackend.api.screenings.data.ScreeningRequest;
 import pl.edu.pw.ee.cinemabackend.api.screenings.interfaces.ScreeningService;
 import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
@@ -13,7 +12,6 @@ import pl.edu.pw.ee.cinemabackend.entities.screening.Screening;
 import pl.edu.pw.ee.cinemabackend.entities.screening.interfaces.ScreeningRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
-import pl.edu.pw.ee.cinemabackend.utils.TestDataBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,26 +21,24 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class BenchmarkScreeningRunner extends AbstractBenchmark{
+public class BenchmarkScreeningRunner extends AbstractBenchmark {
     private static ScreeningService screeningService;
     private static ScreeningRepository screeningRepository;
     private static MovieRepository movieRepository;
-
-    @Autowired
-    void setContext(ScreeningRepository screeningRepository,ScreeningService screeningService,MovieRepository movieRepository) {
-        BenchmarkScreeningRunner.screeningService = screeningService;
-        BenchmarkScreeningRunner.screeningRepository = screeningRepository;
-        BenchmarkScreeningRunner.movieRepository = movieRepository;
-    }
-
     private MovieRequest movieRequest;
     private ScreeningRequest screeningRequest;
     private User admin;
     private long id;
 
+    @Autowired
+    final public void setContext(ScreeningRepository screeningRepository, ScreeningService screeningService, MovieRepository movieRepository) {
+        BenchmarkScreeningRunner.screeningService = screeningService;
+        BenchmarkScreeningRunner.screeningRepository = screeningRepository;
+        BenchmarkScreeningRunner.movieRepository = movieRepository;
+    }
 
     @Setup(Level.Trial)
-    public void setupBenchmark() {
+    final public void setupBenchmark() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -52,7 +48,7 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark{
                 .userRole(UserRole.ADMIN)
                 .build();
 
-        if(movieRepository.findById(1L).isEmpty()) {
+        if (movieRepository.findById(1L).isEmpty()) {
             Movie movie = Movie.builder()
                     .movieId(1L)
                     .title("title")
@@ -68,7 +64,7 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark{
                 .dayOfScreening(LocalDate.now())
                 .hourOfScreening(LocalTime.now())
                 .build();
-        if(screeningRepository.findById(1L).isEmpty()){
+        if (screeningRepository.findById(1L).isEmpty()) {
             Screening screening = Screening.builder()
                     .screeningId(1L)
                     .dayOfScreening(LocalDate.now())
@@ -78,22 +74,21 @@ public class BenchmarkScreeningRunner extends AbstractBenchmark{
         }
         this.id = 1L;
 
-
     }
 
     @Benchmark
-    public void createScreeningBenchmark() {
-        screeningService.createScreening(screeningRequest,admin);
+    final public void createScreeningBenchmark() {
+        screeningService.createScreening(screeningRequest, admin);
     }
 
     @Benchmark
-    public void getScreeningDetailsBenchmark() {
+    final public void getScreeningDetailsBenchmark() {
         screeningService.getScreeningDetails(this.id);
     }
+
     @Benchmark
-    public void getScreeningsForGivenDayBenchmark() {
+    final public void getScreeningsForGivenDayBenchmark() {
         screeningService.getScreeningsForGivenDay(LocalDate.now());
     }
-
 
 }

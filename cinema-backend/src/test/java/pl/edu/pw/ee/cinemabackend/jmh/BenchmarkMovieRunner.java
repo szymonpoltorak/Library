@@ -9,7 +9,6 @@ import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
 import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
-import pl.edu.pw.ee.cinemabackend.utils.TestDataBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,21 +19,18 @@ import java.util.concurrent.TimeUnit;
 public class BenchmarkMovieRunner extends AbstractBenchmark {
     private static MovieService movieService;
     private static MovieRepository movieRepository;
+    private MovieRequest movieRequest;
+    private User admin;
+    private long id;
 
     @Autowired
-    void setContext(MovieService movieService,MovieRepository movieRepository) {
+    final public void setContext(MovieService movieService, MovieRepository movieRepository) {
         BenchmarkMovieRunner.movieService = movieService;
         BenchmarkMovieRunner.movieRepository = movieRepository;
     }
 
-    private MovieRequest movieRequest;
-    private User admin;
-
-    private long id;
-
-
     @Setup(Level.Trial)
-    public void setupBenchmark() {
+    final public void setupBenchmark() {
         movieRequest = MovieRequest.builder()
                 .title("title")
                 .description("bench")
@@ -50,7 +46,7 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
                 .userRole(UserRole.ADMIN)
                 .build();
 
-        if(movieRepository.findById(1L).isEmpty()) {
+        if (movieRepository.findById(1L).isEmpty()) {
             Movie movie = Movie.builder()
                     .movieId(1L)
                     .title("title")
@@ -65,26 +61,24 @@ public class BenchmarkMovieRunner extends AbstractBenchmark {
 
     }
 
-
     @Benchmark
-    public void createMovieBenchmark() {
+    final public void createMovieBenchmark() {
         movieService.createMovie(movieRequest, admin);
     }
 
     @Benchmark
-    public void getListOfMoviesOnPageBenchmark() {
+    final public void getListOfMoviesOnPageBenchmark() {
         movieService.getListOfMoviesOnPage(1);
     }
 
     @Benchmark
-    public void getMovieDetailsBenchmark() {
+    final public void getMovieDetailsBenchmark() {
         movieService.getMovieDetails(id);
     }
+
     @Benchmark
-    public void updateMovieBenchmark() {
-        movieService.updateMovie(movieRequest,id,admin);
+    final public void updateMovieBenchmark() {
+        movieService.updateMovie(movieRequest, id, admin);
     }
-
-
 
 }

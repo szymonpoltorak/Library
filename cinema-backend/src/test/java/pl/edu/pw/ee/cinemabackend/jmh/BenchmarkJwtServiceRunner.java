@@ -1,11 +1,8 @@
 package pl.edu.pw.ee.cinemabackend.jmh;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
@@ -23,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class BenchmarkJwtServiceRunner extends AbstractBenchmark{
+public class BenchmarkJwtServiceRunner extends AbstractBenchmark {
     private static AuthService authService;
     private static UserRepository userRepository;
     private static TokenRepository tokenRepository;
@@ -31,28 +28,23 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark{
     private static final String LOGMAIL = "logusername@mail.com";
     private static final String PASSWORD = "kicia.?312312312As";
     private static PasswordEncoder passwordEncoder;
-
-    @Autowired
-    void setContext(AuthService authService,JwtService jwtService, UserRepository userRepository,TokenRepository tokenRepository,PasswordEncoder passwordEncoder) {
-        BenchmarkJwtServiceRunner.authService = authService;
-        BenchmarkJwtServiceRunner.userRepository = userRepository;
-        BenchmarkJwtServiceRunner.tokenRepository = tokenRepository;
-        BenchmarkJwtServiceRunner.passwordEncoder = passwordEncoder;
-        BenchmarkJwtServiceRunner.jwtService =jwtService;
-    }
-
     private LoginRequest loginRequest;
     private AuthResponse authResponse;
     private TokenRequest tokenRequest;
     private User admin;
     private User user;
-    
-    private UserDetails userDetails;
 
-
+    @Autowired
+    final void setContext(AuthService authService, JwtService jwtService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+        BenchmarkJwtServiceRunner.authService = authService;
+        BenchmarkJwtServiceRunner.userRepository = userRepository;
+        BenchmarkJwtServiceRunner.tokenRepository = tokenRepository;
+        BenchmarkJwtServiceRunner.passwordEncoder = passwordEncoder;
+        BenchmarkJwtServiceRunner.jwtService = jwtService;
+    }
 
     @Setup(Level.Trial)
-    public void setBenchmarkTrial(){
+    final public void setBenchmarkTrial() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -77,7 +69,7 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark{
     }
 
     @Setup(Level.Invocation)
-    public void setupBenchmark() {
+    final public void setupBenchmark() {
         userRepository.saveAndFlush(admin);
 
         authResponse = authService.login(loginRequest);
@@ -86,32 +78,31 @@ public class BenchmarkJwtServiceRunner extends AbstractBenchmark{
                 .authToken(authResponse.authToken())
                 .build();
     }
+
     @TearDown(Level.Invocation)
-    public void clear(){
+    final public void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
-
-
     @Benchmark
-    public void generateTokenBenchmark() {
+    final public void generateTokenBenchmark() {
         jwtService.generateToken(user);
     }
+
     @Benchmark
-    public void generateRefreshTokenBenchmark() {
+    final public void generateRefreshTokenBenchmark() {
         jwtService.generateRefreshToken(user);
     }
 
-
     @Benchmark
-    public void getUsernameFromTokenBenchmark() {
+    final public void getUsernameFromTokenBenchmark() {
         jwtService.getUsernameFromToken(tokenRequest.authToken());
     }
 
     @Benchmark
-    public void isTokenValidBenchmark() {
-        jwtService.isTokenValid(tokenRequest.authToken(),admin);
+    final public void isTokenValidBenchmark() {
+        jwtService.isTokenValid(tokenRequest.authToken(), admin);
     }
 
 }

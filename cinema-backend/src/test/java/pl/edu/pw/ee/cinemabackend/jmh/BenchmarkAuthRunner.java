@@ -1,19 +1,12 @@
 package pl.edu.pw.ee.cinemabackend.jmh;
 
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenRequest;
 import pl.edu.pw.ee.cinemabackend.api.auth.interfaces.AuthService;
-import pl.edu.pw.ee.cinemabackend.api.movies.data.MovieRequest;
-import pl.edu.pw.ee.cinemabackend.api.movies.interfaces.MovieService;
-import pl.edu.pw.ee.cinemabackend.entities.movie.Movie;
-import pl.edu.pw.ee.cinemabackend.entities.movie.interfaces.MovieRepository;
 import pl.edu.pw.ee.cinemabackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
@@ -32,25 +25,20 @@ public class BenchmarkAuthRunner extends AbstractBenchmark {
     private static final String LOGMAIL = "logusername@mail.com";
     private static final String PASSWORD = "kicia.?312312312As";
     private static PasswordEncoder passwordEncoder;
+    private RegisterRequest registerRequest;
+    private LoginRequest loginRequest;
+    private User admin;
 
     @Autowired
-    void setContext(AuthService authService,UserRepository userRepository,TokenRepository tokenRepository,PasswordEncoder passwordEncoder) {
+    final public void setContext(AuthService authService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkAuthRunner.authService = authService;
         BenchmarkAuthRunner.userRepository = userRepository;
         BenchmarkAuthRunner.tokenRepository = tokenRepository;
         BenchmarkAuthRunner.passwordEncoder = passwordEncoder;
     }
 
-    private RegisterRequest registerRequest;
-    private LoginRequest loginRequest;
-    private AuthResponse authResponse;
-    private TokenRequest tokenRequest;
-    private User admin;
-
-    private long id;
-
     @Setup(Level.Trial)
-    public void setBenchmarkTrial(){
+    final public void setBenchmarkTrial() {
         registerRequest = RegisterRequest
                 .builder()
                 .username("username@mail.com")
@@ -75,31 +63,24 @@ public class BenchmarkAuthRunner extends AbstractBenchmark {
     }
 
     @Setup(Level.Invocation)
-    public void setupBenchmark() {
+    final public void setupBenchmark() {
         userRepository.saveAndFlush(admin);
-
-        //authResponse = authService.login(loginRequest);
-        /*\\tokenRequest = TokenRequest
-                .builder()
-                .authToken(authResponse.authToken())
-                .build();*/
     }
+
     @TearDown(Level.Invocation)
-    public void clear(){
+    final public void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Benchmark
-    public void loginBenchmark() {
+    final public void loginBenchmark() {
         authService.login(loginRequest);
     }
 
     @Benchmark
-    public void registerBenchmark() {
+    final public void registerBenchmark() {
         authService.register(registerRequest);
     }
-
-
 
 }

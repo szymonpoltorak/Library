@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenRequest;
 import pl.edu.pw.ee.cinemabackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.cinemabackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
@@ -19,30 +18,27 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class BenchmarkAuthRefreshTokenRunner extends AbstractBenchmark{
+public class BenchmarkAuthRefreshTokenRunner extends AbstractBenchmark {
     private static AuthService authService;
     private static UserRepository userRepository;
     private static TokenRepository tokenRepository;
     private static final String LOGMAIL = "logusername@mail.com";
     private static final String PASSWORD = "kicia.?312312312As";
     private static PasswordEncoder passwordEncoder;
+    private LoginRequest loginRequest;
+    private AuthResponse authResponse;
+    private User admin;
 
     @Autowired
-    void setContext(AuthService authService,UserRepository userRepository,TokenRepository tokenRepository,PasswordEncoder passwordEncoder) {
+    final public void setContext(AuthService authService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkAuthRefreshTokenRunner.authService = authService;
         BenchmarkAuthRefreshTokenRunner.userRepository = userRepository;
         BenchmarkAuthRefreshTokenRunner.tokenRepository = tokenRepository;
         BenchmarkAuthRefreshTokenRunner.passwordEncoder = passwordEncoder;
     }
 
-    private LoginRequest loginRequest;
-    private AuthResponse authResponse;
-    private User admin;
-
-
-
     @Setup(Level.Trial)
-    public void setupBenchmarkTrial(){
+    final public void setupBenchmarkTrial() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -60,23 +56,22 @@ public class BenchmarkAuthRefreshTokenRunner extends AbstractBenchmark{
     }
 
     @Setup(Level.Invocation)
-    public void setupBenchmark() {
+    final public void setupBenchmark() {
         userRepository.saveAndFlush(admin);
 
         authResponse = authService.login(loginRequest);
         tokenRepository.deleteAll();
     }
+
     @TearDown(Level.Invocation)
-    public void clear(){
+    final public void clear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
-
     @Benchmark
-    public void refreshTokenBenchmark() {
+    final public void refreshTokenBenchmark() {
         authService.refreshToken(authResponse.refreshToken());
     }
-
 
 }

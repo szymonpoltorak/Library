@@ -3,12 +3,7 @@ package pl.edu.pw.ee.cinemabackend.jmh;
 import org.openjdk.jmh.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.AuthResponse;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.LoginRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.data.TokenRequest;
-import pl.edu.pw.ee.cinemabackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.TokenManagerService;
 import pl.edu.pw.ee.cinemabackend.entities.token.interfaces.TokenRepository;
@@ -22,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class BenchmarkTokenRunner extends AbstractBenchmark{
+public class BenchmarkTokenRunner extends AbstractBenchmark {
     private static UserRepository userRepository;
     private static TokenRepository tokenRepository;
     private static TokenManagerService tokenManagerService;
@@ -30,9 +25,12 @@ public class BenchmarkTokenRunner extends AbstractBenchmark{
     private static final String LOGMAIL = "logusername@mail.com";
     private static final String PASSWORD = "kicia.?312312312As";
     private static PasswordEncoder passwordEncoder;
+    private User admin;
+    private User user;
+    private String generatedToken;
 
     @Autowired
-    void setContext(JwtService jwtService,TokenManagerService tokenManagerService, UserRepository userRepository,TokenRepository tokenRepository,PasswordEncoder passwordEncoder) {
+    final void setContext(JwtService jwtService, TokenManagerService tokenManagerService, UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
         BenchmarkTokenRunner.userRepository = userRepository;
         BenchmarkTokenRunner.tokenRepository = tokenRepository;
         BenchmarkTokenRunner.passwordEncoder = passwordEncoder;
@@ -40,15 +38,8 @@ public class BenchmarkTokenRunner extends AbstractBenchmark{
         BenchmarkTokenRunner.jwtService = jwtService;
     }
 
-    private User admin;
-    private User user;
-    private String generatedToken;
-
-
-
-
     @Setup(Level.Trial)
-    public void setBenchmark(){
+    final public void setBenchmark() {
 
         admin = User.builder()
                 .name("Jakub")
@@ -65,24 +56,24 @@ public class BenchmarkTokenRunner extends AbstractBenchmark{
     }
 
     @TearDown(Level.Invocation)
-    public void clear(){
+    final public void clear() {
         tokenRepository.deleteAll();
     }
+
     @TearDown(Level.Trial)
-    public void clearusers(){
+    final public void clearusers() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
-
     @Benchmark
-    public void saveUsersTokenBenchmark() {
-        tokenManagerService.saveUsersToken(generatedToken,LOGMAIL);
+    final public void saveUsersTokenBenchmark() {
+        tokenManagerService.saveUsersToken(generatedToken, LOGMAIL);
     }
 
     @Benchmark
-    public void saveUsersTokenUserBenchmark() {
-        tokenManagerService.saveUsersToken(generatedToken,user);
+    final public void saveUsersTokenUserBenchmark() {
+        tokenManagerService.saveUsersToken(generatedToken, user);
     }
 
 }
