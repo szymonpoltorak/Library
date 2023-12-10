@@ -10,13 +10,28 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NGX_MAT_DATE_FORMATS, NgxMatDateFormats, NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-movie-details',
     templateUrl: './movie-details.component.html',
     styleUrls: ['./movie-details.component.scss'],
     standalone: true,
-    imports: [MatProgressSpinnerModule, CommonModule, MatButtonModule, MatCardModule,MatTableModule, MatCardModule, MatDatepickerModule, MatNativeDateModule]
+    imports: [
+        HttpClientModule,
+        MatDatepickerModule,
+        MatInputModule,
+        NgxMatTimepickerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        NgxMatDatetimePickerModule,MatProgressSpinnerModule,
+        NgxMatTimepickerModule, CommonModule, MatButtonModule,
+        NgxMatNativeDateModule,  MatCardModule,MatTableModule, MatCardModule, MatDatepickerModule, MatNativeDateModule]
 })
 export class MovieDetailsComponent {
 
@@ -24,6 +39,9 @@ export class MovieDetailsComponent {
 
     protected movie: Movie | undefined;
     protected screenings: Screening[] | undefined;
+
+    protected date : Date = new Date();
+    protected time : Date = new Date();
 
     constructor(
         protected readonly movieDetailsService: MovieDetailsService,
@@ -72,6 +90,22 @@ export class MovieDetailsComponent {
   
     protected return() {
         this.router.navigate(['/home/movies']);
+    }
+  
+    protected add() {
+        let dateAndTime = new Date();
+        dateAndTime.setFullYear(this.date.getFullYear());
+        dateAndTime.setMonth(this.date.getMonth());
+        dateAndTime.setDate(this.date.getDay());
+        dateAndTime.setHours(this.time.getHours());
+        dateAndTime.setMinutes(this.time.getMinutes());
+        this.movieDetailsService.createScreening(dateAndTime).subscribe(screening => {
+            this.screenings?.push(screening);
+        })
+    }
+
+    dateChanged() {
+        this.date.setHours(10, 0);
     }
 
 }
