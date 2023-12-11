@@ -31,7 +31,7 @@
                 <ngx-mat-timepicker [(ngModel)]="time"></ngx-mat-timepicker>
                 <button mat-raised-button color="accent" (click)="add()" type="button">Add</button>
             </div>
-            
+
         </div>
 
         <div *ngIf="screenings != undefined; then SCREENINGS; else SCREENINGS_LOADING_SPINNER"></div>

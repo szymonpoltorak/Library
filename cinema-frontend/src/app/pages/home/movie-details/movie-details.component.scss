@@ -1,61 +1,61 @@
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 300px;
-  }
-  
-  .full-width-column {
-    background-color: #333; /* Darker gray */
+}
+
+.full-width-column {
+    background-color: #333;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .fixed-width-column {
-    background-color: #333; /* Even darker gray */
+}
+
+.fixed-width-column {
+    background-color: #333;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .center-spinner {
+}
+
+.center-spinner {
     margin: 0 auto;
-  }
-  
-  .movie-container,
-  .screening-card {
-    border: 1px solid #333; /* Dark border */
+}
+
+.movie-container,
+.screening-card {
+    border: 1px solid #333;
     padding: 10px;
     margin-bottom: 15px;
-    background-color: #444; /* Dark background */
+    background-color: #444;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+}
 
-  .add-screening-subtab {
+.add-screening-subtab {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .hide-elem {
+}
+
+.hide-elem {
     display: none;
-  }
-  
-  .movie-title,
-  .screening-title {
-    color: #fff; /* White text */
+}
+
+.movie-title,
+.screening-title {
+    color: #fff;
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  
-  .movie-details,
-  .movie-info,
-  .screening-info {
-    color: #ddd; /* Lighter gray text */
-  }
-  
-  .movie-description {
-    color: #bbb; /* Light gray text */
+}
+
+.movie-details,
+.movie-info,
+.screening-info {
+    color: #ddd;
+}
+
+.movie-description {
+    color: #bbb;
     line-height: 1.4;
-  }
-  
-  .row-title {
+}
+
+.row-title {
     cursor: pointer;
-  }
+}
