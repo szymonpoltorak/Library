@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { environment } from "@environments/environment";
 import { StorageKeys } from "@enums/auth/StorageKeys";
 import { AuthResponse } from "@core/data/auth/auth-response";
+import { Claim } from '@enums/auth/Claim';
 
 @Injectable({
     providedIn: 'root'
@@ -43,4 +44,11 @@ export class UtilService {
     buildTestData(): Observable<AuthResponse> {
         return this.http.post<AuthResponse>(`${environment.httpBackend}/api/test`, {});
     }
+
+    getClaimFromJwt(jwt: string, claim: Claim) {
+        const [payload] = jwt.split('.').slice(1);
+        const decodedPayload = JSON.parse(atob(payload));
+        return decodedPayload[claim];
+    }
+
 }
