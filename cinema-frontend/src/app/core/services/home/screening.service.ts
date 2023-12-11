@@ -14,7 +14,6 @@ export class ScreeningService {
 
   getScreeningsForGivenDate(date: Date) {
     const isoDate = date.toISOString().split('T')[0];
-    console.log("Iso date: " + isoDate);
 
     return this.http.get<Screening[]>(`${environment.httpBackend}/api/screenings/getScreeningsForDay`, {
       params: {

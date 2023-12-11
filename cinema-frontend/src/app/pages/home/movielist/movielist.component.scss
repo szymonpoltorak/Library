@@ -3,34 +3,59 @@
 }
 
 .demo-inline-calendar-card {
-  width: 300px;
-  margin-left: 100px;
+  width: 80%;
 }
 
-.movies-container {
+.movie-table {
+  max-width: 60%;
+  min-width: 60%;
+  min-height: 100%;
+  align-items: center;
+}
+
+.table {
+  min-height: 40em;
+  max-height: 40em;
+}
+
+.no-movies {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.container {
   display: flex;
   flex-direction: row;
-  width: min-content;
+  max-height: 80%;
+  min-height: 80%;
+  justify-content: center;
+  align-items: center;
 }
 
+.calendar {
+  max-width: 30%;
+  min-width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
 .mat-column-id {
-  width: 1cm;
+  width: 10%;
 }
 
 .mat-column-title {
   word-wrap: break-word !important;
-  width: 10%;
+  width: 20%;
 }
 
 .mat-column-description {
   word-wrap: break-word !important;
-  width: 20%;
+  width: 50%;
 }
 
 .mat-column-duration {
-  width: 1cm;
-}
-
-.row-title {
-  cursor: pointer;
+  width: 10%;
 }

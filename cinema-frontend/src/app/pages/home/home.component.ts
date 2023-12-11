@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {UtilService} from "@utils/util.service";
 
 @Component({
   selector: 'app-nav',
@@ -7,8 +8,11 @@ import {Component} from '@angular/core';
 })
 export class HomeComponent{
 
+  utilService = inject(UtilService)
 
-
+  logout() {
+    this.utilService.clearStorage();
+  }
 
 
 }
