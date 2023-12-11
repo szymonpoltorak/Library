@@ -49,9 +49,7 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     @Override
     public List<ScreeningResponse> getScreeningsForMovie(long movieId) {
-        //TODO POPRAWIĆ TO NA SPRING DATA JPA QUERY
-        return screeningRepository.findAll().stream()
-                .filter(s -> s.getMovie().getMovieId() == movieId)
+        return screeningRepository.getScreeningsByMovieId(movieId).stream()
                 .map(screeningMapper::mapToScreeningResponse)
                 .toList();
     }
