@@ -1,27 +1,17 @@
-<mat-sidenav-container class="sidenav-container">
-    <!--  TODO: ALBO USUNĄĆ TĘ STRONĘ ALBO WSTAWIĆ NA NIEJ OD RAZU SCREENINGSY  -->
-    <!--  TODO: WYWALIĆ SIDEBAR ZROBIĆ TOOLBAR NA GÓRZE  -->
-    <mat-sidenav #drawer class="sidenav" fixedInViewport [mode]="'over'" [opened]="false">
-        <mat-toolbar>Menu</mat-toolbar>
-        <mat-nav-list class="nav-list">
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="primary-row">
+        <span class="title">Cinema</span>
+        <div class="midbuttons">
             <button routerLink="/home" type="button" mat-icon-button>
                 <mat-icon>home</mat-icon>
             </button>
-
             <button routerLink='movies' type="button" mat-icon-button>
                 <mat-icon>movie</mat-icon>
             </button>
-            <!-- TODO Logout -->
-            <button mat-raised-button (click)="logout()" routerLink="" color="primary">Logout</button>
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <mat-toolbar color="primary">
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-            </button>
-            <span>Cinema</span>
-        </mat-toolbar>
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+        </div>
+        <button mat-raised-button color="accent" (click)="logout()" routerLink="">Logout</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div id="page-container">
+    <router-outlet></router-outlet>
+</div>
