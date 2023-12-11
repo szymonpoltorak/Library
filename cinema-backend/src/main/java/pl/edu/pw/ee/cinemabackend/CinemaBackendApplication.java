@@ -37,9 +37,13 @@ public class CinemaBackendApplication {
             LocalDate now = LocalDate.now();
             for (MovieRequest mr : movieRequests) {
                 long mid = ms.createMovie(mr, admin).movieId();
-                int c = random.nextInt(3)+1;
+                int c = random.nextInt(12)+1;
+                int cm = -random.nextInt(12)-1;
                 int d = random.nextInt(3)+2;
-                for (int i = 0; i < d; i++) {
+                for (int i = cm; i < c; i++) {
+                    if (random.nextDouble() < 0.3) {
+                        continue;
+                    }
                     for (int j = 0; j < d; j++) {
                         ss.createScreening(new ScreeningRequest(mid,
                                 now.plusDays(i),
