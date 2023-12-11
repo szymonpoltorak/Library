@@ -30,6 +30,12 @@
 
   .add-screening-subtab {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hide-elem {
+    display: none;
   }
   
   .movie-title,

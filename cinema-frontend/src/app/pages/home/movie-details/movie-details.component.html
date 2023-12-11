@@ -25,14 +25,13 @@
 
     <div class="fixed-width-column">
 
-        <div class="screening-card">
+        <div class="screening-card" [class.hide-elem]="!shouldShowButton">
             <mat-calendar [(selected)]="date"></mat-calendar>
-
-            <!-- TODO: UKRYĆ DODAWANIE DLA UŻYTKOWNIKA MOŻLIWOŚCI DODAWANIA NOWYCH SCREENINGÓW I WYCENTROWAĆ PRZYCISK -->
             <div class="add-screening-subtab">
                 <ngx-mat-timepicker [(ngModel)]="time"></ngx-mat-timepicker>
                 <button mat-raised-button color="accent" (click)="add()" type="button">Add</button>
             </div>
+            
         </div>
 
         <div *ngIf="screenings != undefined; then SCREENINGS; else SCREENINGS_LOADING_SPINNER"></div>

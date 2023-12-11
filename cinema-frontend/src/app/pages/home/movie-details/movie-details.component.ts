@@ -15,6 +15,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UtilService } from '@core/utils/util.service';
+import { StorageKeys } from '@enums/auth/StorageKeys';
+import { Claim } from '@enums/auth/Claim';
 
 @Component({
     selector: 'app-movie-details',
@@ -40,6 +43,8 @@ export class MovieDetailsComponent {
     protected movie: Movie | undefined;
     protected screenings: Screening[] | undefined;
 
+    protected shouldShowButton = false;
+
     protected date : Date = new Date();
     protected time : Date = new Date();
 
@@ -47,12 +52,16 @@ export class MovieDetailsComponent {
         protected readonly movieDetailsService: MovieDetailsService,
         protected readonly route: ActivatedRoute,
         protected readonly router: Router,
+        protected readonly utilService: UtilService,
     ) { }
 
     ngOnInit() {
         this.route.queryParamMap.subscribe(params => {
             this.processQueryParameterChanges(params);
         });
+        let authToken = this.utilService.getKeyValuePairFromStorage(StorageKeys.AUTH_TOKEN);
+        let role = this.utilService.getClaimFromJwt(authToken, Claim.ROLE);
+        this.shouldShowButton = "admin" === role.toLocaleLowerCase();
     }
 
     private processQueryParameterChanges(params: ParamMap) {
