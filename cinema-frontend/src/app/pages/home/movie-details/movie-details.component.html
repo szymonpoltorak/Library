@@ -26,7 +26,7 @@
     <div class="fixed-width-column">
 
         <div class="screening-card">
-            <mat-calendar (click)="dateChanged()" [(selected)]="date"></mat-calendar>
+            <mat-calendar [(selected)]="date"></mat-calendar>
             <div class="add-screening-subtab">
                 <ngx-mat-timepicker [(ngModel)]="time"></ngx-mat-timepicker>
                 <button mat-raised-button color="accent" (click)="add()" type="button">Add</button>

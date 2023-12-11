@@ -83,6 +83,8 @@ export class MovieDetailsComponent {
     }
 
     protected formatTime(time: string): string {
+        if(time == undefined)
+            time = "10:00";
         const timeParts = time.split(':');
         const formattedTime = timeParts.slice(0, timeParts.length - 1).join(':');
         return formattedTime;
@@ -96,16 +98,12 @@ export class MovieDetailsComponent {
         let dateAndTime = new Date();
         dateAndTime.setFullYear(this.date.getFullYear());
         dateAndTime.setMonth(this.date.getMonth());
-        dateAndTime.setDate(this.date.getDay());
+        dateAndTime.setDate(this.date.getDate());
         dateAndTime.setHours(this.time.getHours());
         dateAndTime.setMinutes(this.time.getMinutes());
-        this.movieDetailsService.createScreening(dateAndTime).subscribe(screening => {
+        this.movieDetailsService.createScreening(dateAndTime, this.movie!!.movieId).subscribe(screening => {
             this.screenings?.push(screening);
         })
-    }
-
-    dateChanged() {
-        this.date.setHours(10, 0);
     }
 
 }

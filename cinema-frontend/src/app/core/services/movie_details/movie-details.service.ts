@@ -23,11 +23,11 @@ export class MovieDetailsService {
             .pipe(catchError(() => of(JSON.parse(AuthApiCalls.ERROR_FOUND))));
     }
 
-    createScreening(dateAndTime: Date): Observable<Screening> {
-        const dateStr = `${dateAndTime.getFullYear()}-${dateAndTime.getMonth()}-${dateAndTime.getDay()}`;
+    createScreening(dateAndTime: Date, movieId: number): Observable<Screening> {
+        const dateStr = `${dateAndTime.getFullYear()}-${dateAndTime.getMonth()+1}-${dateAndTime.getDate()}`;
         const timeStr = `${dateAndTime.getHours()}:${dateAndTime.getMinutes()}:00`;
         const request: ScreeningRequest = {
-            movieId: 0,
+            movieId: movieId,
             dayOfScreening: dateStr,
             hourOfScreening: timeStr
         };
