@@ -41,8 +41,10 @@ public class SecurityConfigurationImpl implements SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(AUTH_MATCHERS).permitAll()
-                        .requestMatchers(API_MATCHERS).authenticated()
-                        .anyRequest().permitAll()
+                        .requestMatchers(API_MATCHERS)
+                        .authenticated()
+                        .anyRequest()
+                        .authenticated()
                 )
                 .cors(Customizer.withDefaults())
                 .sessionManagement(

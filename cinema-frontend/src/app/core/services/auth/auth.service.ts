@@ -18,6 +18,7 @@ export class AuthService {
                 private utilService: UtilService) {
     }
 
+    //TODO: DODAĆ ZAPYTANIE DO API ŻEBY BYŁO WYLOGOWYWANIE UŻYTKOWNIKA W BACKENDZIE
     logoutUser(): Observable<any> {
         return this.http.post(`${environment.httpBackend}${AuthApiCalls.LOGOUT_URL}`, {});
     }
@@ -34,10 +35,13 @@ export class AuthService {
     }
 
     refreshUsersToken(refreshToken: string): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(`${environment.httpBackend}${AuthApiCalls.REFRESH_URL}`,
-            this.buildRefreshToken(refreshToken)).pipe(tap((response: AuthResponse) => {
-            this.saveData(response);
-        }));
+        return this.http.post<AuthResponse>(`${environment.httpBackend}${AuthApiCalls.REFRESH_URL}`, {}, {
+            params: {
+                refreshToken: refreshToken
+            }
+        }).pipe(tap((response: AuthResponse) => {
+                this.saveData(response);
+            }));
     }
 
     saveData(data: AuthResponse): void {
@@ -46,9 +50,5 @@ export class AuthService {
         }
         this.utilService.addValueToStorage(StorageKeys.AUTH_TOKEN, data.authToken);
         this.utilService.addValueToStorage(StorageKeys.REFRESH_TOKEN, data.refreshToken);
-    }
-
-    private buildRefreshToken(refreshToken: string) {
-        return JSON.parse(`{"refreshToken": "${refreshToken}"}`);
     }
 }

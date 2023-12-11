@@ -49,6 +49,7 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     @Override
     public List<ScreeningResponse> getScreeningsForMovie(long movieId) {
+        //TODO POPRAWIĆ TO NA SPRING DATA JPA QUERY
         return screeningRepository.findAll().stream()
                 .filter(s -> s.getMovie().getMovieId() == movieId)
                 .map(screeningMapper::mapToScreeningResponse)
@@ -114,7 +115,7 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     private void checkIfUserIsAnAdmin(User user) {
-        if (user.getUserRole().equals(UserRole.USER)) {
+        if (user.getUserRole() == UserRole.USER) {
             throw new AccessDeniedException("Signed in user must be an admin");
         }
     }

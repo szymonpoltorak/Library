@@ -37,9 +37,9 @@ public class CinemaBackendApplication {
             LocalDate now = LocalDate.now();
             for (MovieRequest mr : movieRequests) {
                 long mid = ms.createMovie(mr, admin).movieId();
-                int c = random.nextInt(12)+1;
-                int cm = -random.nextInt(12)-1;
-                int d = random.nextInt(3)+2;
+                int c = random.nextInt(12) + 1;
+                int cm = -random.nextInt(12) - 1;
+                int d = random.nextInt(3) + 2;
                 for (int i = cm; i < c; i++) {
                     if (random.nextDouble() < 0.3) {
                         continue;
@@ -47,7 +47,7 @@ public class CinemaBackendApplication {
                     for (int j = 0; j < d; j++) {
                         ss.createScreening(new ScreeningRequest(mid,
                                 now.plusDays(i),
-                                LocalTime.of(10, 0).plusHours(j).plusMinutes(15*random.nextInt(4))
+                                LocalTime.of(10, 0).plusHours(j).plusMinutes(15 * random.nextInt(4))
                         ), admin);
                     }
                 }

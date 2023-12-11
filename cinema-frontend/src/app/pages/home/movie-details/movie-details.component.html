@@ -27,6 +27,8 @@
 
         <div class="screening-card">
             <mat-calendar [(selected)]="date"></mat-calendar>
+
+            <!-- TODO: UKRYĆ DODAWANIE DLA UŻYTKOWNIKA MOŻLIWOŚCI DODAWANIA NOWYCH SCREENINGÓW I WYCENTROWAĆ PRZYCISK -->
             <div class="add-screening-subtab">
                 <ngx-mat-timepicker [(ngModel)]="time"></ngx-mat-timepicker>
                 <button mat-raised-button color="accent" (click)="add()" type="button">Add</button>
@@ -39,7 +41,7 @@
             <div *ngFor="let screening of screenings">
                 <div class="screening-card">
                     <p class="screening-info">{{ screening.dayOfScreening | date: 'mediumDate' }}</p>
-                    <p class="screening-info">{{ formatTime(screening.hourOfScreening)}}</p>
+                    <p class="screening-info">{{ formatTime(screening.hourOfScreening) }}</p>
                 </div>
             </div>
 

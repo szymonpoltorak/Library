@@ -1,18 +1,16 @@
-import {Component, inject} from '@angular/core';
-import {UtilService} from "@utils/util.service";
+import { Component, inject } from '@angular/core';
+import { UtilService } from "@utils/util.service";
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-nav',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
-export class HomeComponent{
+export class HomeComponent {
+    //TODO: Injectowanie przez konstruktor
+    utilService = inject(UtilService)
 
-  utilService = inject(UtilService)
-
-  logout() {
-    this.utilService.clearStorage();
-  }
-
-
+    logout() {
+        this.utilService.clearStorage();
+    }
 }
