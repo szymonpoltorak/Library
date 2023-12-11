@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import pl.edu.pw.ee.cinemabackend.config.interfaces.SecurityConfiguration;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.JwtAuthenticationFilter;
 
+import static pl.edu.pw.ee.cinemabackend.config.constants.Matchers.API_MATCHERS;
 import static pl.edu.pw.ee.cinemabackend.config.constants.Matchers.AUTH_MATCHERS;
 import static pl.edu.pw.ee.cinemabackend.config.constants.Matchers.LOGOUT_URL;
 
@@ -39,12 +40,9 @@ public class SecurityConfigurationImpl implements SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(LOGOUT_URL)
-                        .permitAll()
-                        .requestMatchers(AUTH_MATCHERS)
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
+                        .requestMatchers(AUTH_MATCHERS).permitAll()
+                        .requestMatchers(API_MATCHERS).authenticated()
+                        .anyRequest().permitAll()
                 )
                 .cors(Customizer.withDefaults())
                 .sessionManagement(
