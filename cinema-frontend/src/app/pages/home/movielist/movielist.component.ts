@@ -25,11 +25,7 @@ import { Router } from "@angular/router";
 })
 export class MovielistComponent implements OnInit, AfterViewInit {
 
-    screeningService = inject(ScreeningService);
-
     selected: Date = new Date();
-
-    router = inject(Router);
 
     movies: Movie[] = [];
     dataSource = new MatTableDataSource<Movie>();
@@ -38,6 +34,11 @@ export class MovielistComponent implements OnInit, AfterViewInit {
     moviesSubject = new BehaviorSubject<Movie[]>([]);
 
     @ViewChild(MatPaginator) paginator !: MatPaginator;
+
+    constructor(
+        protected readonly router: Router,
+        protected readonly screeningService: ScreeningService,
+    ) {}
 
 
     ngOnInit(): void {

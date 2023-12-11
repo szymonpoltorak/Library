@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { UtilService } from "@utils/util.service";
 
 @Component({
@@ -7,8 +7,10 @@ import { UtilService } from "@utils/util.service";
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-    //TODO: Injectowanie przez konstruktor
-    utilService = inject(UtilService)
+
+    constructor(
+        protected readonly utilService: UtilService,
+    ) {}
 
     logout() {
         this.utilService.clearStorage();
