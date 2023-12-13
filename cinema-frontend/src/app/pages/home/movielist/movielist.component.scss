@@ -1,5 +1,6 @@
 .table {
     width: auto;
+
 }
 
 .demo-inline-calendar-card {
@@ -9,18 +10,13 @@
 .movie-table {
     max-width: 60%;
     min-width: 60%;
-    min-height: 100%;
+    max-height: 100%;
     align-items: center;
 }
 
 .table {
     min-height: 40em;
     max-height: 40em;
-}
-
-.no-movies {
-    text-align: center;
-    margin-top: 20px;
 }
 
 .container {
@@ -38,10 +34,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .hover:hover {
     background-color: #6b6b6b;
+    cursor: pointer;
 }
 
 .mat-column-id {
@@ -60,4 +58,10 @@
 
 .mat-column-duration {
     width: 10%;
+}
+
+.movie-table h1 {
+    margin-top: 1.5em;
+    text-align: center;
+    color: white;
 }

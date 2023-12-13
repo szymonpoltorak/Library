@@ -4,7 +4,7 @@
 
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef> ID </th>
-                <td mat-cell *matCellDef="let element"> {{element.movieId}} </td>
+                <td mat-cell class="cell" *matCellDef="let element"> {{element.movieId}} </td>
             </ng-container>
 
             <ng-container matColumnDef="title">
@@ -35,7 +35,7 @@
                        aria-label="Select page of periodic elements">
         </mat-paginator>
 
-        <div *ngIf="movies.length === 0" class="no-movies">
+        <div *ngIf="movies.length === 0">
             <h1>No movies for given date :(</h1>
         </div>
     </div>
@@ -44,5 +44,6 @@
         <mat-card class="demo-inline-calendar-card">
             <mat-calendar (click)="dateChanged()" [(selected)]="selected"></mat-calendar>
         </mat-card>
+
     </div>
 </div>
