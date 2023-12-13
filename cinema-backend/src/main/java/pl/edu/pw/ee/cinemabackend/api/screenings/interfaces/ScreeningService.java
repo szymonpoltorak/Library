@@ -11,6 +11,8 @@ public interface ScreeningService {
 
     List<ScreeningResponse> getScreeningsForGivenDay(LocalDate date);
 
+    List<ScreeningResponse> getScreeningsForMovie(long movieId);
+
     ScreeningResponse getScreeningDetails(long screeningId);
 
     ScreeningResponse createScreening(ScreeningRequest screeningRequest, User user);

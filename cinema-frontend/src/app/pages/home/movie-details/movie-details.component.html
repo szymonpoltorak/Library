@@ -1,0 +1,55 @@
+<div class="grid-container">
+
+    <div class="full-width-column">
+
+        <div class="movie-container">
+            <div *ngIf="movie != undefined; then MOVIE; else MOVIE_LOADING_SPINNER"></div>
+
+            <ng-template #MOVIE>
+                <h1 class="movie-title">{{ movie!.title }}</h1>
+                <div class="movie-details">
+                    <span class="movie-info">Od {{ movie!.minimalAge }} lat</span>
+                    <span class="movie-info">Długość: {{ movie!.timeDuration }}</span>
+                </div>
+                <span class="movie-info">Opis</span>
+                <p class="movie-description">{{ movie!.description }}</p>
+            </ng-template>
+
+            <ng-template #MOVIE_LOADING_SPINNER>
+                <mat-spinner class="center-spinner"></mat-spinner>
+            </ng-template>
+
+            <button mat-raised-button color="accent" (click)="return()" type="button">Return</button>
+        </div>
+    </div>
+
+    <div class="fixed-width-column">
+
+        <div class="screening-card" [class.hide-elem]="!shouldShowButton">
+            <mat-calendar [(selected)]="date"></mat-calendar>
+            <div class="add-screening-subtab">
+                <ngx-mat-timepicker [(ngModel)]="time"></ngx-mat-timepicker>
+                <button mat-raised-button color="accent" (click)="add()" type="button">Add</button>
+            </div>
+
+        </div>
+
+        <div *ngIf="screenings != undefined; then SCREENINGS; else SCREENINGS_LOADING_SPINNER"></div>
+
+        <ng-template #SCREENINGS>
+            <div *ngFor="let screening of screenings">
+                <div class="screening-card">
+                    <p class="screening-info">{{ screening.dayOfScreening | date: 'mediumDate' }}</p>
+                    <p class="screening-info">{{ formatTime(screening.hourOfScreening) }}</p>
+                </div>
+            </div>
+
+        </ng-template>
+
+        <ng-template #SCREENINGS_LOADING_SPINNER>
+            <mat-spinner class="center-spinner"></mat-spinner>
+        </ng-template>
+
+    </div>
+
+</div>

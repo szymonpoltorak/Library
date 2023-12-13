@@ -13,11 +13,13 @@ import pl.edu.pw.ee.cinemabackend.config.constants.Headers;
 import pl.edu.pw.ee.cinemabackend.config.constants.Matchers;
 import pl.edu.pw.ee.cinemabackend.config.constants.Properties;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.JwtService;
+import pl.edu.pw.ee.cinemabackend.entities.user.User;
 import pl.edu.pw.ee.cinemabackend.exceptions.auth.TokenDoesNotExistException;
 
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -52,7 +54,14 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public final String generateToken(UserDetails userDetails) {
-        return generateToken(Collections.emptyMap(), userDetails, expirationTime);
+        Map<String, Object> claims = Collections.emptyMap();
+        if(userDetails instanceof User user) {
+            claims = new HashMap<>() {{
+                put("fullName", user.getFullName());
+                put("role", user.getUserRole());
+            }};
+        }
+        return generateToken(claims, userDetails, expirationTime);
     }
 
     @Override

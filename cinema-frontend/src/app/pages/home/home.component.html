@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="primary-row">
+        <span class="title">Cinema</span>
+        <div class="midbuttons">
+            <button routerLink="/home" type="button" mat-icon-button>
+                <mat-icon>home</mat-icon>
+            </button>
+            <button routerLink='movies' type="button" mat-icon-button>
+                <mat-icon>movie</mat-icon>
+            </button>
+        </div>
+        <button mat-raised-button color="accent" (click)="logout()" routerLink="">Logout</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div id="page-container">
+    <router-outlet></router-outlet>
+</div>

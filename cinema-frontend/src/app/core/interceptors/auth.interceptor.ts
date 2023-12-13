@@ -9,11 +9,11 @@ import {
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
 import { Router } from "@angular/router";
-import { UserService } from "@core/services/utils/user.service";
-import { UtilService } from "@core/services/utils/util.service";
 import { AuthService } from "@core/services/auth/auth.service";
 import { StorageKeys } from "@enums/auth/StorageKeys";
 import { AuthResponse } from "@core/data/auth/auth-response";
+import {UserService} from "@utils/user.service";
+import {UtilService} from "@utils/util.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

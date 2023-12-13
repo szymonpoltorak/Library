@@ -1,0 +1,67 @@
+.table {
+    width: auto;
+
+}
+
+.demo-inline-calendar-card {
+    width: 80%;
+}
+
+.movie-table {
+    max-width: 60%;
+    min-width: 60%;
+    max-height: 100%;
+    align-items: center;
+}
+
+.table {
+    min-height: 40em;
+    max-height: 40em;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    max-height: 80%;
+    min-height: 80%;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar {
+    max-width: 30%;
+    min-width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hover:hover {
+    background-color: #6b6b6b;
+    cursor: pointer;
+}
+
+.mat-column-id {
+    width: 10%;
+}
+
+.mat-column-title {
+    word-wrap: break-word !important;
+    width: 20%;
+}
+
+.mat-column-description {
+    word-wrap: break-word !important;
+    width: 50%;
+}
+
+.mat-column-duration {
+    width: 10%;
+}
+
+.movie-table h1 {
+    margin-top: 1.5em;
+    text-align: center;
+    color: white;
+}

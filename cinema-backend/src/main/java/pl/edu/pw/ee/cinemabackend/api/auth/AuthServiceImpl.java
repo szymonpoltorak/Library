@@ -19,6 +19,7 @@ import pl.edu.pw.ee.cinemabackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.cinemabackend.config.jwt.interfaces.TokenManagerService;
 import pl.edu.pw.ee.cinemabackend.entities.user.User;
+import pl.edu.pw.ee.cinemabackend.entities.user.UserRole;
 import pl.edu.pw.ee.cinemabackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.cinemabackend.exceptions.auth.InvalidTokenException;
 import pl.edu.pw.ee.cinemabackend.exceptions.auth.TokenDoesNotExistException;
@@ -58,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
                 .username(registerRequest.username())
                 .surname(registerRequest.surname())
                 .password(passwordEncoder.encode(password))
-                .userRole(registerRequest.userRole())
+                .userRole(UserRole.USER)
                 .build();
         userRepository.save(user);
 

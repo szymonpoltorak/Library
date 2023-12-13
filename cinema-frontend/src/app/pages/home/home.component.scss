@@ -1,0 +1,34 @@
+.primary-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.title {
+    font-family: 'Helvetica Neue';
+    font-size: 30pt;
+    color: #fff;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.align-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.midbuttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+}
+
+.midbuttons button {
+    margin: 0;
+}
+
+#page-container {
+    background-color: #313131;
+    padding: 20px;
+    min-height: 100%;
+}

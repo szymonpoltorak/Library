@@ -32,9 +32,9 @@ export class LoginComponent implements OnInit {
     }
 
     submitForm(): void {
-        if (this.loginForm.invalid) {
-            return;
-        }
+        // if (this.loginForm.invalid) {
+        //     return;
+        // }
         const request: LoginRequest = this.buildLoginRequest();
 
         this.authService.loginUser(request)
@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
 
                 this.utilService.addValueToStorage(StorageKeys.USERNAME, username);
                 this.utilService.navigate(RouterPaths.HOME_LOGIN_PATH);
+                this.loginForm.reset();
             });
     }
 

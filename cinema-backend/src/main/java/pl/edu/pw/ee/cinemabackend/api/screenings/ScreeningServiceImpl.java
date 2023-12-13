@@ -48,6 +48,14 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
+    public List<ScreeningResponse> getScreeningsForMovie(long movieId) {
+        log.info("Finding screenings for a given movie: {}", movieId);
+        return screeningRepository.getScreeningsByMovieId(movieId).stream()
+                .map(screeningMapper::mapToScreeningResponse)
+                .toList();
+    }
+
+    @Override
     public final ScreeningResponse getScreeningDetails(long screeningId) {
         log.info("Finding screening with id: {}", screeningId);
 
@@ -106,7 +114,7 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     private void checkIfUserIsAnAdmin(User user) {
-        if (user.getUserRole().equals(UserRole.USER)) {
+        if (user.getUserRole() == UserRole.USER) {
             throw new AccessDeniedException("Signed in user must be an admin");
         }
     }
