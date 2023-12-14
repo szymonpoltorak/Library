@@ -53,9 +53,12 @@ public class SeleniumWebDriverConfig {
             default -> {
                 WebDriverManager.firefoxdriver()
                         .setup();
-                yield new FirefoxDriver(new FirefoxOptions() {{
-                    setBinary(Path.of("/usr/bin/firefox"));
-                }});
+                if(String.valueOf(System.getProperty("os.name")).toLowerCase().contains("linux")) {
+                    yield new FirefoxDriver(new FirefoxOptions() {{
+                        setBinary(Path.of("/usr/bin/firefox"));
+                    }});
+                }
+                yield new FirefoxDriver();
             }
         };
         driver.manage()
