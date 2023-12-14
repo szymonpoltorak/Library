@@ -24,8 +24,25 @@ export class MovieDetailsService {
     }
 
     createScreening(dateAndTime: Date, movieId: number): Observable<Screening> {
-        const dateStr = `${dateAndTime.getFullYear()}-${dateAndTime.getMonth()+1}-${dateAndTime.getDate()}`;
-        const timeStr = `${dateAndTime.getHours()}:${dateAndTime.getMinutes()}:00`;
+        let yearStr = `${dateAndTime.getFullYear()}`
+        let monthStr = `${dateAndTime.getMonth()+1}`
+        if(monthStr.length == 1) {
+            monthStr = "0"+monthStr;
+        }
+        let dayStr = `${dateAndTime.getDate()}`
+        if(dayStr.length == 1) {
+            dayStr = "0"+dayStr;
+        }
+        let hoursStr = `${dateAndTime.getHours()}`
+        if(hoursStr.length == 1) {
+            hoursStr = "0"+hoursStr;
+        }
+        let minutesStr = `${dateAndTime.getMinutes()}`
+        if(minutesStr.length == 1) {
+            minutesStr = "0"+minutesStr;
+        }
+        const timeStr = `${hoursStr}:${minutesStr}:00`;
+        const dateStr = `${yearStr}-${monthStr}-${dayStr}`;
         const request: ScreeningRequest = {
             movieId: movieId,
             dayOfScreening: dateStr,
