@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.HOME_URL;
 import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.LOGIN_URL;
 import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.REGISTER_URL;
+import static pl.edu.pw.ee.cinemabackend.selenium.constants.TestConstants.TIMEOUT;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:selenium-config.yml")
@@ -84,11 +85,11 @@ class LoginPageSeleniumTests {
 
     @Test
     final void shouldLogin_whenGivenCorrectCredentials() {
-        loginPage.getTxtEmail().sendKeys("01231234@gmail.com");
-        loginPage.getTxtPassword().sendKeys("#Silnehaslo123");
+        loginPage.getTxtEmail().sendKeys("admin123@mail.pl");
+        loginPage.getTxtPassword().sendKeys("admin");
         loginPage.clickLogin();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
         wait.until(ExpectedConditions.urlToBe(HOME_URL));
 
         assertEquals(HOME_URL, driver.getCurrentUrl(),
