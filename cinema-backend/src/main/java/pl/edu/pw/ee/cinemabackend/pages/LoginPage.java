@@ -11,7 +11,7 @@ public class LoginPage {
 
     private WebDriver webDriver;
 
-    public LoginPage(WebDriver webDriver){
+    public LoginPage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
     }
 
@@ -33,11 +33,11 @@ public class LoginPage {
     @FindBy(xpath = "/html/body/app-root/app-login/div/form/app-password-field/mat-form-field/div[2]/div/mat-error")
     private WebElement passwordErrorMsg;
 
-    public final void clickRegister(){
+    public final void clickRegister() {
         lnkRegister.click();
     }
 
-    public final void clickLogin(){
+    public final void clickLogin() {
         lnkLogin.click();
     }
 

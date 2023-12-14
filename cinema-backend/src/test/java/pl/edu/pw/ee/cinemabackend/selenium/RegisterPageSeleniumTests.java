@@ -17,8 +17,10 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.HOME_URL;
 import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.LOGIN_URL;
 import static pl.edu.pw.ee.cinemabackend.pages.constants.PagesConstants.REGISTER_URL;
+import static pl.edu.pw.ee.cinemabackend.selenium.constants.TestConstants.TIMEOUT;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:selenium-config.yml")
@@ -102,11 +104,11 @@ class RegisterPageSeleniumTests {
         registerPage.getTxtRepeatPassword().sendKeys("#Silnehaslo123");
         registerPage.clickRegister();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.urlToBe(LOGIN_URL));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
+        wait.until(ExpectedConditions.urlToBe(HOME_URL));
 
-        assertEquals(LOGIN_URL, driver.getCurrentUrl(),
-                String.format("Expected value: %s", LOGIN_URL));
+        assertEquals(HOME_URL, driver.getCurrentUrl(),
+                String.format("Expected value: %s", HOME_URL));
     }
 
     @AfterEach

@@ -8,11 +8,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @Configuration
@@ -53,7 +55,9 @@ public class WebDriverConfig {
             default -> {
                 WebDriverManager.firefoxdriver()
                         .setup();
-                yield new FirefoxDriver();
+                yield new FirefoxDriver(new FirefoxOptions() {{
+                    setBinary(Path.of("/usr/bin/firefox"));
+                }});
             }
         };
         driver.manage()

@@ -11,7 +11,7 @@ public class RegisterPage {
 
     private WebDriver webDriver;
 
-    public RegisterPage(WebDriver webDriver){
+    public RegisterPage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
     }
 
@@ -42,11 +42,11 @@ public class RegisterPage {
     @FindBy(xpath = "/html/body/app-root/app-register/div/form/div[2]/app-password-field[2]/mat-form-field/div[2]/div/mat-error")
     private WebElement repeatPasswordErrorMsg;
 
-    public final void clickReturn(){
+    public final void clickReturn() {
         lnkReturn.click();
     }
 
-    public final void clickRegister(){
+    public final void clickRegister() {
         lnkRegister.click();
     }
 }
