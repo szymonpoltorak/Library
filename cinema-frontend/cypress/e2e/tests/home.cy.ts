@@ -1,6 +1,5 @@
 import { getHomeButton, getLogoutButton, getMoviesButton } from "../pages/home";
 import { loginAsUser } from "../pages/login";
-import { findButtonByText } from "../util";
 
 describe('Home Page', () => {
     
