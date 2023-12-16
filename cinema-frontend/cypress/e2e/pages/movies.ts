@@ -13,7 +13,7 @@ export function getPageSizeSelector() {
 }
 
 export function getSelectedPageSize(option: number) {
-    return cy.get(`HTML>BODY:nth-child(2)>DIV:nth-child(8)>DIV:nth-child(2)>DIV:nth-child(1)>DIV:nth-child(1)>MAT-OPTION:nth-child(${option})`);
+    return cy.get(`HTML>BODY:nth-child(2)>DIV>DIV:nth-child(2)>DIV:nth-child(1)>DIV:nth-child(1)>MAT-OPTION:nth-child(${option})`);
 }
 
 export function getYearSelector() {
