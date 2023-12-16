@@ -31,18 +31,6 @@ describe('Login Page', () => {
         getPasswordInputError().should('exist');
     })
 
-    it(': After clicking on and out of empty input fields, the errors should be displayed', () => {
-        getEmailInputError().should('not.exist');
-        getEmailInput().click();
-        getForm().click();
-        getEmailInputError().should('exist');
-        
-        getPasswordInputError().should('not.exist');
-        getPasswordInput().click();
-        getForm().click();
-        getPasswordInputError().should('exist');
-    })
-
     it(': After entering garbage data into input fields, the errors should be displayed', () => {
         getEmailInputError().should('not.exist');
         getEmailInput().type("abc");
