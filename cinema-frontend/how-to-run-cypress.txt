@@ -1,0 +1,6 @@
+npm install
+npx cypress open
+>E2E Testing
+>Electron
+>Start E2E Testing in Electron
+>*select some spec and run it*
