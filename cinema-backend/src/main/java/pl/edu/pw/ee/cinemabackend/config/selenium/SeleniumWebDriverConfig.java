@@ -1,8 +1,6 @@
 package pl.edu.pw.ee.cinemabackend.config.selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.JavascriptException;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -18,7 +16,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @Configuration
-public class WebDriverConfig {
+public class SeleniumWebDriverConfig {
 
     @Value("chrome,firefox,edge,opera,safari")
     private List<String> browsers;
@@ -55,9 +53,12 @@ public class WebDriverConfig {
             default -> {
                 WebDriverManager.firefoxdriver()
                         .setup();
-                yield new FirefoxDriver(new FirefoxOptions() {{
-                    setBinary(Path.of("/usr/bin/firefox"));
-                }});
+                if(String.valueOf(System.getProperty("os.name")).toLowerCase().contains("linux")) {
+                    yield new FirefoxDriver(new FirefoxOptions() {{
+                        setBinary(Path.of("/usr/bin/firefox"));
+                    }});
+                }
+                yield new FirefoxDriver();
             }
         };
         driver.manage()

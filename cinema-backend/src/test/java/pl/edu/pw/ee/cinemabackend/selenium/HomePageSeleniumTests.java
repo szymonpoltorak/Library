@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import pl.edu.pw.ee.cinemabackend.config.selenium.WebDriverConfig;
+import pl.edu.pw.ee.cinemabackend.config.selenium.SeleniumWebDriverConfig;
 import pl.edu.pw.ee.cinemabackend.pages.HomePage;
 import pl.edu.pw.ee.cinemabackend.pages.LoginPage;
 
@@ -30,13 +30,13 @@ class HomePageSeleniumTests {
     @Value("${browser}")
     private String browser;
     @Autowired
-    private WebDriverConfig webDriverConfig;
+    private SeleniumWebDriverConfig seleniumWebDriverConfig;
     private HomePage homePage;
     private WebDriver driver;
 
     @BeforeEach
     final void setup() {
-        driver = webDriverConfig.setUpWebDriver(browser);
+        driver = seleniumWebDriverConfig.setUpWebDriver(browser);
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver);
         signIn(loginPage);
