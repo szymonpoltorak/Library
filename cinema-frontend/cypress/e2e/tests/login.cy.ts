@@ -1,4 +1,4 @@
-import { findButtonByText } from "../util";
+import { getEmailInput, getEmailInputError, getForm, getLoginButton, getPasswordInput, getPasswordInputError, getRegisterButton } from "../pages/login";
 
 describe('Login Page', () => {
 
@@ -15,8 +15,7 @@ describe('Login Page', () => {
     })
 
     it(': Register button should redirect to register page', () => {
-        findButtonByText("register").click();
-
+        getRegisterButton().click();
         cy.url().should('eq', 'http://localhost:4200/auth/register');
     })
 
@@ -71,33 +70,15 @@ describe('Login Page', () => {
     it(': After entering correct credentials and clicking Login button, we should be logged in and redirected to home', () => {
         getEmailInput().type("user123@mail.pl");
         getPasswordInput().type("user");
-        findButtonByText("login").click();
+        getLoginButton().click();
         cy.url().should('eq', 'http://localhost:4200/home');
     })
 
     it(': After entering INcorrect credentials and clicking Login button, we should stay at login page', () => {
         getEmailInput().type("user123@mail.pl");
         getPasswordInput().type("badpassword");
-        findButtonByText("login").click();
+        getLoginButton().click();
         cy.url().should('eq', 'http://localhost:4200/auth/login');
     })
-
-    function getForm() {
-        return cy.get('APP-LOGIN').get('FORM');
-    }
-
-    function getEmailInput() {
-        return getForm().get('APP-EMAIL-FIELD:nth-child(2)>MAT-FORM-FIELD>DIV>DIV:nth-child(2)>DIV>INPUT:nth-child(2)');
-    }
-    function getEmailInputError() {
-        return getForm().get('APP-EMAIL-FIELD:nth-child(2)>MAT-FORM-FIELD>DIV:nth-child(2)>DIV>MAT-ERROR');
-    }
-
-    function getPasswordInput() {
-        return getForm().get('APP-PASSWORD-FIELD:nth-child(3)>MAT-FORM-FIELD>DIV>DIV:nth-child(2)>DIV>INPUT:nth-child(2)');
-    }
-    function getPasswordInputError() {
-        return getForm().get('APP-PASSWORD-FIELD:nth-child(3)>MAT-FORM-FIELD>DIV:nth-child(2)>DIV>MAT-ERROR');
-    }
 
 })
