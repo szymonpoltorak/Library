@@ -35,6 +35,7 @@ public abstract class AbstractBenchmark {
 
                 .forks(0)
                 .threads(1)
+                .measurementBatchSize(1)
                 .shouldDoGC(true)
                 .shouldFailOnError(true)
                 .jvmArgs("-server")
