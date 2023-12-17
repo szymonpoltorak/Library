@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-    @Query("select u from User as u inner join JwtToken as t on u.userId = t.user.userId where t.token = :authToken")
+    @Query("select u from User as u inner join JwtToken as t on u.userId = t.user.userId where t.token = ?1")
     Optional<User> findUserByToken(String authToken);
 }
