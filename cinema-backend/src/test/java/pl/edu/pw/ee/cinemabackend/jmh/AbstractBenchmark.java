@@ -9,13 +9,15 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-abstract public class AbstractBenchmark {
+import java.util.concurrent.TimeUnit;
 
-    private final static Integer MEASUREMENT_ITERATIONS = 1;
-    private final static Integer MEASUREMENT_TIME = 5;
-    private final static Integer WARMUP_ITERATIONS = 1;
-    private final static Integer WARMUP_TIME = 1;
+public abstract class AbstractBenchmark {
 
+    //runtime ~4min 20s
+    private final static Integer MEASUREMENT_ITERATIONS = 7;
+    private final static Integer MEASUREMENT_TIME = 850;
+    private final static Integer WARMUP_ITERATIONS = 2;
+    private final static Integer WARMUP_TIME = 350;
 
     @Test
     public void executeJmhRunner() throws RunnerException {
@@ -24,21 +26,24 @@ abstract public class AbstractBenchmark {
         }
         Options opt = new OptionsBuilder()
                 .include("\\." + this.getClass().getSimpleName() + "\\.")
+
                 .warmupIterations(WARMUP_ITERATIONS)
                 .measurementIterations(MEASUREMENT_ITERATIONS)
-                .warmupTime(TimeValue.seconds(WARMUP_TIME))
-                .measurementTime(TimeValue.seconds(MEASUREMENT_TIME))
+
+                .warmupTime(TimeValue.milliseconds(WARMUP_TIME))
+                .measurementTime(TimeValue.milliseconds(MEASUREMENT_TIME))
+
                 .forks(0)
-                .mode(Mode.AverageTime)
                 .threads(1)
-                .measurementBatchSize(1)
-                .measurementIterations(1)
                 .shouldDoGC(true)
                 .shouldFailOnError(true)
-                .resultFormat(ResultFormatType.JSON)
-                .result("jmh_wyniki/"+this.getClass().getSimpleName()+".json")
-                .shouldFailOnError(true)
                 .jvmArgs("-server")
+
+                .mode(Mode.AverageTime)
+                .resultFormat(ResultFormatType.TEXT)
+                .timeUnit(TimeUnit.MILLISECONDS)
+                .result("jmh_wyniki/"+this.getClass().getSimpleName()+".txt")
+
                 .build();
 
         new Runner(opt).run();
