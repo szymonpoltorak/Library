@@ -11,8 +11,8 @@ import org.openjdk.jmh.runner.options.TimeValue;
 
 abstract public class AbstractBenchmark {
 
-    private final static Integer MEASUREMENT_ITERATIONS = 1;
-    private final static Integer MEASUREMENT_TIME = 5;
+    private final static Integer MEASUREMENT_ITERATIONS = 2;
+    private final static Integer MEASUREMENT_TIME = 2;
     private final static Integer WARMUP_ITERATIONS = 1;
     private final static Integer WARMUP_TIME = 1;
 
@@ -32,7 +32,6 @@ abstract public class AbstractBenchmark {
                 .mode(Mode.AverageTime)
                 .threads(1)
                 .measurementBatchSize(1)
-                .measurementIterations(1)
                 .shouldDoGC(true)
                 .shouldFailOnError(true)
                 .resultFormat(ResultFormatType.JSON)
